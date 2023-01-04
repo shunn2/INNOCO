@@ -10,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
     &::-webkit-scrollbar {
       display: none; /* Chrome, Safari */
     }
+    color:#FFFFFF;
     background-color:${theme.color.gray.dark}
   }
   html {

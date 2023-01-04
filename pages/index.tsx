@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { SvgIcon } from '@components/Common';
 
 export default function Home() {
   return (
