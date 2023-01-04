@@ -6,7 +6,15 @@ export type SvgIconType =
   | 'image-icon'
   | 'text-icon'
   | 'section-icon'
-  | 'link-icon';
+  | 'link-icon'
+  | 'align-items-start'
+  | 'align-items-center'
+  | 'align-items-end'
+  | 'justify-content-start'
+  | 'justify-content-center'
+  | 'justify-content-end'
+  | 'plus'
+  | 'down-icon';
 
 interface SvgIconProps {
   type: SvgIconType;
