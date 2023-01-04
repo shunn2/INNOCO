@@ -9,9 +9,6 @@ const GlobalStyle = createGlobalStyle`
     &::-webkit-scrollbar {
       display: none; /* Chrome, Safari */
     }
-    -webkit-touch-callout:none;
-    -webkit-user-select:none;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   }
   html {
     /* 62.5% of the base size of 16px = 10px.*/
