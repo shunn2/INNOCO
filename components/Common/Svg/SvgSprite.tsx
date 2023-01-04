@@ -6,8 +6,8 @@ const SvgSprite = () => {
     <svg xmlns="http://www.w3.org/2000/svg" display="none">
       <symbol id="box-icon">
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M4.25 7C4.25 5.48122 5.48122 4.25 7 4.25L17 4.25C18.5188 4.25 19.75 5.48122 19.75 7V17C19.75 18.5188 18.5188 19.75 17 19.75H7C5.48122 19.75 4.25 18.5188 4.25 17L4.25 7ZM7 5.75C6.30964 5.75 5.75 6.30965 5.75 7L5.75 17C5.75 17.6904 6.30964 18.25 7 18.25H17C17.6904 18.25 18.25 17.6904 18.25 17V7C18.25 6.30964 17.6904 5.75 17 5.75L7 5.75Z"
           stroke="none"
           fill={blue}
@@ -27,8 +27,8 @@ const SvgSprite = () => {
           fill={blue}
         ></path>
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M7 5.86958C6.0335 5.86958 5.25 6.65308 5.25 7.61958V17.6196C5.25 18.5861 6.0335 19.3696 7 19.3696H17C17.9665 19.3696 18.75 18.5861 18.75 17.6196V7.61958C18.75 6.65309 17.9665 5.86958 17 5.86958H7ZM6.75 7.61958C6.75 7.48151 6.86193 7.36958 7 7.36958H17C17.1381 7.36958 17.25 7.48151 17.25 7.61958V14.3089L14.7939 11.8528C14.0731 11.132 12.8912 11.1774 12.2278 11.9514L7.15505 17.8696H7C6.86193 17.8696 6.75 17.7577 6.75 17.6196V7.61958ZM13.7333 12.9135L17.25 16.4302V17.6196C17.25 17.7577 17.1381 17.8696 17 17.8696H9.13067L13.3667 12.9276C13.4614 12.817 13.6303 12.8105 13.7333 12.9135Z"
           stroke="none"
           fill={blue}
@@ -93,11 +93,11 @@ const SvgSprite = () => {
       <symbol
         id="link-icon"
         viewBox="0 0 24 24"
-        stroke-width="1.5"
+        strokeWidth="1.5"
         stroke={blue}
         fill="none"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       >
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
@@ -117,8 +117,8 @@ const SvgSprite = () => {
           stroke="none"
         ></path>
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M4 2.25C3.0335 2.25 2.25 3.0335 2.25 4V20C2.25 20.9665 3.0335 21.75 4 21.75H20C20.9665 21.75 21.75 20.9665 21.75 20V4C21.75 3.0335 20.9665 2.25 20 2.25H4ZM3.75 4C3.75 3.86193 3.86193 3.75 4 3.75H20C20.1381 3.75 20.25 3.86193 20.25 4V20C20.25 20.1381 20.1381 20.25 20 20.25H4C3.86193 20.25 3.75 20.1381 3.75 20V4Z"
           stroke="none"
         ></path>
@@ -137,8 +137,8 @@ const SvgSprite = () => {
           stroke="none"
         ></path>
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M4 2.25C3.0335 2.25 2.25 3.0335 2.25 4V20C2.25 20.9665 3.0335 21.75 4 21.75H20C20.9665 21.75 21.75 20.9665 21.75 20V4C21.75 3.0335 20.9665 2.25 20 2.25H4ZM3.75 4C3.75 3.86193 3.86193 3.75 4 3.75H20C20.1381 3.75 20.25 3.86193 20.25 4V20C20.25 20.1381 20.1381 20.25 20 20.25H4C3.86193 20.25 3.75 20.1381 3.75 20V4Z"
           stroke="none"
         ></path>
@@ -157,8 +157,8 @@ const SvgSprite = () => {
           stroke="none"
         ></path>
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M4 2.25C3.0335 2.25 2.25 3.0335 2.25 4V20C2.25 20.9665 3.0335 21.75 4 21.75H20C20.9665 21.75 21.75 20.9665 21.75 20V4C21.75 3.0335 20.9665 2.25 20 2.25H4ZM3.75 4C3.75 3.86193 3.86193 3.75 4 3.75H20C20.1381 3.75 20.25 3.86193 20.25 4V20C20.25 20.1381 20.1381 20.25 20 20.25H4C3.86193 20.25 3.75 20.1381 3.75 20V4Z"
           stroke="none"
         ></path>
@@ -177,8 +177,8 @@ const SvgSprite = () => {
           stroke="none"
         ></path>
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M4 2.25012C3.0335 2.25012 2.25 3.03362 2.25 4.00012L2.25 20.0001C2.25 20.9666 3.0335 21.7501 4 21.7501H20C20.9665 21.7501 21.75 20.9666 21.75 20.0001V4.00012C21.75 3.03362 20.9665 2.25012 20 2.25012L4 2.25012ZM3.75 4.00012C3.75 3.86205 3.86193 3.75012 4 3.75012L20 3.75012C20.1381 3.75012 20.25 3.86205 20.25 4.00012V20.0001C20.25 20.1382 20.1381 20.2501 20 20.2501H4C3.86193 20.2501 3.75 20.1382 3.75 20.0001V4.00012Z"
           stroke="none"
         ></path>
@@ -197,8 +197,8 @@ const SvgSprite = () => {
           stroke="none"
         ></path>
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M4 2.25C3.0335 2.25 2.25 3.0335 2.25 4L2.25 20C2.25 20.9665 3.0335 21.75 4 21.75H20C20.9665 21.75 21.75 20.9665 21.75 20V4C21.75 3.0335 20.9665 2.25 20 2.25L4 2.25ZM3.75 4C3.75 3.86193 3.86193 3.75 4 3.75L20 3.75C20.1381 3.75 20.25 3.86193 20.25 4V20C20.25 20.1381 20.1381 20.25 20 20.25H4C3.86193 20.25 3.75 20.1381 3.75 20V4Z"
           stroke="none"
         ></path>
@@ -217,8 +217,8 @@ const SvgSprite = () => {
           stroke="none"
         ></path>
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M4 2.25C3.0335 2.25 2.25 3.0335 2.25 4L2.25 20C2.25 20.9665 3.0335 21.75 4 21.75H20C20.9665 21.75 21.75 20.9665 21.75 20V4C21.75 3.0335 20.9665 2.25 20 2.25L4 2.25ZM3.75 4C3.75 3.86193 3.86193 3.75 4 3.75L20 3.75C20.1381 3.75 20.25 3.86193 20.25 4V20C20.25 20.1381 20.1381 20.25 20 20.25H4C3.86193 20.25 3.75 20.1381 3.75 20V4Z"
           stroke="none"
         ></path>
@@ -234,9 +234,9 @@ const SvgSprite = () => {
         <path
           d="M1 1L9 9L17 1"
           stroke="#61656F"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </symbol>
     </svg>
