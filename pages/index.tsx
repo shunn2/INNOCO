@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { SvgIcon } from '@components/Common';
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>danbii</div>
+      <SvgIcon type="down-icon" />
     </>
   );
 }

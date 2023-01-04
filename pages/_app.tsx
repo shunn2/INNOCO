@@ -6,6 +6,7 @@ import { queryClient } from '@react-query/queryClient';
 import { ThemeProvider } from 'styled-components';
 import theme from '@styles/theme';
 import GlobalStyle from '@styles/global-style';
+import { SvgSprite } from '@components/Common';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -16,6 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <Hydrate state={pageProps.dehydratedState}>
             <Component {...pageProps} />
           </Hydrate>
+          <SvgSprite />
         </ThemeProvider>
         <ReactQueryDevtools position="bottom-right" />
       </QueryClientProvider>

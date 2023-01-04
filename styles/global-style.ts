@@ -1,5 +1,6 @@
 import reset from 'styled-reset';
 import { createGlobalStyle } from 'styled-components';
+import theme from './theme';
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -9,6 +10,8 @@ const GlobalStyle = createGlobalStyle`
     &::-webkit-scrollbar {
       display: none; /* Chrome, Safari */
     }
+    color:#FFFFFF;
+    background-color:${theme.color.gray.dark}
   }
   html {
     /* 62.5% of the base size of 16px = 10px.*/
