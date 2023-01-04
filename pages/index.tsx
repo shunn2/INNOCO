@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { SvgIcon } from '@components/Common';
+import { Button, SvgIcon } from '@components/Common';
 
 export default function Home() {
   return (
@@ -12,6 +12,7 @@ export default function Home() {
       </Head>
       <div>danbii</div>
       <SvgIcon type="down-icon" />
+      <Button variant="auth">버튼</Button>
     </>
   );
 }
