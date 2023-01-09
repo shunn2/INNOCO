@@ -1,8 +1,10 @@
+import * as Styled from './styled';
+
 const StyleSidebar = () => {
   return (
-    <div>
+    <Styled.StyledSidebar>
       <div></div>
-    </div>
+    </Styled.StyledSidebar>
   );
 };
 
