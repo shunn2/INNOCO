@@ -131,7 +131,7 @@ const jsonData = {
   sectionOrder: ['section_1', 'section_2', 'section_3'],
 };
 
-const Test = () => {
+const EditorFrame = () => {
   const [data, setData] = useState<any>();
   useEffect(() => {
     setData(jsonData);
@@ -265,4 +265,4 @@ const Test = () => {
     </div>
   );
 };
-export default Test;
+export default EditorFrame;
