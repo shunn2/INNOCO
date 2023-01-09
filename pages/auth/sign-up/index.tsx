@@ -1,24 +1,49 @@
 import React, { useState } from 'react';
 import { Input, Button } from '@components/Common';
 import { AuthContainer } from '@components/Auth';
-import { validateUserPassword } from '@utils/validation';
+import {
+  validateUserEmail,
+  validateUserId,
+  validateUserPassword,
+} from '@utils/validation';
+import { SignUpPayload } from '@/types/auth';
 
 const SignUp = () => {
-  const [input, setInput] = useState('');
-  const _onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value);
-    console.log(validateUserPassword(input));
+  const initialSignUpPayload: SignUpPayload = {
+    email: '',
+    password: '',
+    id: '',
+  };
+
+  const [signUpPayload, setSignUpPayload] =
+    useState<SignUpPayload>(initialSignUpPayload);
+  const handleChange = (type) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+
+    if (type === 'email') {
+      validateUserEmail(input);
+    }
+    if (type === 'id') {
+      validateUserId(input);
+    }
+    if (type === 'password') {
+      validateUserPassword(input);
+    }
+    setSignUpPayload({ ...signUpPayload, [type]: input });
   };
 
   return (
     <AuthContainer>
       <p>Sign Up</p>
-      <Input placeholder={'이메일을 입력하세요.'} />
-      <Input placeholder={'아이디 입력하세요.'} />
+      <Input
+        placeholder={'이메일을 입력하세요.'}
+        onChange={handleChange('email')}
+      />
+      <Input placeholder={'아이디 입력하세요.'} onChange={handleChange('id')} />
       <Input
         placeholder={'비밀번호를 입력하세요.'}
         type="password"
-        onChange={_onChange}
+        onChange={handleChange('password')}
       />
       {/* TODO: 이메일 인증 */}
       <Button disabled variant="auth">
