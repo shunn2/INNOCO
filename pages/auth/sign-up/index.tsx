@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Button } from '@components/Common';
 import { AuthContainer } from '@components/Auth';
-import {
-  validateUserEmail,
-  validateUserId,
-  validateUserPassword,
-} from '@utils/validation';
+import { validateEmail, validateId, validatePassword } from '@utils/validation';
 import { SignUpPayload } from '@/types/auth';
 
 const SignUp = () => {
@@ -21,13 +17,13 @@ const SignUp = () => {
     const input = e.target.value;
 
     if (type === 'email') {
-      validateUserEmail(input);
+      validateEmail(input);
     }
     if (type === 'id') {
-      validateUserId(input);
+      validateId(input);
     }
     if (type === 'password') {
-      validateUserPassword(input);
+      validatePassword(input);
     }
     setSignUpPayload({ ...signUpPayload, [type]: input });
   };
