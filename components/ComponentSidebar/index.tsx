@@ -1,10 +1,10 @@
+import SectionComponent from './Components/section';
 import * as Styled from './styled';
 
 const ComponentSidebar = () => {
   return (
     <Styled.ComponentSidebar>
-      <div>section</div>
-      <div>box</div>
+      <SectionComponent />
     </Styled.ComponentSidebar>
   );
 };

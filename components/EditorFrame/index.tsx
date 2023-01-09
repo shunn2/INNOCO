@@ -150,6 +150,7 @@ const EditorFrame = () => {
     const start = JSON.parse(e.dataTransfer.getData('start'));
     const idx = e.dataTransfer.getData('idx');
     const sId = e.dataTransfer.getData('sId');
+
     if (start.type === 'section') {
       setData((prev) => {
         let cur = { ...prev };
@@ -190,6 +191,8 @@ const EditorFrame = () => {
   };
 
   const handleDragOver = (e, element, sId, idx) => {
+    console.log('dragover', e);
+
     setDraggingOver({ el: element, sId: sId, idx: idx });
     e.preventDefault();
     e.stopPropagation();
