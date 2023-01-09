@@ -12,7 +12,7 @@ const SignUp = () => {
     <AuthContainer>
       <p>Sign Up</p>
       <Input placeholder={'이름을 입력하세요.'} />
-      <Input placeholder={'아이디를 입력하세요.'} />
+      <Input placeholder={'이메일을 입력하세요.'} onChange={_onChange} />
       <Input placeholder={'비밀번호를 입력하세요.'} type="password" />
       {/* TODO: 이메일 인증 */}
       <Button disabled variant="auth">
