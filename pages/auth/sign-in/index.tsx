@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Button } from '@components/Common';
 import { AuthContainer } from '@components/Auth';
 import { SignInPaylaod } from '@/types/auth';
@@ -12,14 +12,22 @@ const SignIn = () => {
 
   const [signInPayload, setSignInPayload] =
     useState<SignInPaylaod>(initialSignInPayload);
+  const [disabled, setDisabled] = useState(true);
+
+  useEffect(() => {
+    const { id, password } = signInPayload;
+    setDisabled(!!(!id || !password));
+  }, [signInPayload]);
 
   const handleChange = (type) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
+    setSignInPayload({ ...signInPayload, [type]: '' });
+
     if (type === 'id') {
-      validateId(input);
+      if (!validateId(input)) return;
     }
     if (type === 'password') {
-      validatePassword(input);
+      if (!validatePassword(input)) return;
     }
     setSignInPayload({ ...signInPayload, [type]: input });
   };
@@ -36,7 +44,7 @@ const SignIn = () => {
         type="password"
         onChange={handleChange('password')}
       />
-      <Button disabled variant="auth">
+      <Button disabled={disabled} variant="auth">
         로그인
       </Button>
     </AuthContainer>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Button } from '@components/Common';
 import { AuthContainer } from '@components/Auth';
 import { validateEmail, validateId, validatePassword } from '@utils/validation';
@@ -13,18 +13,27 @@ const SignUp = () => {
 
   const [signUpPayload, setSignUpPayload] =
     useState<SignUpPayload>(initialSignUpPayload);
+  const [disabled, setDisabled] = useState(true);
+
+  useEffect(() => {
+    const { email, id, password } = signUpPayload;
+    setDisabled(!!(!email || !id || !password));
+  }, [signUpPayload]);
+
   const handleChange = (type) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
+    setSignUpPayload({ ...signUpPayload, [type]: '' });
 
     if (type === 'email') {
-      validateEmail(input);
+      if (!validateEmail(input)) return;
     }
     if (type === 'id') {
-      validateId(input);
+      if (!validateId(input)) return;
     }
     if (type === 'password') {
-      validatePassword(input);
+      if (!validatePassword(input)) return;
     }
+
     setSignUpPayload({ ...signUpPayload, [type]: input });
   };
 
@@ -42,7 +51,7 @@ const SignUp = () => {
         onChange={handleChange('password')}
       />
       {/* TODO: 이메일 인증 */}
-      <Button disabled variant="auth">
+      <Button disabled={disabled} variant="auth">
         회원가입
       </Button>
     </AuthContainer>
