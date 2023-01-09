@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { Input, Button } from '@components/Common';
+import { AuthContainer } from '@components/Auth';
 
 const SignUp = () => {
   const [input, setInput] = useState('');
@@ -9,7 +9,7 @@ const SignUp = () => {
   };
 
   return (
-    <SignUpContainer>
+    <AuthContainer>
       <p>Sign Up</p>
       <Input placeholder={'이름을 입력하세요.'} />
       <Input placeholder={'아이디를 입력하세요.'} />
@@ -18,19 +18,8 @@ const SignUp = () => {
       <Button disabled variant="auth">
         회원가입
       </Button>
-    </SignUpContainer>
+    </AuthContainer>
   );
 };
-
-const SignUpContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  & > * {
-    margin-bottom: 12px;
-  }
-`;
 
 export default SignUp;
