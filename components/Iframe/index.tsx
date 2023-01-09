@@ -1,9 +1,18 @@
-import { useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { IframStyle as Styled } from './styled';
 
-const CustomIframe = ({ children, ...props }) => {
+interface IframeProps {
+  title: string;
+  frameBorder: string | number;
+  allowFullScreen: boolean;
+}
+
+const CustomIframe = ({
+  children,
+  ...props
+}: PropsWithChildren<IframeProps>) => {
   const [contentRef, setContentRef] = useState(null);
 
   const mountNode = contentRef?.contentWindow?.document?.body;
