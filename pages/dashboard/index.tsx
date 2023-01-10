@@ -1,20 +1,23 @@
-import { SvgIcon } from '@components/Common';
+import { SvgIcon, Header } from '@components/Common';
 import styled from 'styled-components';
 import Link from 'next/link';
 
 const Dashboard = () => {
   const handleCreateProjectButton = () => {};
   return (
-    <DashboardContainer>
-      <Title>My Project</Title>
-      <Link href="/editor">
-        <CreateProjectButtonWrapper onClick={handleCreateProjectButton}>
-          <SvgIcon type="project-create" size={32} />
-          <p>Create New Project</p>
-        </CreateProjectButtonWrapper>
-      </Link>
-      {/* TODO: 프로젝트 api 연동 */}
-    </DashboardContainer>
+    <>
+      <Header />
+      <DashboardContainer>
+        <Title>My Project</Title>
+        <Link href="/editor">
+          <CreateProjectButtonWrapper onClick={handleCreateProjectButton}>
+            <SvgIcon type="project-create" size={32} />
+            <p>Create New Project</p>
+          </CreateProjectButtonWrapper>
+        </Link>
+        {/* TODO: 프로젝트 api 연동 */}
+      </DashboardContainer>
+    </>
   );
 };
 
