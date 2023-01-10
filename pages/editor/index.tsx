@@ -1,7 +1,7 @@
-import ComponentSidebar from '@components/ComponentSidebar';
-import EditorFrame from '@components/EditorFrame';
-import CustomIframe from '@components/Iframe';
-import StyledSidebar from '@components/StyleSidebar';
+import ComponentSidebar from '@components/Editor/ComponentSidebar';
+import EditorFrame from '@components/Editor/EditorFrame';
+import CustomIframe from '@components/Editor/Iframe';
+import StyledSidebar from '@components/Editor/StyleSidebar';
 import styled from 'styled-components';
 
 const Editor = () => {
