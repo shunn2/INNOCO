@@ -1,5 +1,5 @@
 export const validateEmail = (email: string) => {
-  const regex = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+  const regex = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/; //아이디@도메인
   return regex.test(email);
 };
 
@@ -9,6 +9,6 @@ export const validateId = (id: string) => {
 };
 
 export const validatePassword = (password: string) => {
-  const regex = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,16}$/;
+  const regex = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/; //8자 이상, 특수문자 필수
   return regex.test(password);
 };
