@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Button } from '@components/Common';
-import { AuthContainer } from '@components/Auth';
+import { AuthContainer, ErrorMessage } from '@components/Auth';
 import { validateInput } from '@utils/validation';
 import { SignUpPayload } from '@/types/auth';
 
@@ -49,17 +49,20 @@ const SignUp = () => {
         onChange={handleChange('email')}
         error={error.email}
       />
+      {error.email && <ErrorMessage type="email" />}
       <Input
         placeholder={'아이디 입력하세요.'}
         onChange={handleChange('id')}
         error={error.id}
       />
+      {error.id && <ErrorMessage type="id" />}
       <Input
         placeholder={'비밀번호를 입력하세요.'}
         type="password"
         onChange={handleChange('password')}
         error={error.password}
       />
+      {error.password && <ErrorMessage type="password" />}
       {/* TODO: 이메일 인증 */}
       <Button disabled={disabled} variant="auth">
         회원가입
