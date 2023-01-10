@@ -21,7 +21,6 @@ const GlobalStyle = createGlobalStyle`
   body {
     /* reset 10*1.6 = 16px, to make sure you do not get any 10px around */
     font-size: 1.6rem;
-    font-family: 'SUIT-Regular', 'GmarketSansMedium', sans-serif;
   }
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
