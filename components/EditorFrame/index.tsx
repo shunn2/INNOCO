@@ -234,8 +234,56 @@ const jsonData = {
       image: null,
       children: [],
     },
+    section_4: {
+      id: 'section_4',
+      type: 'section',
+      tag: 'div',
+      sectionProps: {
+        style: {
+          width: '100%',
+          height: '100px',
+          border: '1px solid black',
+          display: 'flex',
+          backgroundColor: '#ababab',
+        },
+        draggable: true,
+      },
+      content: '',
+      class: {
+        flex: true,
+      },
+      image: null,
+      children: [],
+    },
+    section_5: {
+      id: 'section_5',
+      type: 'section',
+      tag: 'div',
+      sectionProps: {
+        style: {
+          width: '100%',
+          height: '100px',
+          border: '1px solid black',
+          display: 'flex',
+          backgroundColor: '#cccccc',
+        },
+        draggable: true,
+      },
+      content: '',
+      class: {
+        flex: true,
+      },
+      image: null,
+      children: [],
+    },
   },
-  sectionOrder: ['section_1', 'section_2', 'section_3'],
+  sectionOrder: [
+    'section_1',
+    'section_2',
+    'section_3',
+    'section_4',
+    'section_5',
+  ],
 };
 
 const EditorFrame = () => {
@@ -282,7 +330,7 @@ const EditorFrame = () => {
         setData((prev) => {
           let cur = JSON.parse(JSON.stringify(prev));
           let dragged = cur.main[sId].children.splice(idx, 1)[0];
-          if (insertLoc === 'left') {
+          if (insertLoc === 'left' || insertLoc === 'up') {
             cur.main[draggingOver.sId].children.splice(
               draggingOver.idx === 0 ? 0 : draggingOver.idx,
               0,
@@ -292,7 +340,7 @@ const EditorFrame = () => {
           /**
            * children 2
            */
-          if (insertLoc === 'right') {
+          if (insertLoc === 'right' || insertLoc === 'down') {
             cur.main[draggingOver.sId].children.splice(
               draggingOver.idx + 1,
               0,

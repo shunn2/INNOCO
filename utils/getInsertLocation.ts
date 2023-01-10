@@ -24,16 +24,14 @@ const getInsertLocation = ({
     const { clientX, clientY } = e; //mouse
 
     if (direction === 'row') {
-      if (clientX >= x + width / 2) {
+      if (clientX > x + width / 2) {
         return 'right';
       } else return 'left';
     }
     if (direction === 'col') {
       if (clientY > y + height / 2) {
-        console.log('down');
-      } else {
-        console.log('up');
-      }
+        return 'down';
+      } else return 'up';
     }
   }
 };
