@@ -331,21 +331,38 @@ const EditorFrame = () => {
           let cur = JSON.parse(JSON.stringify(prev));
           let dragged = cur.main[sId].children.splice(idx, 1)[0];
           if (insertLoc === 'left' || insertLoc === 'up') {
-            cur.main[draggingOver.sId].children.splice(
-              draggingOver.idx === 0 ? 0 : draggingOver.idx,
-              0,
-              dragged
-            ); //Err 2개일 때는 안됨
+            if (draggingOver.idx < idx || draggingOver.sId !== sId) {
+              cur.main[draggingOver.sId].children.splice(
+                draggingOver.idx === 0 ? 0 : draggingOver.idx,
+                0,
+                dragged
+              );
+            } else {
+              cur.main[draggingOver.sId].children.splice(
+                draggingOver.idx === 0 ? 0 : draggingOver.idx - 1,
+                0,
+                dragged
+              );
+            }
+            //Err 같은 sId일때 오른쪽에서 왼쪽으로 가면 안됨
           }
           /**
            * children 2
            */
           if (insertLoc === 'right' || insertLoc === 'down') {
-            cur.main[draggingOver.sId].children.splice(
-              draggingOver.idx + 1,
-              0,
-              dragged
-            );
+            if (draggingOver.idx < idx || draggingOver.sId !== sId) {
+              cur.main[draggingOver.sId].children.splice(
+                draggingOver.idx + 1,
+                0,
+                dragged
+              );
+            } else {
+              cur.main[draggingOver.sId].children.splice(
+                draggingOver.idx,
+                0,
+                dragged
+              );
+            }
           }
           return cur;
         });
@@ -364,6 +381,8 @@ const EditorFrame = () => {
   const handleDragOver = (e, element, sId, idx) => {
     setDraggingOver({ el: element, sId: sId, idx: idx });
     setInsertLoc(getInsertLocation({ e, element }));
+    console.log(getInsertLocation({ e, element }));
+
     // e.dataTransfer.dropEffect = 'none';
     e.preventDefault();
     e.stopPropagation();
