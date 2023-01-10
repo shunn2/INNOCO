@@ -1,9 +1,10 @@
 import React, { PropsWithChildren } from 'react';
 import * as Styled from './styled';
 
-interface InputProps {
+export interface InputProps {
   placeholder: string;
   type?: string;
+  error?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
