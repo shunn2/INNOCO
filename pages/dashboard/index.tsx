@@ -1,12 +1,11 @@
-import { SvgIcon, Header } from '@components/Common';
+import { SvgIcon, Layout } from '@components/Common';
 import styled from 'styled-components';
 import Link from 'next/link';
 
 const Dashboard = () => {
   const handleCreateProjectButton = () => {};
   return (
-    <>
-      <Header />
+    <Layout>
       <DashboardContainer>
         <Title>My Project</Title>
         <Link href="/editor">
@@ -17,7 +16,7 @@ const Dashboard = () => {
         </Link>
         {/* TODO: 프로젝트 api 연동 */}
       </DashboardContainer>
-    </>
+    </Layout>
   );
 };
 
