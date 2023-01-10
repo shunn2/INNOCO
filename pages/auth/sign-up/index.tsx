@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Button } from '@components/Common';
 import { AuthContainer } from '@components/Auth';
-import { validateEmail, validateId, validatePassword } from '@utils/validation';
+import { validateInput } from '@utils/validation';
 import { SignUpPayload } from '@/types/auth';
 
 const SignUp = () => {
@@ -27,34 +27,19 @@ const SignUp = () => {
     setDisabled(!!(!email || !id || !password));
   }, [signUpPayload]);
 
-  const handleChange = (type) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value;
-    setSignUpPayload({ ...signUpPayload, [type]: '' });
+  const handleChange =
+    (type: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+      setSignUpPayload({ ...signUpPayload, [type]: '' });
 
-    if (type === 'email') {
-      if (!validateEmail(input)) {
-        setError({ ...error, email: true });
+      if (!validateInput(type, input)) {
+        setError({ ...error, [type]: true });
         return;
       }
-      setError({ ...error, email: false });
-    }
-    if (type === 'id') {
-      if (!validateId(input)) {
-        setError({ ...error, id: true });
-        return;
-      }
-      setError({ ...error, id: false });
-    }
-    if (type === 'password') {
-      if (!validatePassword(input)) {
-        setError({ ...error, password: true });
-        return;
-      }
-      setError({ ...error, password: false });
-    }
+      setError({ ...error, [type]: false });
 
-    setSignUpPayload({ ...signUpPayload, [type]: input });
-  };
+      setSignUpPayload({ ...signUpPayload, [type]: input });
+    };
 
   return (
     <AuthContainer>
