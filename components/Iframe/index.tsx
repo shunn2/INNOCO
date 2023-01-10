@@ -7,6 +7,7 @@ interface IframeProps {
   title: string;
   frameBorder: string | number;
   allowFullScreen: boolean;
+  id: string;
 }
 
 const CustomIframe = ({

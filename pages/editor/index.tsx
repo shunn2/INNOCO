@@ -8,7 +8,12 @@ const Editor = () => {
   return (
     <EditorContainer>
       <ComponentSidebar></ComponentSidebar>
-      <CustomIframe title="drag_drop_editor" frameBorder="0" allowFullScreen>
+      <CustomIframe
+        title="drag_drop_editor"
+        id="editor_iframe"
+        frameBorder="0"
+        allowFullScreen
+      >
         <EditorFrame />
       </CustomIframe>
       <StyledSidebar></StyledSidebar>
