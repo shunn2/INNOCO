@@ -11,8 +11,15 @@ const SignUp = () => {
     id: '',
   };
 
+  const initialErrorState = {
+    email: false,
+    id: false,
+    password: false,
+  };
+
   const [signUpPayload, setSignUpPayload] =
     useState<SignUpPayload>(initialSignUpPayload);
+  const [error, setError] = useState(initialErrorState);
   const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
@@ -25,13 +32,25 @@ const SignUp = () => {
     setSignUpPayload({ ...signUpPayload, [type]: '' });
 
     if (type === 'email') {
-      if (!validateEmail(input)) return;
+      if (!validateEmail(input)) {
+        setError({ ...error, email: true });
+        return;
+      }
+      setError({ ...error, email: false });
     }
     if (type === 'id') {
-      if (!validateId(input)) return;
+      if (!validateId(input)) {
+        setError({ ...error, id: true });
+        return;
+      }
+      setError({ ...error, id: false });
     }
     if (type === 'password') {
-      if (!validatePassword(input)) return;
+      if (!validatePassword(input)) {
+        setError({ ...error, password: true });
+        return;
+      }
+      setError({ ...error, password: false });
     }
 
     setSignUpPayload({ ...signUpPayload, [type]: input });
@@ -43,12 +62,18 @@ const SignUp = () => {
       <Input
         placeholder={'이메일을 입력하세요.'}
         onChange={handleChange('email')}
+        error={error.email}
       />
-      <Input placeholder={'아이디 입력하세요.'} onChange={handleChange('id')} />
+      <Input
+        placeholder={'아이디 입력하세요.'}
+        onChange={handleChange('id')}
+        error={error.id}
+      />
       <Input
         placeholder={'비밀번호를 입력하세요.'}
         type="password"
         onChange={handleChange('password')}
+        error={error.password}
       />
       {/* TODO: 이메일 인증 */}
       <Button disabled={disabled} variant="auth">
