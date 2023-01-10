@@ -1,7 +1,12 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import theme from '@styles/theme';
 
-export const Input = styled.input`
+export const Input = styled.input<{ error?: boolean }>`
+  ${({ error }) => {
+    return css`
+      border: 1px solid ${error ? 'red' : 'none'};
+    `;
+  }}
   width: 180px;
   height: 24px;
   padding: 2px 6px;
