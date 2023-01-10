@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { getInsertLocation } from '@utils/getInsertLocation';
 
 const jsonData = {
   title: 'abcd',
@@ -41,9 +42,12 @@ const jsonData = {
             className: 'seonghonon',
             draggable: true,
             style: {
-              width: '200px',
+              width: '100px',
               height: '50px',
               backgroundColor: 'red',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
             },
           },
           content: 'box1',
@@ -71,12 +75,81 @@ const jsonData = {
             className: 'seonghonon',
             draggable: true,
             style: {
-              width: '200px',
+              width: '100px',
               height: '50px',
-              backgroundColor: 'red',
+              backgroundColor: 'yellow',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
             },
           },
           content: 'box2',
+          class: {
+            abc: true,
+          },
+          image: null,
+          children: [],
+        },
+        {
+          id: 'box_4',
+          type: 'box',
+          tag: 'div',
+          parentProps: {
+            draggable: false,
+            style: {
+              border: '2px solid black',
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+          },
+          props: {
+            className: 'seonghonon',
+            draggable: true,
+            style: {
+              width: '100px',
+              height: '50px',
+              backgroundColor: 'blue',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+          },
+          content: 'box4',
+          class: {
+            abc: true,
+          },
+          image: null,
+          children: [],
+        },
+        {
+          id: 'box_5',
+          type: 'box',
+          tag: 'div',
+          parentProps: {
+            draggable: false,
+            style: {
+              border: '2px solid black',
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+          },
+          props: {
+            className: 'seonghonon',
+            draggable: true,
+            style: {
+              width: '100px',
+              height: '50px',
+              backgroundColor: 'brown',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+          },
+          content: 'box5',
           class: {
             abc: true,
           },
@@ -104,7 +177,41 @@ const jsonData = {
         flex: true,
       },
       image: null,
-      children: [],
+      children: [
+        {
+          id: 'box_3',
+          type: 'box',
+          tag: 'div',
+          parentProps: {
+            draggable: false,
+            style: {
+              border: '2px solid black',
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+          },
+          props: {
+            className: 'seonghonon',
+            draggable: true,
+            style: {
+              width: '100px',
+              height: '50px',
+              backgroundColor: 'green',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+          },
+          content: 'box3',
+          class: {
+            abc: true,
+          },
+          image: null,
+          children: [],
+        },
+      ],
     },
     section_3: {
       id: 'section_3',
@@ -133,6 +240,7 @@ const jsonData = {
 
 const EditorFrame = () => {
   const [data, setData] = useState<any>();
+  const [insertLoc, setInsertLoc] = useState<string>();
   useEffect(() => {
     setData(jsonData);
   }, []);
@@ -156,7 +264,8 @@ const EditorFrame = () => {
         let cur = { ...prev };
         let copyOrder = [...cur.sectionOrder];
         let dragged = copyOrder.splice(idx, 1)[0];
-        copyOrder.splice(draggingOver.idx, 0, dragged);
+        let draggingOverSectionIdx = cur.sectionOrder.indexOf(draggingOver.sId);
+        copyOrder.splice(draggingOverSectionIdx, 0, dragged);
         cur.sectionOrder = copyOrder;
         return cur;
       });
@@ -173,11 +282,23 @@ const EditorFrame = () => {
         setData((prev) => {
           let cur = JSON.parse(JSON.stringify(prev));
           let dragged = cur.main[sId].children.splice(idx, 1)[0];
-          cur.main[draggingOver.sId].children.splice(
-            draggingOver.idx,
-            0,
-            dragged
-          );
+          if (insertLoc === 'left') {
+            cur.main[draggingOver.sId].children.splice(
+              draggingOver.idx === 0 ? 0 : draggingOver.idx,
+              0,
+              dragged
+            ); //Err 2개일 때는 안됨
+          }
+          /**
+           * children 2
+           */
+          if (insertLoc === 'right') {
+            cur.main[draggingOver.sId].children.splice(
+              draggingOver.idx + 1,
+              0,
+              dragged
+            );
+          }
           return cur;
         });
       }
@@ -190,10 +311,12 @@ const EditorFrame = () => {
     e.preventDefault();
   };
 
-  const handleDragOver = (e, element, sId, idx) => {
-    console.log('dragover', e);
+  const getBorderStyle = (loc: string) => {};
 
+  const handleDragOver = (e, element, sId, idx) => {
     setDraggingOver({ el: element, sId: sId, idx: idx });
+    setInsertLoc(getInsertLocation({ e, element }));
+    // e.dataTransfer.dropEffect = 'none';
     e.preventDefault();
     e.stopPropagation();
   };
@@ -265,6 +388,7 @@ const EditorFrame = () => {
             ></div>
           );
         })}
+      <button onClick={(e) => console.log(data.main)}>click</button>
     </div>
   );
 };
