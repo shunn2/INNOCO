@@ -14,8 +14,6 @@ const getInsertLocation = ({
   element,
   direction = 'row',
 }: InsertLocationProps) => {
-  console.log('direction', direction);
-
   const frame = document.getElementById('editor_iframe');
 
   if (isIFrame(frame)) {
