@@ -1,7 +1,7 @@
 import { SvgIcon } from '@components/Common';
 import * as Styled from './styled';
 import { v4 as uuidv4 } from 'uuid';
-import DragEvent from '@utils/drag/dragEvent';
+import dragStart from '@utils/drag/dragStart';
 
 const sectionData = {
   id: '',
@@ -28,16 +28,10 @@ const sectionData = {
 const SectionComponent = () => {
   const handleDragStart = (e) => {
     sectionData.id = uuidv4();
-    DragEvent.handleDragStart(e, sectionData, '', '');
+    dragStart(e, sectionData);
   };
   return (
-    <Styled.ComponentItems
-      draggable
-      onDragStart={(e) => handleDragStart(e)}
-      onDrop={(e) => {
-        console.log(JSON.parse(e.dataTransfer.getData('dragging')));
-      }}
-    >
+    <Styled.ComponentItems draggable onDragStart={handleDragStart}>
       <SvgIcon type="box-icon" />
       <div>Section</div>
     </Styled.ComponentItems>
