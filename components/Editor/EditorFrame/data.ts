@@ -1,6 +1,3 @@
-import React, { useEffect, useState } from 'react';
-import { getInsertLocation } from '@utils/getInsertLocation';
-
 const jsonData = {
   title: 'abcd',
   main: {
@@ -14,7 +11,7 @@ const jsonData = {
           height: '100px',
           border: '1px solid black',
           display: 'flex',
-          backgroundColor: 'white',
+          backgroundColor: '#fff',
         },
         draggable: true,
       },
@@ -168,7 +165,7 @@ const jsonData = {
           height: '100px',
           border: '1px solid black',
           display: 'flex',
-          backgroundColor: '#aaa',
+          backgroundColor: '#fff',
         },
         draggable: true,
       },
@@ -223,7 +220,7 @@ const jsonData = {
           height: '100px',
           border: '1px solid black',
           display: 'flex',
-          backgroundColor: 'black',
+          backgroundColor: '#fff',
         },
         draggable: true,
       },
@@ -244,7 +241,7 @@ const jsonData = {
           height: '100px',
           border: '1px solid black',
           display: 'flex',
-          backgroundColor: '#ababab',
+          backgroundColor: '#fff',
         },
         draggable: true,
       },
@@ -265,7 +262,7 @@ const jsonData = {
           height: '100px',
           border: '1px solid black',
           display: 'flex',
-          backgroundColor: '#cccccc',
+          backgroundColor: '#fff',
         },
         draggable: true,
       },
@@ -286,177 +283,4 @@ const jsonData = {
   ],
 };
 
-const EditorFrame = () => {
-  const [data, setData] = useState<any>();
-  const [insertLoc, setInsertLoc] = useState<string>();
-  useEffect(() => {
-    setData(jsonData);
-  }, []);
-
-  const [draggingOver, setDraggingOver] = useState<any>();
-
-  const handleDragStart = (e, element, sId = null, idx = null) => {
-    e.dataTransfer.setData('start', JSON.stringify(element));
-    e.dataTransfer.setData('idx', idx);
-    e.dataTransfer.setData('sId', sId);
-    e.stopPropagation();
-  };
-
-  const handleDrop = (e) => {
-    const start = JSON.parse(e.dataTransfer.getData('start'));
-    const idx = e.dataTransfer.getData('idx');
-    const sId = e.dataTransfer.getData('sId');
-
-    if (start.type === 'section') {
-      setData((prev) => {
-        let cur = { ...prev };
-        let copyOrder = [...cur.sectionOrder];
-        let dragged = copyOrder.splice(idx, 1)[0];
-        let draggingOverSectionIdx = cur.sectionOrder.indexOf(draggingOver.sId);
-        copyOrder.splice(draggingOverSectionIdx, 0, dragged);
-        cur.sectionOrder = copyOrder;
-        return cur;
-      });
-    }
-    if (start.type !== 'section') {
-      if (draggingOver.el.type === 'section') {
-        setData((prev) => {
-          let cur = JSON.parse(JSON.stringify(prev));
-          let dragged = cur.main[sId].children.splice(idx, 1)[0];
-          cur.main[draggingOver.sId].children.push(dragged);
-          return cur;
-        });
-      } else {
-        setData((prev) => {
-          let cur = JSON.parse(JSON.stringify(prev));
-          let dragged = cur.main[sId].children.splice(idx, 1)[0];
-          if (insertLoc === 'left' || insertLoc === 'up') {
-            if (draggingOver.idx < idx || draggingOver.sId !== sId) {
-              cur.main[draggingOver.sId].children.splice(
-                draggingOver.idx === 0 ? 0 : draggingOver.idx,
-                0,
-                dragged
-              );
-            } else {
-              cur.main[draggingOver.sId].children.splice(
-                draggingOver.idx === 0 ? 0 : draggingOver.idx - 1,
-                0,
-                dragged
-              );
-            }
-            //Err 같은 sId일때 오른쪽에서 왼쪽으로 가면 안됨
-          }
-          /**
-           * children 2
-           */
-          if (insertLoc === 'right' || insertLoc === 'down') {
-            if (draggingOver.idx < idx || draggingOver.sId !== sId) {
-              cur.main[draggingOver.sId].children.splice(
-                draggingOver.idx + 1,
-                0,
-                dragged
-              );
-            } else {
-              cur.main[draggingOver.sId].children.splice(
-                draggingOver.idx,
-                0,
-                dragged
-              );
-            }
-          }
-          return cur;
-        });
-      }
-    }
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
-  const handleDragEnter = (e) => {
-    e.preventDefault();
-  };
-
-  const getBorderStyle = (loc: string) => {};
-
-  const handleDragOver = (e, element, sId, idx) => {
-    setDraggingOver({ el: element, sId: sId, idx: idx });
-    setInsertLoc(getInsertLocation({ e, element }));
-    console.log(getInsertLocation({ e, element }));
-
-    // e.dataTransfer.dropEffect = 'none';
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
-  const handleDragLeave = (e) => {
-    e.preventDefault();
-  };
-
-  const handleDragEnd = (e) => {
-    setDraggingOver({ sectionId: null, idx: null, type: null });
-  };
-  const createChild = (compInfo, compIdx, sId) => {
-    let props = {
-      ...compInfo.props,
-      id: compInfo.id,
-      key: compInfo.id,
-      onDragStart: (e) => handleDragStart(e, compInfo, sId, compIdx),
-    };
-    let child = React.createElement(compInfo.tag, props, compInfo.content);
-    return child;
-  };
-  const createParent = (compInfo, compIdx, sId) => {
-    let props = {
-      ...compInfo.parentProps,
-      id: `parent_${compInfo.id}`,
-      key: `parent_${compInfo.id}`,
-      onDragOver: (e) => handleDragOver(e, compInfo, sId, compIdx),
-    };
-    let parent = React.createElement(
-      'div',
-      props,
-      createChild(compInfo, compIdx, sId)
-    );
-    return parent;
-  };
-
-  return (
-    <div id="test">
-      {data &&
-        data.sectionOrder.map((sId, sIdx) => {
-          if (data.main[sId].children.length) {
-            return (
-              <div
-                id={sId}
-                key={sId}
-                {...data.main[sId].sectionProps}
-                onDragStart={(e) =>
-                  handleDragStart(e, data.main[sId], sId, sIdx)
-                }
-                onDragOver={(e) => handleDragOver(e, data.main[sId], sId, sIdx)}
-                onDragEnd={(e) => handleDragEnd(e)}
-                onDrop={(e) => handleDrop(e)}
-              >
-                {data.main[sId].children.map((comp, compI) =>
-                  createParent(comp, compI, sId)
-                )}
-              </div>
-            );
-          }
-          return (
-            <div
-              id={sId}
-              key={sId}
-              {...data.main[sId].sectionProps}
-              onDragStart={(e) => handleDragStart(e, data.main[sId], sId, sIdx)}
-              onDragOver={(e) => handleDragOver(e, data.main[sId], sId, sIdx)}
-              onDragEnd={(e) => handleDragEnd(e)}
-              onDrop={(e) => handleDrop(e)}
-            ></div>
-          );
-        })}
-      <button onClick={(e) => console.log(data.main)}>click</button>
-    </div>
-  );
-};
-export default EditorFrame;
+export default jsonData;

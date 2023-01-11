@@ -1,6 +1,5 @@
 import { PropsWithChildren, useState } from 'react';
 import { createPortal } from 'react-dom';
-
 import { IframStyle as Styled } from './styled';
 
 interface IframeProps {
