@@ -10,18 +10,17 @@ const GlobalStyle = createGlobalStyle`
     &::-webkit-scrollbar {
       display: none; /* Chrome, Safari */
     }
-    color:#FFFFFF;
-    background-color:${theme.color.gray.dark}
   }
   html {
     /* 62.5% of the base size of 16px = 10px.*/
     font-size: 62.5%;
     -webkit-text-size-adjust: none;
+    background-color:${theme.color.gray.dark};
+    color:#FFFFFF;
   }
   body {
     /* reset 10*1.6 = 16px, to make sure you do not get any 10px around */
     font-size: 1.6rem;
-    font-family: 'SUIT-Regular', 'GmarketSansMedium', sans-serif;
   }
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
