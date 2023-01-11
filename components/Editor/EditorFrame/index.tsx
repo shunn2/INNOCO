@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import DragEvent from '@utils/drag/dragEvent';
 import { getInsertLocation } from '@utils/getInsertLocation';
 import jsonData from './data';
 
@@ -11,24 +12,17 @@ interface DragProps {
 
 const EditorFrame = () => {
   const [data, setData] = useState<any>(jsonData);
-  const [insertLoc, setInsertLoc] = useState<string>();
+  const [insertLocation, setInsertLocation] = useState<string>();
 
   const [draggingOver, setDraggingOver] = useState<any>();
 
-  const handleDragStart = (e, element, sectionId = null, idx = null) => {
-    e.dataTransfer.setData('start', JSON.stringify(element));
-    e.dataTransfer.setData('idx', idx);
-    e.dataTransfer.setData('sectionId', sectionId);
-    e.stopPropagation();
-  };
   //dragging 네임으로 el: element, idx:idx, sectionId:sectionId
   const handleDrop = (e) => {
-    const start = JSON.parse(e.dataTransfer.getData('start'));
-    const idx = e.dataTransfer.getData('idx');
-    const sectionId = e.dataTransfer.getData('sectionId');
-    console.log(start, idx, sectionId);
-    if (start.id === draggingOver.el.id) return;
-    if (start.type === 'section') {
+    const { el, idx, sectionId } = JSON.parse(
+      e.dataTransfer.getData('dragging')
+    );
+    if (el.id === draggingOver.el.id) return;
+    if (el.type === 'section') {
       setData((prev) => {
         const cur = { ...prev };
         let copyOrder = [...cur.sectionOrder];
@@ -41,14 +35,14 @@ const EditorFrame = () => {
           cur.sectionOrder = copyOrder;
           return cur;
         } else {
-          cur.main[start.id] = start;
-          copyOrder.splice(draggingOver.idx, 0, start.id);
+          cur.main[el.id] = el;
+          copyOrder.splice(draggingOver.idx, 0, el.id);
           cur.sectionOrder = copyOrder;
           return cur;
         }
       });
     }
-    if (start.type !== 'section') {
+    if (el.type !== 'section') {
       if (draggingOver.el.type === 'section') {
         setData((prev) => {
           let cur = JSON.parse(JSON.stringify(prev));
@@ -60,7 +54,7 @@ const EditorFrame = () => {
         setData((prev) => {
           let cur = JSON.parse(JSON.stringify(prev));
           let dragged = cur.main[sectionId].children.splice(idx, 1)[0];
-          if (insertLoc === 'left' || insertLoc === 'up') {
+          if (insertLocation === 'left' || insertLocation === 'up') {
             if (
               draggingOver.idx < idx ||
               draggingOver.sectionId !== sectionId
@@ -79,7 +73,7 @@ const EditorFrame = () => {
             }
             //Err 같은 sId일때 오른쪽에서 왼쪽으로 가면 안됨
           }
-          if (insertLoc === 'right' || insertLoc === 'down') {
+          if (insertLocation === 'right' || insertLocation === 'down') {
             if (
               draggingOver.idx < idx ||
               draggingOver.sectionId !== sectionId
@@ -113,7 +107,7 @@ const EditorFrame = () => {
 
   const handleDragOver = (e, element, sectionId, idx) => {
     setDraggingOver({ el: element, sectionId: sectionId, idx: idx });
-    setInsertLoc(getInsertLocation({ e, element }));
+    setInsertLocation(getInsertLocation({ e, element }));
     console.log(getInsertLocation({ e, element }));
 
     // e.dataTransfer.dropEffect = 'none';
@@ -133,7 +127,8 @@ const EditorFrame = () => {
       ...compInfo.props,
       id: compInfo.id,
       key: compInfo.id,
-      onDragStart: (e) => handleDragStart(e, compInfo, sectionId, compIdx),
+      onDragStart: (e) =>
+        DragEvent.handleDragStart(e, compInfo, compIdx, sectionId),
     };
     let child = React.createElement(compInfo.tag, props, compInfo.content);
     return child;
@@ -164,11 +159,11 @@ const EditorFrame = () => {
                 key={sectionId}
                 {...data.main[sectionId].sectionProps}
                 onDragStart={(e) =>
-                  handleDragStart(
+                  DragEvent.handleDragStart(
                     e,
                     data.main[sectionId],
-                    sectionId,
-                    sectionIdx
+                    sectionIdx,
+                    sectionId
                   )
                 }
                 onDragOver={(e) =>
@@ -189,7 +184,12 @@ const EditorFrame = () => {
               key={sectionId}
               {...data.main[sectionId].sectionProps}
               onDragStart={(e) =>
-                handleDragStart(e, data.main[sectionId], sectionId, sectionIdx)
+                DragEvent.handleDragStart(
+                  e,
+                  data.main[sectionId],
+                  sectionIdx,
+                  sectionId
+                )
               }
               onDragOver={(e) =>
                 handleDragOver(e, data.main[sectionId], sectionId, sectionIdx)
