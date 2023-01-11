@@ -2,7 +2,7 @@ import { atom, selector } from 'recoil';
 import jsonData from '@components/Editor/EditorFrame/data';
 
 const editorAtom = atom({
-  key: 'editor',
+  key: 'editoratom',
   default: jsonData,
 });
 
