@@ -21,14 +21,9 @@ const EditorFrame = () => {
 
   const [element, setElement] = useRecoilState(elementInfoAtom);
 
-  const handleElementClick = (e) => {
-    const id = e.target.id;
-    const sectionId = e.target.parentNode.parentNode.id;
-    const index = main[sectionId].children.findIndex(
-      (child) => child.id === id
-    );
+  const handleElementClick = (sectionId, idx) => {
     const clickedElement = {
-      index: index,
+      index: idx,
       sectionId: sectionId,
     };
     setElement(clickedElement);
@@ -87,7 +82,7 @@ const EditorFrame = () => {
       id: `parent_${element.id}`,
       key: `parent_${element.id}`,
       onDragOver: (e) => handleDragOver(e, element, sectionId, elementIdx),
-      onClick: (e) => handleElementClick(e),
+      onClick: () => handleElementClick(sectionId, elementIdx),
     };
     let parent = React.createElement(
       'div',
