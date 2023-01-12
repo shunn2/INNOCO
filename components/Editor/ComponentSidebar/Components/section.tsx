@@ -13,7 +13,7 @@ const sectionData = {
       minHeight: '100px',
       border: '1px solid black',
       display: 'flex',
-      backgroundColor: 'white',
+      backgroundColor: 'black',
     },
     draggable: true,
   },
@@ -28,7 +28,7 @@ const sectionData = {
 const SectionComponent = () => {
   const handleDragStart = (e) => {
     sectionData.id = uuidv4();
-    dragStart(e, sectionData);
+    dragStart({ e: e, element: sectionData, idx: '', sectionId: '' });
   };
   return (
     <Styled.ComponentItems draggable onDragStart={handleDragStart}>
