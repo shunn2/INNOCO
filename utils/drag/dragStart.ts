@@ -1,12 +1,7 @@
 import React from 'react';
 import { DragStartProps } from './types';
 
-const dragStart = ({
-  e,
-  element,
-  idx = '',
-  sectionId = '',
-}: DragStartProps) => {
+const dragStart = ({ e, element, idx, sectionId }: DragStartProps) => {
   e.dataTransfer.setData(
     'dragging',
     JSON.stringify({
@@ -16,6 +11,11 @@ const dragStart = ({
     })
   );
   e.stopPropagation();
+};
+
+dragStart.defaultProps = {
+  idx: '',
+  sectionId: '',
 };
 
 export default dragStart;
