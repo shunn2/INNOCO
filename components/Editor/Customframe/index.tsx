@@ -5,7 +5,6 @@ import { IframStyle as Styled } from './styled';
 interface IframeProps {
   title: string;
   frameBorder: string | number;
-  allowFullScreen: boolean;
   id: string;
 }
 
