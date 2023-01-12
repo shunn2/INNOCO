@@ -1,6 +1,7 @@
+import React from 'react';
 import * as Styled from './styled';
-import { ToggleMenu } from '@components/Editor';
 import ColorMenu from './ColorMenu';
+import ToggleMenu from './ToggleMenu';
 
 const StyleSidebar = () => {
   return (

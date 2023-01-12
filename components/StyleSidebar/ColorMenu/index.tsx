@@ -14,8 +14,9 @@ const ColorMenu = () => {
     setColor(color.hex);
     setMainData((prev) => {
       const cur = JSON.parse(JSON.stringify(prev));
-      cur.main[element.sectionId].children[3].props.style.backgroundColor =
-        color.hex;
+      cur.main[element.sectionId].children[
+        element.index
+      ].props.style.backgroundColor = color.hex;
       return cur;
     });
   };

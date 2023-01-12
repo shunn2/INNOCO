@@ -1,7 +1,7 @@
-import ComponentSidebar from '@components/Editor/ComponentSidebar';
-import EditorFrame from '@components/Editor/EditorFrame';
+import ComponentSidebar from '@components/ComponentSidebar';
 import CustomIframe from '@components/Editor/Customframe';
-import StyledSidebar from '@components/Editor/StyleSidebar';
+import EditorFrame from '@components/Editor/EditorFrame';
+import StyleSidebar from '@components/StyleSidebar';
 import styled from 'styled-components';
 
 const Editor = () => {
@@ -11,7 +11,7 @@ const Editor = () => {
       <CustomIframe title="drag_drop_editor" id="editor_iframe" frameBorder="0">
         <EditorFrame />
       </CustomIframe>
-      <StyledSidebar />
+      <StyleSidebar />
     </EditorContainer>
   );
 };
