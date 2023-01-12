@@ -7,12 +7,14 @@ import { SignUpPayload } from '@/types/auth';
 const SignUp = () => {
   const initialSignUpPayload: SignUpPayload = {
     email: '',
+    name: '',
     password: '',
     id: '',
   };
 
   const initialErrorState = {
     email: false,
+    name: false,
     id: false,
     password: false,
   };
@@ -23,8 +25,8 @@ const SignUp = () => {
   const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
-    const { email, id, password } = signUpPayload;
-    setDisabled(!!(!email || !id || !password));
+    const { email, id, password, name } = signUpPayload;
+    setDisabled(!!(!email || !id || !password || !name));
   }, [signUpPayload]);
 
   const handleChange =
@@ -50,6 +52,10 @@ const SignUp = () => {
         error={error.email}
       />
       {error.email && <ErrorMessage type="email" />}
+      <Input
+        placeholder={'이름을 입력하세요.'}
+        onChange={handleChange('name')}
+      />
       <Input
         placeholder={'아이디 입력하세요.'}
         onChange={handleChange('id')}

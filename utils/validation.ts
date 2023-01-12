@@ -14,7 +14,12 @@ export const validateInput = (type: string, input: string) => {
     return regex.test(input);
   };
 
+  const validateName = () => {
+    return input.length > 0;
+  };
+
   if (type === 'email') return validateEmail();
   if (type === 'id') return validateId();
   if (type === 'password') return validatePassword();
+  if (type === 'name') return validateName();
 };
