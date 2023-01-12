@@ -13,7 +13,7 @@ const sectionData = {
       minHeight: '100px',
       border: '1px solid black',
       display: 'flex',
-      backgroundColor: 'black',
+      backgroundColor: '#fff',
     },
     draggable: true,
   },

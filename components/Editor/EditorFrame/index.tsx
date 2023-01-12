@@ -48,87 +48,69 @@ const EditorFrame = () => {
     e.stopPropagation();
   };
 
-  const createChild = (compInfo, compIdx, sectionId) => {
+  const createChild = (element, elementIdx, sectionId) => {
     let props = {
-      ...compInfo.props,
-      id: compInfo.id,
-      key: compInfo.id,
+      ...element.props,
+      id: element.id,
+      key: element.id,
       onDragStart: (e) =>
         dragStart({
           e: e,
-          element: compInfo,
-          idx: compIdx,
+          element: element,
+          idx: elementIdx,
           sectionId: sectionId,
         }),
     };
-    let child = React.createElement(compInfo.tag, props, compInfo.content);
+    let child = React.createElement(element.tag, props, element.content);
     return child;
   };
 
-  const createParent = (compInfo, compIdx, sectionId) => {
+  const createParent = (element, elementIdx, sectionId) => {
     let props = {
-      ...compInfo.parentProps,
-      id: `parent_${compInfo.id}`,
-      key: `parent_${compInfo.id}`,
-      onDragOver: (e) => handleDragOver(e, compInfo, sectionId, compIdx),
+      ...element.parentProps,
+      id: `parent_${element.id}`,
+      key: `parent_${element.id}`,
+      onDragOver: (e) => handleDragOver(e, element, sectionId, elementIdx),
     };
     let parent = React.createElement(
       'div',
       props,
-      createChild(compInfo, compIdx, sectionId)
+      createChild(element, elementIdx, sectionId)
     );
     return parent;
   };
 
   return (
     <div id="test">
-      {sectionOrder.map((sectionId, sectionIdx) => {
-        if (main[sectionId].children.length) {
-          return (
-            <div
-              id={sectionId}
-              key={sectionId}
-              {...main[sectionId].sectionProps}
-              onDragStart={(e) =>
-                dragStart({
-                  e: e,
-                  element: main[sectionId],
-                  idx: sectionIdx,
-                  sectionId: sectionId,
-                })
-              }
-              onDragOver={(e) =>
-                handleDragOver(e, main[sectionId], sectionId, sectionIdx)
-              }
-              onDrop={(e) => handleDrop(e)}
-            >
-              {main[sectionId].children.map((element, elementIdx) =>
-                createParent(element, elementIdx, sectionId)
-              )}
-            </div>
-          );
-        }
-        return (
-          <div
-            id={sectionId}
-            key={sectionId}
-            {...main[sectionId].sectionProps}
-            onDragStart={(e) =>
-              dragStart({
-                e: e,
-                element: main[sectionId],
-                idx: sectionIdx,
-                sectionId: sectionId,
-              })
-            }
-            onDragOver={(e) =>
-              handleDragOver(e, main[sectionId], sectionId, sectionIdx)
-            }
-            onDrop={(e) => handleDrop(e)}
-          ></div>
-        );
-      })}
+      {sectionOrder.map((sectionId, sectionIdx) => (
+        <div
+          id={sectionId}
+          key={sectionId}
+          {...main[sectionId].sectionProps}
+          onDragStart={(e) =>
+            dragStart({
+              e: e,
+              element: main[sectionId],
+              idx: sectionIdx,
+              sectionId: sectionId,
+            })
+          }
+          onDragOver={(e) =>
+            handleDragOver(e, main[sectionId], sectionId, sectionIdx)
+          }
+          onDrop={handleDrop}
+        >
+          {main[sectionId].children.map((element, elementIdx) =>
+            createParent(element, elementIdx, sectionId)
+          )}
+        </div>
+      ))}
     </div>
   );
 };
 export default EditorFrame;
+
+// initial-scale=1.0  // 초기 크기를 설정합니다.
+// user-scalable=no // 확대 기능을 사용하지 않습니다.
+// maximum-scale=1 // 최대 배율, 크기를 설정합니다.
+// width=device-width  // 화면이 표현하는 사이즈를 디바이스 사이즈에 맞춥니다.

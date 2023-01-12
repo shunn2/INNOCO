@@ -3,7 +3,7 @@ import { SvgIcon } from '@components/Common';
 import { dragStart } from '@utils/drag';
 import { v4 as uuidv4 } from 'uuid';
 
-const boxData = {
+const textData = {
   id: '',
   type: 'box',
   tag: 'div',
@@ -39,14 +39,13 @@ const boxData = {
 
 const BoxComponent = () => {
   const handleDragStart = (e) => {
-    boxData.id = uuidv4();
-    dragStart({ e: e, element: boxData, idx: '', sectionId: '' });
-    console.log(boxData);
+    textData.id = uuidv4();
+    dragStart({ e: e, element: textData, idx: '', sectionId: '' });
   };
   return (
     <Styled.ComponentItems draggable onDragStart={handleDragStart}>
       <SvgIcon type="box-icon" />
-      <div>Box</div>
+      <div>Text</div>
     </Styled.ComponentItems>
   );
 };
