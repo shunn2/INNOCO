@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
-
 import { getInsertLocation } from '@utils/getInsertLocation';
+import { useRecoilState } from 'recoil';
+import { elementInfoAtom } from '@recoil/styleSideBar/atom';
 import { withMainData, withSectionOrder } from '@recoil/editor';
 import {
   dragElementToElement,
@@ -19,6 +19,17 @@ const EditorFrame = () => {
   const [insertLocation, setInsertLocation] = useState<string>();
   const [draggingOver, setDraggingOver] = useState<any>();
 
+  const [element, setElement] = useRecoilState(elementInfoAtom);
+
+  const handleElementClick = (sectionId, idx) => {
+    const clickedElement = {
+      index: idx,
+      sectionId: sectionId,
+    };
+    setElement(clickedElement);
+  };
+
+  //dragging 네임으로 el: element, idx:idx, sectionId:sectionId
   const handleDrop = (e) => {
     const { el, elIdx } = JSON.parse(e.dataTransfer.getData('dragging'));
     if (el.id === draggingOver.el.id) return;
@@ -71,6 +82,7 @@ const EditorFrame = () => {
       id: `parent_${element.id}`,
       key: `parent_${element.id}`,
       onDragOver: (e) => handleDragOver(e, element, sectionId, elementIdx),
+      onClick: () => handleElementClick(sectionId, elementIdx),
     };
     let parent = React.createElement(
       'div',
