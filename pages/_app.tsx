@@ -8,6 +8,7 @@ import { SessionProvider } from 'next-auth/react';
 import theme from '@styles/theme';
 import GlobalStyle from '@styles/global-style';
 import { SvgSprite } from '@components/Common';
+import 'tailwindcss/tailwind.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
