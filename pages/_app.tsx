@@ -7,6 +7,7 @@ import { ThemeProvider } from 'styled-components';
 import { SessionProvider } from 'next-auth/react';
 import theme from '@styles/theme';
 import GlobalStyle from '@styles/global-style';
+import '@styles/global-style.css';
 import { SvgSprite } from '@components/Common';
 import 'tailwindcss/tailwind.css';
 
