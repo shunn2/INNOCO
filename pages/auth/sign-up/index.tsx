@@ -6,17 +6,18 @@ import { SignUpPayload } from '@/types/auth';
 
 const SignUp = () => {
   const initialSignUpPayload: SignUpPayload = {
-    email: '',
-    name: '',
-    password: '',
-    id: '',
+    memberLoginId: '',
+    memberLoginPw: '',
+    memberEmail: '',
+    memberName: '',
+    memberProfileUrl: '',
   };
 
   const initialErrorState = {
-    email: false,
-    name: false,
-    id: false,
-    password: false,
+    memberEmail: false,
+    memberLoginId: false,
+    memberLoginPw: false,
+    memberName: false,
   };
 
   const [signUpPayload, setSignUpPayload] =
@@ -25,8 +26,17 @@ const SignUp = () => {
   const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
-    const { email, id, password, name } = signUpPayload;
-    setDisabled(!!(!email || !id || !password || !name));
+    const {
+      memberEmail,
+      memberLoginId,
+      memberLoginPw,
+      memberName,
+      memberProfileUrl,
+    } = signUpPayload;
+    //console.log('ddd', memberEmail, memberLoginId, memberLoginPw, memberName);
+    setDisabled(
+      !!(!memberEmail || !memberLoginId || !memberLoginPw || !memberName)
+    );
   }, [signUpPayload]);
 
   const handleChange =
@@ -48,27 +58,27 @@ const SignUp = () => {
       <p>Sign Up</p>
       <Input
         placeholder={'이메일을 입력하세요.'}
-        onChange={handleChange('email')}
-        error={error.email}
+        onChange={handleChange('memberEmail')}
+        error={error.memberEmail}
       />
-      {error.email && <ErrorMessage type="email" />}
+      {error.memberEmail && <ErrorMessage type="email" />}
       <Input
         placeholder={'이름을 입력하세요.'}
-        onChange={handleChange('name')}
+        onChange={handleChange('memberName')}
       />
       <Input
         placeholder={'아이디 입력하세요.'}
-        onChange={handleChange('id')}
-        error={error.id}
+        onChange={handleChange('memberLoginId')}
+        error={error.memberLoginId}
       />
-      {error.id && <ErrorMessage type="id" />}
+      {error.memberLoginId && <ErrorMessage type="id" />}
       <Input
         placeholder={'비밀번호를 입력하세요.'}
         type="password"
-        onChange={handleChange('password')}
-        error={error.password}
+        onChange={handleChange('memberLoginPw')}
+        error={error.memberLoginPw}
       />
-      {error.password && <ErrorMessage type="password" />}
+      {error.memberLoginPw && <ErrorMessage type="password" />}
       {/* TODO: 이메일 인증 */}
       <Button disabled={disabled} variant="auth">
         회원가입

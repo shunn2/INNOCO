@@ -6,13 +6,13 @@ import { validateInput } from '@utils/validation';
 
 const SignIn = () => {
   const initialSignInPayload: SignInPaylaod = {
-    id: '',
-    password: '',
+    memberLoginId: '',
+    memberLoginPw: '',
   };
 
   const initialErrorState = {
-    id: false,
-    password: false,
+    memberLoginId: false,
+    memberLoginPw: false,
   };
 
   const [signInPayload, setSignInPayload] =
@@ -21,8 +21,8 @@ const SignIn = () => {
   const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
-    const { id, password } = signInPayload;
-    setDisabled(!!(!id || !password));
+    const { memberLoginId, memberLoginPw } = signInPayload;
+    setDisabled(!!(!memberLoginId || !memberLoginPw));
   }, [signInPayload]);
 
   const handleChange =
@@ -43,17 +43,17 @@ const SignIn = () => {
       <p>Login</p>
       <Input
         placeholder={'아이디를 입력하세요.'}
-        onChange={handleChange('id')}
-        error={error.id}
+        onChange={handleChange('memberLoginId')}
+        error={error.memberLoginId}
       />
-      {error.id && <ErrorMessage type="id" />}
+      {error.memberLoginId && <ErrorMessage type="id" />}
       <Input
         placeholder={'비밀번호를 입력하세요.'}
         type="password"
-        onChange={handleChange('password')}
-        error={error.password}
+        onChange={handleChange('memberLoginPw')}
+        error={error.memberLoginPw}
       />
-      {error.password && <ErrorMessage type="password" />}
+      {error.memberLoginPw && <ErrorMessage type="password" />}
       <Button disabled={disabled} variant="auth">
         로그인
       </Button>
