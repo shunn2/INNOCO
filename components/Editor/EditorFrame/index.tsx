@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getInsertLocation } from '@utils/getInsertLocation';
 import { useRecoilState } from 'recoil';
 import { elementInfoAtom } from '@recoil/styleSideBar/atom';
@@ -12,6 +12,8 @@ import {
   dragSection,
   dragStart,
 } from '@utils/drag';
+import { useContentEditable } from '@utils/useContentEditable';
+import styles from './EditorFrame.module.css';
 
 const EditorFrame = () => {
   const [main, setMain] = useRecoilState(withMainData);
@@ -20,6 +22,8 @@ const EditorFrame = () => {
   const [draggingOver, setDraggingOver] = useState<any>();
 
   const [element, setElement] = useRecoilState(elementInfoAtom);
+
+  const pageRef = useRef(null);
 
   const handleElementClick = (sectionId, idx) => {
     const clickedElement = {
@@ -60,7 +64,7 @@ const EditorFrame = () => {
   };
 
   const createChild = (element, elementIdx, sectionId) => {
-    let props = {
+    const props = {
       ...element.props,
       id: element.id,
       key: element.id,
@@ -71,52 +75,59 @@ const EditorFrame = () => {
           idx: elementIdx,
           sectionId: sectionId,
         }),
+      onClick: () => handleElementClick(sectionId, elementIdx),
+      onInput: (e) => useContentEditable(e, elementIdx, sectionId, setMain),
     };
-    let child = React.createElement(element.tag, props, element.content);
+    const child = React.createElement(element.tag, props, element.content);
     return child;
   };
 
   const createParent = (element, elementIdx, sectionId) => {
-    let props = {
+    const props = {
       ...element.parentProps,
       id: `parent_${element.id}`,
       key: `parent_${element.id}`,
       onDragOver: (e) => handleDragOver(e, element, sectionId, elementIdx),
-      onClick: () => handleElementClick(sectionId, elementIdx),
     };
-    let parent = React.createElement(
-      'div',
+    const parent = React.createElement(
+      element.tag,
       props,
       createChild(element, elementIdx, sectionId)
     );
     return parent;
   };
 
+  window.onload = () => {
+    pageRef.current.scrollIntoView({ behavior: 'auto', inline: 'center' });
+  };
+
   return (
-    <div id="test">
-      {sectionOrder.map((sectionId, sectionIdx) => (
-        <div
-          id={sectionId}
-          key={sectionId}
-          {...main[sectionId].sectionProps}
-          onDragStart={(e) =>
-            dragStart({
-              e: e,
-              element: main[sectionId],
-              idx: sectionIdx,
-              sectionId: sectionId,
-            })
-          }
-          onDragOver={(e) =>
-            handleDragOver(e, main[sectionId], sectionId, sectionIdx)
-          }
-          onDrop={handleDrop}
-        >
-          {main[sectionId].children.map((element, elementIdx) =>
-            createParent(element, elementIdx, sectionId)
-          )}
-        </div>
-      ))}
+    <div style={{ width: '4000px', display: 'flex', justifyContent: 'center' }}>
+      <div id="test" style={{ width: '1280px' }} ref={pageRef}>
+        {sectionOrder.map((sectionId, sectionIdx) => (
+          <div
+            id={sectionId}
+            key={sectionId}
+            {...main[sectionId].sectionProps}
+            onDragStart={(e) =>
+              dragStart({
+                e: e,
+                element: main[sectionId],
+                idx: sectionIdx,
+                sectionId: sectionId,
+              })
+            }
+            onDragOver={(e) =>
+              handleDragOver(e, main[sectionId], sectionId, sectionIdx)
+            }
+            onDrop={handleDrop}
+          >
+            {main[sectionId].children.map((element, elementIdx) =>
+              createParent(element, elementIdx, sectionId)
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
