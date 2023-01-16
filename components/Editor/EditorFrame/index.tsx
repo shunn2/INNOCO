@@ -23,7 +23,7 @@ const EditorFrame = () => {
 
   const [element, setElement] = useRecoilState(elementInfoAtom);
 
-  const pageRef = useRef(null);
+  const editorRef = useRef(null);
 
   const handleElementClick = (sectionId, idx) => {
     const clickedElement = {
@@ -76,8 +76,7 @@ const EditorFrame = () => {
           sectionId: sectionId,
         }),
       onClick: () => handleElementClick(sectionId, elementIdx),
-      onInput: (e) => useContentEditable(e, elementIdx, sectionId, setMain),
-      onBlur: () => console.log('blur'),
+      onBlur: (e) => useContentEditable(e, elementIdx, sectionId, setMain),
     };
     const child = React.createElement(element.tag, props, element.content);
     return child;
@@ -99,12 +98,12 @@ const EditorFrame = () => {
   };
 
   useEffect(() => {
-    pageRef.current.scrollIntoView({ behavior: 'auto', inline: 'center' });
+    editorRef.current.scrollIntoView({ behavior: 'auto', inline: 'center' });
   });
 
   return (
     <div style={{ width: '4000px', display: 'flex', justifyContent: 'center' }}>
-      <div id="test" style={{ width: '1280px' }} ref={pageRef}>
+      <div id="test" style={{ width: '1280px' }} ref={editorRef}>
         {sectionOrder.map((sectionId, sectionIdx) => (
           <div
             id={sectionId}
