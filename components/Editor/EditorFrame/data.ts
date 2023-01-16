@@ -26,6 +26,8 @@ const jsonData = {
           type: 'box',
           tag: 'div',
           parentProps: {
+            className:
+              'border-solid border-2 border-blue-500 hover:border-solid hover:border-2 hover:border-red-700',
             draggable: false,
             style: {
               border: '2px solid black',
@@ -36,7 +38,7 @@ const jsonData = {
             },
           },
           props: {
-            className: 'seonghonon',
+            className: 'border-pink-100',
             draggable: true,
             style: {
               width: '100px',

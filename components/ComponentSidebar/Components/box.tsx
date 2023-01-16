@@ -18,7 +18,7 @@ const textData = {
     },
   },
   props: {
-    className: 'seonghonon',
+    className: 'hover:border-solid:border-2:border-red-700 text-orange-600',
     draggable: true,
     style: {
       width: '100px',
@@ -28,6 +28,8 @@ const textData = {
       justifyContent: 'center',
       alignItems: 'center',
     },
+    contentEditable: true,
+    suppressContentEditableWarning: true,
   },
   content: 'aaaaa',
   class: {
