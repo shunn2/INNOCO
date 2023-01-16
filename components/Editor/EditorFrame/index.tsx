@@ -77,6 +77,7 @@ const EditorFrame = () => {
         }),
       onClick: () => handleElementClick(sectionId, elementIdx),
       onInput: (e) => useContentEditable(e, elementIdx, sectionId, setMain),
+      onBlur: () => console.log('blur'),
     };
     const child = React.createElement(element.tag, props, element.content);
     return child;
@@ -97,9 +98,9 @@ const EditorFrame = () => {
     return parent;
   };
 
-  window.onload = () => {
+  useEffect(() => {
     pageRef.current.scrollIntoView({ behavior: 'auto', inline: 'center' });
-  };
+  });
 
   return (
     <div style={{ width: '4000px', display: 'flex', justifyContent: 'center' }}>
