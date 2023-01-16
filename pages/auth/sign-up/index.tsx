@@ -3,6 +3,7 @@ import { Input, Button } from '@components/Common';
 import { AuthContainer, ErrorMessage } from '@components/Auth';
 import { validateInput } from '@utils/validation';
 import { SignUpPayload } from '@/types/auth';
+import { useSignUp } from '@hooks';
 
 const SignUp = () => {
   const initialSignUpPayload: SignUpPayload = {
@@ -24,6 +25,7 @@ const SignUp = () => {
     useState<SignUpPayload>(initialSignUpPayload);
   const [error, setError] = useState(initialErrorState);
   const [disabled, setDisabled] = useState(true);
+  const signUp = useSignUp();
 
   useEffect(() => {
     const {
@@ -33,7 +35,7 @@ const SignUp = () => {
       memberName,
       memberProfileUrl,
     } = signUpPayload;
-    //console.log('ddd', memberEmail, memberLoginId, memberLoginPw, memberName);
+
     setDisabled(
       !!(!memberEmail || !memberLoginId || !memberLoginPw || !memberName)
     );
@@ -52,6 +54,10 @@ const SignUp = () => {
 
       setSignUpPayload({ ...signUpPayload, [type]: input });
     };
+
+  const handleSignUpButtonClick = () => {
+    signUp.mutate(signUpPayload);
+  };
 
   return (
     <AuthContainer>
@@ -80,7 +86,11 @@ const SignUp = () => {
       />
       {error.memberLoginPw && <ErrorMessage type="password" />}
       {/* TODO: 이메일 인증 */}
-      <Button disabled={disabled} variant="auth">
+      <Button
+        disabled={disabled}
+        variant="auth"
+        onClick={handleSignUpButtonClick}
+      >
         회원가입
       </Button>
     </AuthContainer>
