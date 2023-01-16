@@ -6,10 +6,11 @@ export interface ToggleMenuProps {
 }
 const ToggleMenu = (props: PropsWithChildren<ToggleMenuProps>) => {
   const { children, title, ...rest } = props;
-  const [isOpen, setIsOpen] = useState(false);
+  const [isToggleOpen, setIsToggleOpen] = useState(false);
   const handleToggleMenu = () => {
-    setIsOpen(!isOpen);
+    setIsToggleOpen(!isToggleOpen);
   };
+
   return (
     <>
       <Styled.ToggleMenuContainer
@@ -18,8 +19,9 @@ const ToggleMenu = (props: PropsWithChildren<ToggleMenuProps>) => {
         {...rest}
       >
         <Styled.Title>{title}</Styled.Title>
+        <></>
       </Styled.ToggleMenuContainer>
-      {isOpen && <Styled.ToggledMenu>{children}</Styled.ToggledMenu>}
+      {isToggleOpen && <Styled.ToggledMenu>{children}</Styled.ToggledMenu>}
     </>
   );
 };
