@@ -9,9 +9,7 @@ const jsonData = {
         style: {
           width: '100%',
           height: '100px',
-          border: '1px solid black',
           display: 'flex',
-          backgroundColor: '#fff',
         },
         draggable: true,
       },
@@ -26,11 +24,8 @@ const jsonData = {
           type: 'box',
           tag: 'div',
           parentProps: {
-            className:
-              'border-solid border-2 border-blue-500 hover:border-solid hover:border-2 hover:border-red-700',
             draggable: false,
             style: {
-              border: '2px solid black',
               width: '100%',
               display: 'flex',
               justifyContent: 'center',
@@ -38,12 +33,10 @@ const jsonData = {
             },
           },
           props: {
-            className: 'border-pink-100',
             draggable: true,
             style: {
               width: '100px',
               height: '50px',
-              backgroundColor: 'red',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -63,7 +56,6 @@ const jsonData = {
           parentProps: {
             draggable: false,
             style: {
-              border: '2px solid black',
               width: '100%',
               display: 'flex',
               justifyContent: 'center',
@@ -71,12 +63,10 @@ const jsonData = {
             },
           },
           props: {
-            className: 'seonghonon',
             draggable: true,
             style: {
               width: '100px',
               height: '50px',
-              backgroundColor: 'yellow',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -96,7 +86,6 @@ const jsonData = {
           parentProps: {
             draggable: false,
             style: {
-              border: '2px solid black',
               width: '100%',
               display: 'flex',
               justifyContent: 'center',
@@ -104,12 +93,10 @@ const jsonData = {
             },
           },
           props: {
-            className: 'seonghonon',
             draggable: true,
             style: {
               width: '100px',
               height: '50px',
-              backgroundColor: 'blue',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -129,7 +116,6 @@ const jsonData = {
           parentProps: {
             draggable: false,
             style: {
-              border: '2px solid black',
               width: '100%',
               display: 'flex',
               justifyContent: 'center',
@@ -137,12 +123,10 @@ const jsonData = {
             },
           },
           props: {
-            className: 'seonghonon',
             draggable: true,
             style: {
               width: '100px',
               height: '50px',
-              backgroundColor: 'brown',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -165,9 +149,7 @@ const jsonData = {
         style: {
           width: '100%',
           height: '100px',
-          border: '1px solid black',
           display: 'flex',
-          backgroundColor: '#fff',
         },
         draggable: true,
       },
@@ -184,7 +166,6 @@ const jsonData = {
           parentProps: {
             draggable: false,
             style: {
-              border: '2px solid black',
               width: '100%',
               display: 'flex',
               justifyContent: 'center',
@@ -192,12 +173,10 @@ const jsonData = {
             },
           },
           props: {
-            className: 'seonghonon',
             draggable: true,
             style: {
               width: '100px',
               height: '50px',
-              backgroundColor: 'green',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -220,9 +199,7 @@ const jsonData = {
         style: {
           width: '100%',
           height: '100px',
-          border: '1px solid black',
           display: 'flex',
-          backgroundColor: '#fff',
         },
         draggable: true,
       },
@@ -241,9 +218,7 @@ const jsonData = {
         style: {
           width: '100%',
           height: '100px',
-          border: '1px solid black',
           display: 'flex',
-          backgroundColor: '#fff',
         },
         draggable: true,
       },
@@ -262,9 +237,7 @@ const jsonData = {
         style: {
           width: '100%',
           height: '100px',
-          border: '1px solid black',
           display: 'flex',
-          backgroundColor: '#fff',
         },
         draggable: true,
       },

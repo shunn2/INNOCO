@@ -13,7 +13,6 @@ import {
   dragStart,
 } from '@utils/drag';
 import { useContentEditable } from '@utils/useContentEditable';
-import styles from './EditorFrame.module.css';
 
 const EditorFrame = () => {
   const [main, setMain] = useRecoilState(withMainData);
@@ -77,9 +76,25 @@ const EditorFrame = () => {
         }),
       onClick: () => handleElementClick(sectionId, elementIdx),
       onBlur: (e) => useContentEditable(e, elementIdx, sectionId, setMain),
-    };
+      // onMouseEnter: (e) => getBorderStyle(e),
+      // onMouseLeave: (e) => removeBorderStyle(e),
+      className: `border-transparent border-4 hover:border-cyan-300 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent`,
+    }; //https://velog.io/@real-bird/Javascript-%ED%81%B4%EB%A6%AD%ED%95%9C-div%EB%A7%8C-%EC%83%89%EC%83%81-%EB%B0%94%EA%BE%B8%EA%B8%B0
     const child = React.createElement(element.tag, props, element.content);
     return child;
+  };
+
+  const getBorderStyle = (e) => {
+    const originalBorder = e.target.style.border;
+    e.target.style.border = '2px solid red';
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const removeBorderStyle = (e) => {
+    e.target.style.border = '';
+    e.preventDefault();
+    e.stopPropagation();
   };
 
   const createParent = (element, elementIdx, sectionId) => {
@@ -109,6 +124,7 @@ const EditorFrame = () => {
             id={sectionId}
             key={sectionId}
             {...main[sectionId].sectionProps}
+            className="bg-white"
             onDragStart={(e) =>
               dragStart({
                 e: e,
@@ -127,6 +143,10 @@ const EditorFrame = () => {
             )}
           </div>
         ))}
+        <div className="text-3xl font-bold underline">Hello world!</div>
+        <button className="bg-red-500 text-white px-4 py-2 rounded-3xl mr-2">
+          빨간색 버튼
+        </button>
       </div>
     </div>
   );
