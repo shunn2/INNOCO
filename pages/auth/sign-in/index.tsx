@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Button } from '@components/Common';
 import { AuthContainer, ErrorMessage } from '@components/Auth';
-import { SignInPaylaod } from '@/types/auth';
+import { SignInPayload } from '@/types/auth';
 import { validateInput } from '@utils/validation';
 
 const SignIn = () => {
-  const initialSignInPayload: SignInPaylaod = {
+  const initialSignInPayload: SignInPayload = {
     memberLoginId: '',
     memberLoginPw: '',
   };
@@ -16,7 +16,7 @@ const SignIn = () => {
   };
 
   const [signInPayload, setSignInPayload] =
-    useState<SignInPaylaod>(initialSignInPayload);
+    useState<SignInPayload>(initialSignInPayload);
   const [error, setError] = useState(initialErrorState);
   const [disabled, setDisabled] = useState(true);
 
