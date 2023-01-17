@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "HTTPS=true SSL_CRT_FILE={PATH/TO/CERTIFICATE-FILENAME}.pem SSL_KEY_FILE={PATH/TO/CERTIFICATE-KEY-FILENAME}.pem next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -16,6 +16,7 @@
     "@types/react-dom": "18.0.10",
     "@types/styled-components": "^5.1.26",
     "autoprefixer": "^10.4.13",
+    "axios": "^1.2.2",
     "babel-plugin-styled-components": "^2.0.7",
     "eslint": "8.30.0",
     "eslint-config-next": "13.1.1",

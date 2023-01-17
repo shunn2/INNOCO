@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
-          <SessionProvider>
+          <SessionProvider session={pageProps.session}>
             <GlobalStyle />
             <Hydrate state={pageProps.dehydratedState}>
               <Component {...pageProps} />

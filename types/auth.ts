@@ -1,11 +1,12 @@
 export interface SignUpPayload {
-  email: string;
-  name: string;
-  id: string;
-  password: string;
+  memberLoginId: string;
+  memberLoginPw: string;
+  memberEmail: string;
+  memberName: string;
+  memberProfileUrl: string;
 }
 
 export interface SignInPaylaod {
-  id: string;
-  password: string;
+  memberLoginId: string;
+  memberLoginPw: string;
 }
