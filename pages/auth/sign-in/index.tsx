@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Button } from '@components/Common';
+import { Input, Button, Layout } from '@components/Common';
 import { AuthContainer, ErrorMessage } from '@components/Auth';
 import { SignInPayload } from '@/types/auth';
 import { validateInput } from '@utils/validation';
@@ -53,7 +53,6 @@ const SignIn = () => {
     };
 
   const handleSignInButtonClick = async () => {
-    console.log(signInPayload);
     await signIn('credentials', {
       redirect: true,
       memberLoginId: signInPayload.memberLoginId,
@@ -62,29 +61,31 @@ const SignIn = () => {
   };
 
   return (
-    <AuthContainer>
-      <p>Login</p>
-      <Input
-        placeholder={'아이디를 입력하세요.'}
-        onChange={handleChange('memberLoginId')}
-        error={error.memberLoginId}
-      />
-      {error.memberLoginId && <ErrorMessage type="id" />}
-      <Input
-        placeholder={'비밀번호를 입력하세요.'}
-        type="password"
-        onChange={handleChange('memberLoginPw')}
-        error={error.memberLoginPw}
-      />
-      {error.memberLoginPw && <ErrorMessage type="password" />}
-      <Button
-        disabled={disabled}
-        variant="auth"
-        onClick={handleSignInButtonClick}
-      >
-        로그인
-      </Button>
-    </AuthContainer>
+    <Layout>
+      <AuthContainer>
+        <p>Login</p>
+        <Input
+          placeholder={'아이디를 입력하세요.'}
+          onChange={handleChange('memberLoginId')}
+          error={error.memberLoginId}
+        />
+        {error.memberLoginId && <ErrorMessage type="id" />}
+        <Input
+          placeholder={'비밀번호를 입력하세요.'}
+          type="password"
+          onChange={handleChange('memberLoginPw')}
+          error={error.memberLoginPw}
+        />
+        {error.memberLoginPw && <ErrorMessage type="password" />}
+        <Button
+          disabled={disabled}
+          variant="auth"
+          onClick={handleSignInButtonClick}
+        >
+          로그인
+        </Button>
+      </AuthContainer>
+    </Layout>
   );
 };
 
