@@ -30,6 +30,13 @@ class AuthApi {
     );
     return data;
   }
+
+  async checkDuplicate(memberLoginId: string) {
+    const { data } = await createAxiosWithoutToken('auth').get(
+      `/check/${memberLoginId}`
+    );
+    return data;
+  }
 }
 
 const authApi = new AuthApi();
