@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SignUpPayload } from '@/types/auth';
+import { SignInPayload, SignUpPayload } from '@/types/auth';
 
 const HEADERS = {
   'Cache-Control': 'no-cache',
@@ -19,6 +19,14 @@ class AuthApi {
     const { data } = await createAxiosWithoutToken('auth').post(
       '/sign-up',
       signUpPayload
+    );
+    return data;
+  }
+
+  async signIn(signInPayload: SignInPayload) {
+    const { data } = await createAxiosWithoutToken('auth').post(
+      '/sign-in',
+      signInPayload
     );
     return data;
   }
