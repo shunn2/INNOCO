@@ -11,11 +11,11 @@ const sectionData = {
     style: {
       width: '100%',
       minHeight: '100px',
-      border: '1px solid black',
       display: 'flex',
       backgroundColor: '#fff',
     },
     draggable: true,
+    className: ['border-transparent', 'border-4', 'hover:border-cyan-300'],
   },
   content: '',
   class: {
