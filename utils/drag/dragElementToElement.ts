@@ -5,7 +5,7 @@ const DragElementToElement = (e, draggingOver, insertLocation, setMain) => {
   setMain((prev) => {
     const cur = JSON.parse(JSON.stringify(prev));
     const dragged = cur[sectionId].children.splice(elIdx, 1)[0];
-    if (insertLocation === 'left' || insertLocation === 'up') {
+    if (insertLocation === 'l' || insertLocation === 't') {
       if (draggingOver.idx < elIdx || draggingOver.sectionId !== sectionId) {
         cur[draggingOver.sectionId].children.splice(
           draggingOver.idx === 0 ? 0 : draggingOver.idx,
@@ -20,7 +20,7 @@ const DragElementToElement = (e, draggingOver, insertLocation, setMain) => {
         );
       }
     }
-    if (insertLocation === 'right' || insertLocation === 'down') {
+    if (insertLocation === 'r' || insertLocation === 'b') {
       if (draggingOver.idx < elIdx || draggingOver.sectionId !== sectionId) {
         cur[draggingOver.sectionId].children.splice(
           draggingOver.idx + 1,

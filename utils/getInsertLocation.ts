@@ -23,15 +23,15 @@ const getInsertLocation = ({
 
     if (direction === 'row') {
       if (clientX > x + width / 2) {
-        return 'right';
+        return 'r';
       }
-      return 'left';
+      return 'l';
     }
     if (direction === 'col') {
       if (clientY > y + height / 2) {
-        return 'down';
+        return 'b';
       }
-      return 'up';
+      return 't';
     }
   }
 };

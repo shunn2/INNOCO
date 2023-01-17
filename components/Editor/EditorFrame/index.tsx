@@ -19,6 +19,7 @@ const EditorFrame = () => {
   const [sectionOrder, setSectionOrder] = useRecoilState(withSectionOrder);
   const [insertLocation, setInsertLocation] = useState<string>();
   const [draggingOver, setDraggingOver] = useState<any>();
+  const [draggingLeave, setDraggingLeave] = useState<any>();
 
   const [element, setElement] = useRecoilState(elementInfoAtom);
 
@@ -58,6 +59,13 @@ const EditorFrame = () => {
   const handleDragOver = (e, element, sectionId, idx) => {
     setDraggingOver({ el: element, sectionId: sectionId, idx: idx });
     setInsertLocation(getInsertLocation({ e, element }));
+    const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
+    if (draggingOver !== undefined && draggingOver.el.type !== 'section') {
+      let element = frame.contentWindow.document.getElementById(
+        `parent_${draggingOver.el.id}`
+      );
+      element.classList.add(`border-${insertLocation}-4`);
+    }
     e.preventDefault();
     e.stopPropagation();
   };
@@ -76,23 +84,45 @@ const EditorFrame = () => {
         }),
       onClick: () => handleElementClick(sectionId, elementIdx),
       onBlur: (e) => useContentEditable(e, elementIdx, sectionId, setMain),
-      // onMouseEnter: (e) => getBorderStyle(e),
-      // onMouseLeave: (e) => removeBorderStyle(e),
-      className: `border-transparent border-4 hover:border-cyan-300 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent`,
-    }; //https://velog.io/@real-bird/Javascript-%ED%81%B4%EB%A6%AD%ED%95%9C-div%EB%A7%8C-%EC%83%89%EC%83%81-%EB%B0%94%EA%BE%B8%EA%B8%B0
+      // className: element.parentProps.className.join(' '),
+    };
     const child = React.createElement(element.tag, props, element.content);
     return child;
   };
 
-  const getBorderStyle = (e) => {
-    const originalBorder = e.target.style.border;
-    e.target.style.border = '2px solid red';
-    e.preventDefault();
-    e.stopPropagation();
-  };
+  // useEffect(() => {
+  //   const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
+  //   if (draggingOver !== undefined && draggingOver.el.type !== 'section') {
+  //     let element = frame.contentWindow.document.getElementById(
+  //       `parent_${draggingOver.el.id}`
+  //     );
+  //     if (!element) {
+  //       element.classList.remove(`border-l-4`);
+  //       element.classList.remove(`border-r-4`);
+  //     }
+  //   }
+  // }, [insertLocation]);
 
-  const removeBorderStyle = (e) => {
-    e.target.style.border = '';
+  const dragStyle = () => {};
+
+  const handleDragLeave = (e, el) => {
+    setDraggingLeave(el.id);
+    const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
+    if (draggingLeave !== undefined)
+      console.log('leave', e.target.id, draggingLeave, insertLocation);
+
+    if (e.target.id.startsWith('parent')) {
+      let element = frame.contentWindow.document.getElementById(
+        `parent_${el.id}`
+      );
+      let element2 = frame.contentWindow.document.getElementById(
+        `parent_${draggingLeave}`
+      );
+      element.classList.remove(`border-l-4`);
+      element.classList.remove(`border-r-4`);
+      element2.classList.remove(`border-l-4`);
+      element2.classList.remove(`border-r-4`);
+    }
     e.preventDefault();
     e.stopPropagation();
   };
@@ -103,6 +133,9 @@ const EditorFrame = () => {
       id: `parent_${element.id}`,
       key: `parent_${element.id}`,
       onDragOver: (e) => handleDragOver(e, element, sectionId, elementIdx),
+      onMouseOver: (e) => e.stopPropagation(),
+      onDragLeave: (e) => handleDragLeave(e, element),
+      // className: element.parentProps.className.join(' '),
     };
     const parent = React.createElement(
       element.tag,
@@ -114,7 +147,7 @@ const EditorFrame = () => {
 
   useEffect(() => {
     editorRef.current.scrollIntoView({ behavior: 'auto', inline: 'center' });
-  });
+  }, []);
 
   return (
     <div style={{ width: '4000px', display: 'flex', justifyContent: 'center' }}>
@@ -124,7 +157,7 @@ const EditorFrame = () => {
             id={sectionId}
             key={sectionId}
             {...main[sectionId].sectionProps}
-            className="bg-white"
+            className={main[sectionId].sectionProps.className.join(' ')}
             onDragStart={(e) =>
               dragStart({
                 e: e,
@@ -144,7 +177,10 @@ const EditorFrame = () => {
           </div>
         ))}
         <div className="text-3xl font-bold underline">Hello world!</div>
-        <button className="bg-red-500 text-white px-4 py-2 rounded-3xl mr-2">
+        <button
+          className="bg-red-500 text-white px-4 py-2 rounded-3xl mr-2"
+          onClick={() => console.log(main)}
+        >
           빨간색 버튼
         </button>
       </div>
