@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Button } from '@components/Common';
 import { AuthContainer, ErrorMessage } from '@components/Auth';
-import { SignInPaylaod } from '@/types/auth';
+import { SignInPayload } from '@/types/auth';
 import { validateInput } from '@utils/validation';
+import { getSession, signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 const SignIn = () => {
-  const initialSignInPayload: SignInPaylaod = {
+  const initialSignInPayload: SignInPayload = {
     memberLoginId: '',
     memberLoginPw: '',
   };
@@ -16,7 +18,7 @@ const SignIn = () => {
   };
 
   const [signInPayload, setSignInPayload] =
-    useState<SignInPaylaod>(initialSignInPayload);
+    useState<SignInPayload>(initialSignInPayload);
   const [error, setError] = useState(initialErrorState);
   const [disabled, setDisabled] = useState(true);
 
@@ -24,6 +26,18 @@ const SignIn = () => {
     const { memberLoginId, memberLoginPw } = signInPayload;
     setDisabled(!!(!memberLoginId || !memberLoginPw));
   }, [signInPayload]);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const getUserSession = async () => {
+      const session = await getSession();
+      if (session) {
+        router.push('/dashboard');
+      }
+    };
+    getUserSession();
+  }, []);
 
   const handleChange =
     (type: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +51,15 @@ const SignIn = () => {
       setError({ ...error, [type]: false });
       setSignInPayload({ ...signInPayload, [type]: input });
     };
+
+  const handleSignInButtonClick = async () => {
+    console.log(signInPayload);
+    await signIn('credentials', {
+      redirect: true,
+      memberLoginId: signInPayload.memberLoginId,
+      memberLoginPw: signInPayload.memberLoginPw,
+    });
+  };
 
   return (
     <AuthContainer>
@@ -54,7 +77,11 @@ const SignIn = () => {
         error={error.memberLoginPw}
       />
       {error.memberLoginPw && <ErrorMessage type="password" />}
-      <Button disabled={disabled} variant="auth">
+      <Button
+        disabled={disabled}
+        variant="auth"
+        onClick={handleSignInButtonClick}
+      >
         로그인
       </Button>
     </AuthContainer>

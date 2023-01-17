@@ -6,7 +6,7 @@ export interface SignUpPayload {
   memberProfileUrl: string;
 }
 
-export interface SignInPaylaod {
+export interface SignInPayload {
   memberLoginId: string;
   memberLoginPw: string;
 }

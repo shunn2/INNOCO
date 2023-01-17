@@ -21,9 +21,15 @@
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
       "@types/*": ["types/*"],
-      "@styles/*": ["styles/*"]
+      "@styles/*": ["styles/*"],
+      "@lib/*": ["lib/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "lib/next-auth-react-query.js"
+  ],
   "exclude": ["node_modules"]
 }
