@@ -33,6 +33,10 @@ const SignIn = () => {
     const getUserSession = async () => {
       const session = await getSession();
       if (session) {
+        window.localStorage.setItem(
+          'access_token',
+          JSON.stringify(session.accessToken)
+        );
         router.push('/dashboard');
       }
     };
