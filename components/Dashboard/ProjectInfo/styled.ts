@@ -17,7 +17,7 @@ export const ProjectContentWrapper = styled.div`
   }
 `;
 
-export const ProjectThumbnail = styled(Image)`
+export const ProjectThumbnail = styled.img`
   width: 100px;
   height: 64px;
   border-radius: 8px;
