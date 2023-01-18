@@ -7,11 +7,12 @@ import { dehydrate, QueryClient } from 'react-query';
 import useProjects from '@hooks/useProjects';
 import { ProjectInfo } from '@components/Dashboard';
 import queryKeys from '@react-query/queryKeys';
+import { Projects } from '@/types/project';
 
 const Dashboard = () => {
   const handleCreateProjectButton = () => {};
 
-  const projects = useProjects();
+  const projects: Projects = useProjects();
 
   return (
     <Layout>
@@ -24,7 +25,7 @@ const Dashboard = () => {
           </CreateProjectButtonWrapper>
         </Link>
         {projects?.value.projects.map((project) => (
-          <ProjectInfo project={project} />
+          <ProjectInfo project={project} key={project.projectId} />
         ))}
         <button onClick={() => signOut()}>로그아웃</button>
       </DashboardContainer>

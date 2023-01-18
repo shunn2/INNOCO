@@ -37,7 +37,8 @@ const SignIn = () => {
           'access_token',
           JSON.stringify(session.accessToken)
         );
-        router.push('/dashboard');
+        router.push('/dashboard', undefined, { shallow: true });
+        return;
       }
     };
     getUserSession();
