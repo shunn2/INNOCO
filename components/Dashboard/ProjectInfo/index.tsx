@@ -1,18 +1,24 @@
+import { Project } from '@/types/project';
 import * as Styled from './styled';
 
-const ProjectInfo = () => {
+interface ProjectProps {
+  project: Project;
+}
+
+const ProjectInfo = ({ project }: ProjectProps) => {
+  const { projectName, projectStatus, projectThumbnailUrl } = project;
   return (
     <Styled.ProjectInfoContainer>
       <Styled.ProjectThumbnail
-        src={'/프로젝트 썸네일'}
+        src={projectThumbnailUrl}
         alt="프로젝트 썸네일"
         width="0"
         height="0"
         sizes="100vw"
       />
       <Styled.ProjectContentWrapper>
-        <p>Title</p>
-        <p>Content</p>
+        <p>{projectName}</p>
+        <Styled.ProjectStatus>{projectStatus}</Styled.ProjectStatus>
       </Styled.ProjectContentWrapper>
     </Styled.ProjectInfoContainer>
   );
