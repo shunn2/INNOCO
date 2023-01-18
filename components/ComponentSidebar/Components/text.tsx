@@ -26,6 +26,8 @@ const textData = {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+      fontSize: '20px',
+      fontWeight: 'bold',
     },
     contentEditable: true,
     suppressContentEditableWarning: true,
@@ -39,7 +41,7 @@ const textData = {
   children: [],
 };
 
-const BoxComponent = () => {
+const TextComponent = () => {
   const handleDragStart = (e) => {
     textData.id = uuidv4();
     dragStart({ e: e, element: textData, idx: '', sectionId: '' });
@@ -52,4 +54,4 @@ const BoxComponent = () => {
   );
 };
 
-export default BoxComponent;
+export default TextComponent;
