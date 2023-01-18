@@ -1,9 +1,19 @@
 import { SvgIcon, Layout } from '@components/Common';
 import styled from 'styled-components';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
+import { api } from '@api';
+import { dehydrate, QueryClient } from 'react-query';
+import useProjects from '@hooks/useProjects';
+import { ProjectInfo } from '@components/Dashboard';
+import queryKeys from '@react-query/queryKeys';
+import { Projects } from '@/types/project';
 
 const Dashboard = () => {
   const handleCreateProjectButton = () => {};
+
+  const projects: Projects = useProjects();
+
   return (
     <Layout>
       <DashboardContainer>
@@ -14,10 +24,28 @@ const Dashboard = () => {
             <p>Create New Project</p>
           </CreateProjectButtonWrapper>
         </Link>
-        {/* TODO: 프로젝트 api 연동 */}
+        {projects?.value.projects.map((project) => (
+          <ProjectInfo project={project} key={project.projectId} />
+        ))}
+        <button onClick={() => signOut()}>로그아웃</button>
       </DashboardContainer>
     </Layout>
   );
+};
+
+export const getServerSideProp = async (context) => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(queryKeys.projects, () =>
+    api.fetchProjects()
+  );
+  const dehydratedState = dehydrate(queryClient);
+
+  return {
+    props: {
+      dehydratedState: dehydratedState,
+    },
+  };
 };
 
 const DashboardContainer = styled.div`
