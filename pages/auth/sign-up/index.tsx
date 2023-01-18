@@ -53,7 +53,7 @@ const SignUp = () => {
 
   const handleChange =
     (type: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      setCheckDuplicate(false);
+      if (type === 'memberLoginId') setCheckDuplicate(false);
       const input = e.target.value;
       setSignUpPayload({ ...signUpPayload, [type]: '' });
 
