@@ -12,5 +12,9 @@ export const ToggleMenuContainer = styled.div`
 export const ToggledMenu = styled.div``;
 
 export const Title = styled.p`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 15px;
   color: #ffffff;
 `;
