@@ -10,7 +10,7 @@ const Header = () => {
         height="0"
         sizes="100vw"
       />
-      <div>유저정보</div>
+      {/* <div>유저정보</div> */}
     </Styled.HeaderContainer>
   );
 };

@@ -8,12 +8,18 @@ const jsonData = {
       sectionProps: {
         style: {
           width: '100%',
-          height: '100px',
+          minHeight: '100px',
           display: 'flex',
           backgroundColor: '#fff',
+          justifyContent: 'center',
         },
         draggable: true,
-        className: ['border-transparent', 'border-4', 'hover:border-cyan-300'],
+        className: [
+          'border-transparent',
+          'border-2',
+          'border-cyan-300',
+          'border-dotted',
+        ],
       },
       content: '',
       class: {
@@ -22,13 +28,12 @@ const jsonData = {
       image: null,
       children: [
         {
-          id: 'box_1',
-          type: 'box',
+          id: 'Text_1',
+          type: 'Text',
           tag: 'div',
           parentProps: {
             draggable: false,
             style: {
-              width: '100%',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -42,119 +47,16 @@ const jsonData = {
           props: {
             draggable: true,
             style: {
-              width: '100px',
+              // minWidth: '100px',
               height: '50px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
+              fontSize: '50px',
+              fontWeight: 'bold',
             },
           },
-          content: 'box1',
-          class: {
-            abc: true,
-          },
-          image: null,
-          children: [],
-        },
-        {
-          id: 'box_2',
-          type: 'box',
-          tag: 'div',
-          parentProps: {
-            draggable: false,
-            style: {
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            },
-            className: [
-              'border-transparent',
-              'border-4',
-              'hover:border-cyan-300',
-            ],
-          },
-          props: {
-            draggable: true,
-            style: {
-              width: '100px',
-              height: '50px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            },
-          },
-          content: 'box2',
-          class: {
-            abc: true,
-          },
-          image: null,
-          children: [],
-        },
-        {
-          id: 'box_4',
-          type: 'box',
-          tag: 'div',
-          parentProps: {
-            draggable: false,
-            style: {
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            },
-            className: [
-              'border-transparent',
-              'border-4',
-              'hover:border-cyan-300',
-            ],
-          },
-          props: {
-            draggable: true,
-            style: {
-              width: '100px',
-              height: '50px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            },
-          },
-          content: 'box4',
-          class: {
-            abc: true,
-          },
-          image: null,
-          children: [],
-        },
-        {
-          id: 'box_5',
-          type: 'box',
-          tag: 'div',
-          parentProps: {
-            draggable: false,
-            style: {
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            },
-            className: [
-              'border-transparent',
-              'border-4',
-              'hover:border-cyan-300',
-            ],
-          },
-          props: {
-            draggable: true,
-            style: {
-              width: '100px',
-              height: '50px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            },
-          },
-          content: 'box5',
+          content: 'ANYONE CAN BUILD A WEBSITE,',
           class: {
             abc: true,
           },
@@ -173,8 +75,14 @@ const jsonData = {
           height: '100px',
           display: 'flex',
           backgroundColor: '#fff',
+          justifyContent: 'center',
         },
-        className: ['border-transparent', 'border-4', 'hover:border-cyan-300'],
+        className: [
+          'border-transparent',
+          'border-2',
+          'border-cyan-300',
+          'border-dotted',
+        ],
         draggable: true,
       },
       content: '',
@@ -184,13 +92,12 @@ const jsonData = {
       image: null,
       children: [
         {
-          id: 'box_3',
-          type: 'box',
+          id: 'Text_2',
+          type: 'Text',
           tag: 'div',
           parentProps: {
             draggable: false,
             style: {
-              width: '100%',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -204,14 +111,16 @@ const jsonData = {
           props: {
             draggable: true,
             style: {
-              width: '100px',
+              // minWidth: '100px',
               height: '50px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
+              fontSize: '50px',
+              fontWeight: 'bold',
             },
           },
-          content: 'box3',
+          content: 'WE BUILD EXPERIENCES',
           class: {
             abc: true,
           },
@@ -231,7 +140,12 @@ const jsonData = {
           display: 'flex',
           backgroundColor: '#fff',
         },
-        className: ['border-transparent', 'border-4', 'hover:border-cyan-300'],
+        className: [
+          'border-transparent',
+          'border-2',
+          'border-cyan-300',
+          'border-dotted',
+        ],
         draggable: true,
       },
       content: '',
@@ -239,7 +153,45 @@ const jsonData = {
         flex: true,
       },
       image: null,
-      children: [],
+      children: [
+        {
+          id: 'Text_3',
+          type: 'Text',
+          tag: 'div',
+          parentProps: {
+            draggable: false,
+            style: {
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+            className: [
+              'border-transparent',
+              'border-4',
+              'hover:border-cyan-300',
+            ],
+          },
+          props: {
+            draggable: true,
+            style: {
+              minWidth: '100px',
+              height: '50px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              fontSize: '40px',
+              fontWeight: 'bold',
+            },
+          },
+          content: 'Dev Camp Danbi',
+          class: {
+            abc: true,
+          },
+          image: null,
+          children: [],
+        },
+      ],
     },
     section_4: {
       id: 'section_4',
@@ -252,7 +204,187 @@ const jsonData = {
           display: 'flex',
           backgroundColor: '#fff',
         },
-        className: ['border-transparent', 'border-4', 'hover:border-cyan-300'],
+        className: [
+          'border-transparent',
+          'border-2',
+          'border-cyan-300',
+          'border-dotted',
+        ],
+        draggable: true,
+      },
+      content: '',
+      class: {
+        flex: true,
+      },
+      image: null,
+      children: [
+        {
+          id: 'Text_3sdf',
+          type: 'Text',
+          tag: 'div',
+          parentProps: {
+            draggable: false,
+            style: {
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+            className: [
+              'border-transparent',
+              'border-4',
+              'hover:border-cyan-300',
+            ],
+          },
+          props: {
+            draggable: true,
+            style: {
+              minWidth: '100px',
+              height: '50px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              fontSize: '20px',
+              fontWeight: 'bold',
+            },
+          },
+          content: 'Text 1',
+          class: {
+            abc: true,
+          },
+          image: null,
+          children: [],
+        },
+        {
+          id: 'Text_3asfdsfw',
+          type: 'Text',
+          tag: 'div',
+          parentProps: {
+            draggable: false,
+            style: {
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+            className: [
+              'border-transparent',
+              'border-4',
+              'hover:border-cyan-300',
+            ],
+          },
+          props: {
+            draggable: true,
+            style: {
+              minWidth: '100px',
+              height: '50px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              fontSize: '20px',
+              fontWeight: 'bold',
+            },
+          },
+          content: 'Text 2',
+          class: {
+            abc: true,
+          },
+          image: null,
+          children: [],
+        },
+        {
+          id: 'Text_3asdfwefsdf',
+          type: 'Text',
+          tag: 'div',
+          parentProps: {
+            draggable: false,
+            style: {
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+            className: [
+              'border-transparent',
+              'border-4',
+              'hover:border-cyan-300',
+            ],
+          },
+          props: {
+            draggable: true,
+            style: {
+              minWidth: '100px',
+              height: '50px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              fontSize: '20px',
+              fontWeight: 'bold',
+            },
+          },
+          content: 'Text 3',
+          class: {
+            abc: true,
+          },
+          image: null,
+          children: [],
+        },
+        {
+          id: 'Text_3bdfsdsf',
+          type: 'Text',
+          tag: 'div',
+          parentProps: {
+            draggable: false,
+            style: {
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+            className: [
+              'border-transparent',
+              'border-4',
+              'hover:border-cyan-300',
+            ],
+          },
+          props: {
+            draggable: true,
+            style: {
+              minWidth: '100px',
+              height: '50px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              fontSize: '20px',
+              fontWeight: 'bold',
+            },
+          },
+          content: 'Text 4',
+          class: {
+            abc: true,
+          },
+          image: null,
+          children: [],
+        },
+      ],
+    },
+    section_6: {
+      id: 'section_6',
+      type: 'section',
+      tag: 'div',
+      sectionProps: {
+        style: {
+          width: '100%',
+          height: '100px',
+          display: 'flex',
+          backgroundColor: '#fff',
+        },
+        className: [
+          'border-transparent',
+          'border-2',
+          'border-cyan-300',
+          'border-dotted',
+        ],
         draggable: true,
       },
       content: '',
@@ -273,7 +405,38 @@ const jsonData = {
           display: 'flex',
           backgroundColor: '#fff',
         },
-        className: ['border-transparent', 'border-4', 'hover:border-cyan-300'],
+        className: [
+          'border-transparent',
+          'border-2',
+          'border-cyan-300',
+          'border-dotted',
+        ],
+        draggable: true,
+      },
+      content: '',
+      class: {
+        flex: true,
+      },
+      image: null,
+      children: [],
+    },
+    section_7: {
+      id: 'section_7',
+      type: 'section',
+      tag: 'div',
+      sectionProps: {
+        style: {
+          width: '100%',
+          height: '100px',
+          display: 'flex',
+          backgroundColor: '#fff',
+        },
+        className: [
+          'border-transparent',
+          'border-2',
+          'border-cyan-300',
+          'border-dotted',
+        ],
         draggable: true,
       },
       content: '',
@@ -290,6 +453,8 @@ const jsonData = {
     'section_3',
     'section_4',
     'section_5',
+    'section_6',
+    'section_7',
   ],
 };
 
