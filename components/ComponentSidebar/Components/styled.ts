@@ -8,7 +8,6 @@ export const ComponentItems = styled.div`
   align-items: center;
   padding: 0 12px;
   color: ${theme.color.blue};
-  border: 1px solid #fff;
   background-color: ${theme.color.gray.middle};
   cursor: grabbing;
   > div {
