@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 
 export const ColorContainer = styled.div`
+  display: flex;
+  align-items: center;
   color: #fff;
   cursor: pointer;
+  padding: 0 12px;
 `;
 
 export const ColorSquare = styled.div<{ color: string }>`
@@ -11,5 +14,5 @@ export const ColorSquare = styled.div<{ color: string }>`
   border: 1px solid #fff;
   border-radius: 6px;
   margin-right: 12px;
-  color: ${(props) => props.color};
+  background-color: ${(props) => props.color};
 `;
