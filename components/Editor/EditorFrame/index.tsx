@@ -21,7 +21,6 @@ const EditorFrame = () => {
   const [sectionOrder, setSectionOrder] = useRecoilState(withSectionOrder);
   const [insertLocation, setInsertLocation] = useState<string>();
   const [draggingOver, setDraggingOver] = useState<any>();
-  const [draggingLeave, setDraggingLeave] = useState<any>();
 
   const [prevClickedElement, setPrevClickedElement] = useState(null);
   const [clickedElement, setClickedElement] = useRecoilState(elementInfoAtom);
@@ -85,43 +84,6 @@ const EditorFrame = () => {
     e.stopPropagation();
   };
 
-  // useEffect(() => {
-  //   const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
-  //   if (draggingOver !== undefined && draggingOver.el.type !== 'section') {
-  //     let element = frame.contentWindow.document.getElementById(
-  //       `parent_${draggingOver.el.id}`
-  //     );
-  //     if (!element) {
-  //       element.classList.remove(`border-l-4`);
-  //       element.classList.remove(`border-r-4`);
-  //     }
-  //   }
-  // }, [insertLocation]);
-
-  const dragStyle = () => {};
-
-  // const handleDragLeave = (e, el) => {
-  //   setDraggingLeave(el.id);
-  //   const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
-  //   if (draggingLeave !== undefined)
-  //     console.log('leave', e.target.id, draggingLeave, insertLocation);
-
-  //   if (e.target.id.startsWith('parent')) {
-  //     let element = frame.contentWindow.document.getElementById(
-  //       `parent_${el.id}`
-  //     );
-  //     let element2 = frame.contentWindow.document.getElementById(
-  //       `parent_${draggingLeave}`
-  //     );
-  //     element.classList.remove(`border-l-4`);
-  //     element.classList.remove(`border-r-4`);
-  //     element2.classList.remove(`border-l-4`);
-  //     element2.classList.remove(`border-r-4`);
-  //   }
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  // };
-
   const createChild = (element, elementIdx, sectionId) => {
     const props = {
       ...element.props,
@@ -148,7 +110,6 @@ const EditorFrame = () => {
       id: `parent_${element.id}`,
       key: `parent_${element.id}`,
       onDragOver: (e) => handleDragOver(e, element, sectionId, elementIdx),
-      // onDragLeave: (e) => handleDragLeave(e, element),
       onClick: () => console.log('clikc', element),
       // className: element.parentProps.className.join(' '),
     };
@@ -167,14 +128,6 @@ const EditorFrame = () => {
       inline: 'center',
     });
   }, []);
-
-  // useEffect(() => {
-  //   const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
-  //   let abc = frame.contentWindow.document.getElementById(
-  //     `parent_${element.id}`
-  //   );
-  //   console.log(abc);
-  // }, [element]);
 
   return (
     <div
@@ -220,8 +173,3 @@ const EditorFrame = () => {
   );
 };
 export default EditorFrame;
-
-// initial-scale=1.0  // 초기 크기를 설정합니다.
-// user-scalable=no // 확대 기능을 사용하지 않습니다.
-// maximum-scale=1 // 최대 배율, 크기를 설정합니다.
-// width=device-width  // 화면이 표현하는 사이즈를 디바이스 사이즈에 맞춥니다.
