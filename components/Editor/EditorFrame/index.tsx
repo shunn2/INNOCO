@@ -13,6 +13,8 @@ import {
   dragStart,
 } from '@utils/drag';
 import { useContentEditable } from '@utils/useContentEditable';
+import ControlWidget from '../ControlWidget';
+import { SvgIcon } from '@components/Common';
 
 const EditorFrame = () => {
   const [main, setMain] = useRecoilState(withMainData);
@@ -21,16 +23,29 @@ const EditorFrame = () => {
   const [draggingOver, setDraggingOver] = useState<any>();
   const [draggingLeave, setDraggingLeave] = useState<any>();
 
-  const [element, setElement] = useRecoilState(elementInfoAtom);
+  const [prevClickedElement, setPrevClickedElement] = useState(null);
+  const [clickedElement, setClickedElement] = useRecoilState(elementInfoAtom);
 
   const editorRef = useRef(null);
 
-  const handleElementClick = (sectionId, idx) => {
+  const handleElementClick = (sectionId, idx, element) => {
+    const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
+    if (prevClickedElement !== null) {
+      frame.contentWindow.document
+        .getElementById(prevClickedElement.el.id)
+        .classList.remove('border-4', 'border-sky-500');
+    }
     const clickedElement = {
+      id: element.id,
+      el: element,
       index: idx,
       sectionId: sectionId,
     };
-    setElement(clickedElement);
+    frame.contentWindow.document
+      .getElementById(element.id)
+      .classList.add('border-4', 'border-sky-500');
+    setPrevClickedElement(clickedElement);
+    setClickedElement(clickedElement);
   };
 
   //dragging 네임으로 el: element, idx:idx, sectionId:sectionId
@@ -70,26 +85,6 @@ const EditorFrame = () => {
     e.stopPropagation();
   };
 
-  const createChild = (element, elementIdx, sectionId) => {
-    const props = {
-      ...element.props,
-      id: element.id,
-      key: element.id,
-      onDragStart: (e) =>
-        dragStart({
-          e: e,
-          element: element,
-          idx: elementIdx,
-          sectionId: sectionId,
-        }),
-      onClick: () => handleElementClick(sectionId, elementIdx),
-      onBlur: (e) => useContentEditable(e, elementIdx, sectionId, setMain),
-      // className: element.parentProps.className.join(' '),
-    };
-    const child = React.createElement(element.tag, props, element.content);
-    return child;
-  };
-
   // useEffect(() => {
   //   const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
   //   if (draggingOver !== undefined && draggingOver.el.type !== 'section') {
@@ -105,26 +100,46 @@ const EditorFrame = () => {
 
   const dragStyle = () => {};
 
-  const handleDragLeave = (e, el) => {
-    setDraggingLeave(el.id);
-    const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
-    if (draggingLeave !== undefined)
-      console.log('leave', e.target.id, draggingLeave, insertLocation);
+  // const handleDragLeave = (e, el) => {
+  //   setDraggingLeave(el.id);
+  //   const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
+  //   if (draggingLeave !== undefined)
+  //     console.log('leave', e.target.id, draggingLeave, insertLocation);
 
-    if (e.target.id.startsWith('parent')) {
-      let element = frame.contentWindow.document.getElementById(
-        `parent_${el.id}`
-      );
-      let element2 = frame.contentWindow.document.getElementById(
-        `parent_${draggingLeave}`
-      );
-      element.classList.remove(`border-l-4`);
-      element.classList.remove(`border-r-4`);
-      element2.classList.remove(`border-l-4`);
-      element2.classList.remove(`border-r-4`);
-    }
-    e.preventDefault();
-    e.stopPropagation();
+  //   if (e.target.id.startsWith('parent')) {
+  //     let element = frame.contentWindow.document.getElementById(
+  //       `parent_${el.id}`
+  //     );
+  //     let element2 = frame.contentWindow.document.getElementById(
+  //       `parent_${draggingLeave}`
+  //     );
+  //     element.classList.remove(`border-l-4`);
+  //     element.classList.remove(`border-r-4`);
+  //     element2.classList.remove(`border-l-4`);
+  //     element2.classList.remove(`border-r-4`);
+  //   }
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  // };
+
+  const createChild = (element, elementIdx, sectionId) => {
+    const props = {
+      ...element.props,
+      id: element.id,
+      key: element.id,
+      onDragStart: (e) =>
+        dragStart({
+          e: e,
+          element: element,
+          idx: elementIdx,
+          sectionId: sectionId,
+        }),
+      onClick: () => handleElementClick(sectionId, elementIdx, element),
+      onBlur: (e) => useContentEditable(e, elementIdx, sectionId, setMain),
+      // className: element.parentProps.className.join(' '),
+    };
+    const child = React.createElement(element.tag, props, element.content);
+    return child;
   };
 
   const createParent = (element, elementIdx, sectionId) => {
@@ -133,8 +148,8 @@ const EditorFrame = () => {
       id: `parent_${element.id}`,
       key: `parent_${element.id}`,
       onDragOver: (e) => handleDragOver(e, element, sectionId, elementIdx),
-      onMouseOver: (e) => e.stopPropagation(),
-      onDragLeave: (e) => handleDragLeave(e, element),
+      // onDragLeave: (e) => handleDragLeave(e, element),
+      onClick: () => console.log('clikc', element),
       // className: element.parentProps.className.join(' '),
     };
     const parent = React.createElement(
@@ -146,12 +161,31 @@ const EditorFrame = () => {
   };
 
   useEffect(() => {
-    editorRef.current.scrollIntoView({ behavior: 'auto', inline: 'center' });
+    editorRef.current.scrollIntoView({
+      behavior: 'auto',
+      block: 'end',
+      inline: 'center',
+    });
   }, []);
 
+  // useEffect(() => {
+  //   const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
+  //   let abc = frame.contentWindow.document.getElementById(
+  //     `parent_${element.id}`
+  //   );
+  //   console.log(abc);
+  // }, [element]);
+
   return (
-    <div style={{ width: '4000px', display: 'flex', justifyContent: 'center' }}>
-      <div id="test" style={{ width: '1280px' }} ref={editorRef}>
+    <div
+      style={{
+        width: '4000px',
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '50px',
+      }}
+    >
+      <div id="test" style={{ width: '1000px' }} ref={editorRef}>
         {sectionOrder.map((sectionId, sectionIdx) => (
           <div
             id={sectionId}
@@ -171,18 +205,16 @@ const EditorFrame = () => {
             }
             onDrop={handleDrop}
           >
-            {main[sectionId].children.map((element, elementIdx) =>
-              createParent(element, elementIdx, sectionId)
-            )}
+            {main[sectionId].children.map((el, elementIdx) => {
+              return (
+                <div key={el.id} style={{ ...el.parentProps.style }}>
+                  {el.id === clickedElement.id && <ControlWidget />}
+                  {createParent(el, elementIdx, sectionId)}
+                </div>
+              );
+            })}
           </div>
         ))}
-        <div className="text-3xl font-bold underline">Hello world!</div>
-        <button
-          className="bg-red-500 text-white px-4 py-2 rounded-3xl mr-2"
-          onClick={() => console.log(main)}
-        >
-          빨간색 버튼
-        </button>
       </div>
     </div>
   );
