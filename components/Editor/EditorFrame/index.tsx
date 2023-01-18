@@ -13,13 +13,13 @@ import {
   dragStart,
 } from '@utils/drag';
 import { useContentEditable } from '@utils/useContentEditable';
-import styles from './EditorFrame.module.css';
 
 const EditorFrame = () => {
   const [main, setMain] = useRecoilState(withMainData);
   const [sectionOrder, setSectionOrder] = useRecoilState(withSectionOrder);
   const [insertLocation, setInsertLocation] = useState<string>();
   const [draggingOver, setDraggingOver] = useState<any>();
+  const [draggingLeave, setDraggingLeave] = useState<any>();
 
   const [element, setElement] = useRecoilState(elementInfoAtom);
 
@@ -59,6 +59,13 @@ const EditorFrame = () => {
   const handleDragOver = (e, element, sectionId, idx) => {
     setDraggingOver({ el: element, sectionId: sectionId, idx: idx });
     setInsertLocation(getInsertLocation({ e, element }));
+    const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
+    if (draggingOver !== undefined && draggingOver.el.type !== 'section') {
+      let element = frame.contentWindow.document.getElementById(
+        `parent_${draggingOver.el.id}`
+      );
+      element.classList.add(`border-${insertLocation}-4`);
+    }
     e.preventDefault();
     e.stopPropagation();
   };
@@ -77,9 +84,47 @@ const EditorFrame = () => {
         }),
       onClick: () => handleElementClick(sectionId, elementIdx),
       onBlur: (e) => useContentEditable(e, elementIdx, sectionId, setMain),
+      // className: element.parentProps.className.join(' '),
     };
     const child = React.createElement(element.tag, props, element.content);
     return child;
+  };
+
+  // useEffect(() => {
+  //   const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
+  //   if (draggingOver !== undefined && draggingOver.el.type !== 'section') {
+  //     let element = frame.contentWindow.document.getElementById(
+  //       `parent_${draggingOver.el.id}`
+  //     );
+  //     if (!element) {
+  //       element.classList.remove(`border-l-4`);
+  //       element.classList.remove(`border-r-4`);
+  //     }
+  //   }
+  // }, [insertLocation]);
+
+  const dragStyle = () => {};
+
+  const handleDragLeave = (e, el) => {
+    setDraggingLeave(el.id);
+    const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
+    if (draggingLeave !== undefined)
+      console.log('leave', e.target.id, draggingLeave, insertLocation);
+
+    if (e.target.id.startsWith('parent')) {
+      let element = frame.contentWindow.document.getElementById(
+        `parent_${el.id}`
+      );
+      let element2 = frame.contentWindow.document.getElementById(
+        `parent_${draggingLeave}`
+      );
+      element.classList.remove(`border-l-4`);
+      element.classList.remove(`border-r-4`);
+      element2.classList.remove(`border-l-4`);
+      element2.classList.remove(`border-r-4`);
+    }
+    e.preventDefault();
+    e.stopPropagation();
   };
 
   const createParent = (element, elementIdx, sectionId) => {
@@ -88,6 +133,9 @@ const EditorFrame = () => {
       id: `parent_${element.id}`,
       key: `parent_${element.id}`,
       onDragOver: (e) => handleDragOver(e, element, sectionId, elementIdx),
+      onMouseOver: (e) => e.stopPropagation(),
+      onDragLeave: (e) => handleDragLeave(e, element),
+      // className: element.parentProps.className.join(' '),
     };
     const parent = React.createElement(
       element.tag,
@@ -99,7 +147,7 @@ const EditorFrame = () => {
 
   useEffect(() => {
     editorRef.current.scrollIntoView({ behavior: 'auto', inline: 'center' });
-  });
+  }, []);
 
   return (
     <div style={{ width: '4000px', display: 'flex', justifyContent: 'center' }}>
@@ -109,6 +157,7 @@ const EditorFrame = () => {
             id={sectionId}
             key={sectionId}
             {...main[sectionId].sectionProps}
+            className={main[sectionId].sectionProps.className.join(' ')}
             onDragStart={(e) =>
               dragStart({
                 e: e,
@@ -127,6 +176,13 @@ const EditorFrame = () => {
             )}
           </div>
         ))}
+        <div className="text-3xl font-bold underline">Hello world!</div>
+        <button
+          className="bg-red-500 text-white px-4 py-2 rounded-3xl mr-2"
+          onClick={() => console.log(main)}
+        >
+          빨간색 버튼
+        </button>
       </div>
     </div>
   );

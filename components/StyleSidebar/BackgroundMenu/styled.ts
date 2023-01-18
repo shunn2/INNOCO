@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 
 export const BackgroundColorContainer = styled.div`
+  display: flex;
+  align-items: center;
   color: #fff;
   cursor: pointer;
+  padding: 0 12px;
 `;
 
 export const BackgroundColorSquare = styled.div<{ backgroundColor: string }>`

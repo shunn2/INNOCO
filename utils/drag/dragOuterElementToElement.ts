@@ -9,7 +9,7 @@ const DragOuterElementToElement = (
   );
   setMain((prev) => {
     const cur = JSON.parse(JSON.stringify(prev));
-    if (insertLocation === 'left' || insertLocation === 'up') {
+    if (insertLocation === 'l' || insertLocation === 't') {
       if (draggingOver.idx < elIdx || draggingOver.sectionId !== sectionId) {
         cur[draggingOver.sectionId].children.splice(
           draggingOver.idx === 0 ? 0 : draggingOver.idx,
@@ -24,7 +24,7 @@ const DragOuterElementToElement = (
         );
       }
     }
-    if (insertLocation === 'right' || insertLocation === 'down') {
+    if (insertLocation === 'r' || insertLocation === 'b') {
       if (draggingOver.idx < elIdx || draggingOver.sectionId !== sectionId) {
         cur[draggingOver.sectionId].children.splice(
           draggingOver.idx + 1,

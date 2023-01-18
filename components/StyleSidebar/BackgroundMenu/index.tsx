@@ -19,7 +19,7 @@ const BackgroundColorMenu = () => {
   useEffect(() => {
     setBackgroundColor(
       mainData[element.sectionId].children[element.index].props.style
-        .backgroundColor
+        .backgroundColor || 'black'
     );
   }, [element, mainData]);
 
@@ -42,13 +42,15 @@ const BackgroundColorMenu = () => {
       >
         <Styled.BackgroundColorSquare backgroundColor={backgroundColor} />
         {backgroundColor}
+        {isOpen && (
+          <div style={{ position: 'absolute', marginLeft: '-228px' }}>
+            <ChromePicker
+              color={backgroundColor}
+              onChange={(color) => handleBackgroundColorChange(color)}
+            />
+          </div>
+        )}
       </Styled.BackgroundColorContainer>
-      {isOpen && (
-        <ChromePicker
-          color={backgroundColor}
-          onChange={(color) => handleBackgroundColorChange(color)}
-        />
-      )}
     </div>
   );
 };

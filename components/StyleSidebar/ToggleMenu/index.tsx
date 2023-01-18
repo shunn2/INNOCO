@@ -1,3 +1,4 @@
+import { SvgIcon } from '@components/Common';
 import { PropsWithChildren, useState } from 'react';
 import * as Styled from './styled';
 
@@ -18,8 +19,10 @@ const ToggleMenu = (props: PropsWithChildren<ToggleMenuProps>) => {
         onClick={handleToggleMenu}
         {...rest}
       >
-        <Styled.Title>{title}</Styled.Title>
-        <></>
+        <Styled.Title>
+          {title}
+          <SvgIcon type="down-icon" size={18} />
+        </Styled.Title>
       </Styled.ToggleMenuContainer>
       {isToggleOpen && <Styled.ToggledMenu>{children}</Styled.ToggledMenu>}
     </>

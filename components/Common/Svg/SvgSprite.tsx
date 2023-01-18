@@ -233,7 +233,8 @@ const SvgSprite = () => {
       <symbol id="down-icon">
         <path
           d="M1 1L9 9L17 1"
-          stroke="#61656F"
+          stroke="#fff"
+          fill={theme.color.gray.middle}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
