@@ -1,9 +1,18 @@
-const DragOuterElementToElement = (
+import React from 'react';
+
+interface DragOuterElementToElementProps {
+  e: React.DragEvent;
+  draggingOver: any;
+  insertLocation: string;
+  setMain: (prev) => void;
+}
+
+const DragOuterElementToElement = ({
   e,
   draggingOver,
   insertLocation,
-  setMain
-) => {
+  setMain,
+}: DragOuterElementToElementProps) => {
   const { el, elIdx, sectionId } = JSON.parse(
     e.dataTransfer.getData('dragging')
   );

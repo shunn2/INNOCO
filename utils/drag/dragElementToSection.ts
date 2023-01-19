@@ -1,6 +1,16 @@
-import { DragDropProps } from './types';
+import React from 'react';
 
-const DragElementToSection = (e, draggingOver, setMain) => {
+interface DragElementToSectionProps {
+  e: React.DragEvent;
+  draggingOver: any;
+  setMain: (prev) => void;
+}
+
+const DragElementToSection = ({
+  e,
+  draggingOver,
+  setMain,
+}: DragElementToSectionProps) => {
   const { elIdx, sectionId } = JSON.parse(e.dataTransfer.getData('dragging'));
   setMain((prev) => {
     const cur = JSON.parse(JSON.stringify(prev));
