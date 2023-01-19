@@ -4,7 +4,6 @@ import { useRecoilState } from 'recoil';
 import { elementInfoAtom } from '@recoil/styleSideBar/atom';
 import { withMainData, withSectionOrder } from '@recoil/editor';
 import {
-  dragEffectStyle,
   dragElementToElement,
   dragElementToSection,
   dragOuterElementToElement,
@@ -16,6 +15,7 @@ import {
 import { useContentEditable } from '@utils/useContentEditable';
 import ControlWidget from '../ControlWidget';
 import { IframeEditorReturn } from '@utils/iframe/iframeEditorReturn';
+import { dragEffectStyle } from '@utils/effect';
 
 const EditorFrame = () => {
   const [main, setMain] = useRecoilState(withMainData);
