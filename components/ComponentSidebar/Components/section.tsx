@@ -28,7 +28,7 @@ const sectionData = {
 const SectionComponent = () => {
   const handleDragStart = (e) => {
     sectionData.id = uuidv4();
-    dragStart({ e: e, element: sectionData, idx: '', sectionId: '' });
+    dragStart({ e, element: sectionData, idx: '', sectionId: '' });
   };
   return (
     <Styled.ComponentItems draggable onDragStart={handleDragStart}>

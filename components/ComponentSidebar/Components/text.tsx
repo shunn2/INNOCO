@@ -44,7 +44,7 @@ const textData = {
 const TextComponent = () => {
   const handleDragStart = (e) => {
     textData.id = uuidv4();
-    dragStart({ e: e, element: textData, idx: '', sectionId: '' });
+    dragStart({ e, element: textData, idx: '', sectionId: '' });
   };
   return (
     <Styled.ComponentItems draggable onDragStart={handleDragStart}>
