@@ -116,7 +116,7 @@ const EditorFrame = () => {
       key: `parent_${element.id}`,
       onDragOver: (e) => handleDragOver(e, element, sectionId, elementIdx),
       onClick: () => console.log('click', element),
-      className: `${dragEffectStyle({
+      className: `box-border ${dragEffectStyle({
         insertLocation,
         draggingOverId: draggingOver?.el.id,
         elementId: element.id,
