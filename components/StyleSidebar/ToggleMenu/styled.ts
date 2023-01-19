@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-export const ToggleMenuContainer = styled.div`
+export const ToggleMenuContainer = styled.div``;
+
+export const ToggledMenu = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -9,7 +11,7 @@ export const ToggleMenuContainer = styled.div`
   cursor: pointer;
 `;
 
-export const ToggledMenu = styled.div``;
+export const ToggleContents = styled.div``;
 
 export const Title = styled.p`
   display: flex;

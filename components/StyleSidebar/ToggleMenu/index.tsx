@@ -13,19 +13,21 @@ const ToggleMenu = (props: PropsWithChildren<ToggleMenuProps>) => {
   };
 
   return (
-    <>
-      <Styled.ToggleMenuContainer
-        title={title}
-        onClick={handleToggleMenu}
-        {...rest}
-      >
+    <Styled.ToggleMenuContainer
+      title={title}
+      onClick={handleToggleMenu}
+      {...rest}
+    >
+      <Styled.ToggledMenu>
         <Styled.Title>
           {title}
           <SvgIcon type="down-icon" size={18} />
         </Styled.Title>
-      </Styled.ToggleMenuContainer>
-      {isToggleOpen && <Styled.ToggledMenu>{children}</Styled.ToggledMenu>}
-    </>
+      </Styled.ToggledMenu>
+      {isToggleOpen && (
+        <Styled.ToggleContents>{children}</Styled.ToggleContents>
+      )}
+    </Styled.ToggleMenuContainer>
   );
 };
 

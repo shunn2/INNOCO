@@ -15,7 +15,8 @@ export type SvgIconType =
   | 'justify-content-end'
   | 'plus'
   | 'down-icon'
-  | 'project-create';
+  | 'project-create'
+  | string;
 
 interface SvgIconProps {
   type: SvgIconType;

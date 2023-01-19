@@ -13,6 +13,7 @@ const color = {
   },
   white: {
     middle: '#AFBED1',
+    light: '#fff',
   },
 };
 
