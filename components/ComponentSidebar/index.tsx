@@ -5,8 +5,11 @@ import * as Styled from './styled';
 const ComponentSidebar = () => {
   return (
     <Styled.ComponentSidebar>
-      <SectionComponent />
-      <TextComponent />
+      <Styled.Category>
+        <Styled.CategoryTitle>PRIMITIVES</Styled.CategoryTitle>
+        <SectionComponent />
+        <TextComponent />
+      </Styled.Category>
     </Styled.ComponentSidebar>
   );
 };
