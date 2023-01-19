@@ -8,7 +8,7 @@ export const elementStyleAtom = atom({
 export const elementInfoAtom = atom({
   key: 'elementInfoAtom',
   default: {
-    id: '',
+    id: null,
     el: { type: '', props: '' },
     index: 0,
     sectionId: '',
