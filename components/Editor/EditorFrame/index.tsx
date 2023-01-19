@@ -14,23 +14,27 @@ import {
 } from '@utils/drag';
 import { useContentEditable } from '@utils/useContentEditable';
 import ControlWidget from '../ControlWidget';
-import { SvgIcon } from '@components/Common';
+import { IframeEditorReturn } from '@utils/iframe/iframeEditorReturn';
 
 const EditorFrame = () => {
   const [main, setMain] = useRecoilState(withMainData);
   const [sectionOrder, setSectionOrder] = useRecoilState(withSectionOrder);
   const [insertLocation, setInsertLocation] = useState<string>();
   const [draggingOver, setDraggingOver] = useState<any>();
-  const [draggingLeave, setDraggingLeave] = useState<any>();
 
   const [prevClickedElement, setPrevClickedElement] = useState(null);
-  const [clickedElement, setClickedElement] = useRecoilState(elementInfoAtom);
+  const [selectedElement, setSelectedElement] = useRecoilState(elementInfoAtom);
 
   const editorRef = useRef(null);
 
+  const frame = IframeEditorReturn();
+
   const handleElementClick = (sectionId, idx, element) => {
-    const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
-    if (prevClickedElement !== null) {
+    if (
+      prevClickedElement !== null &&
+      frame.contentWindow.document.getElementById(prevClickedElement.el.id) !==
+        null
+    ) {
       frame.contentWindow.document
         .getElementById(prevClickedElement.el.id)
         .classList.remove('border-4', 'border-sky-500');
@@ -45,7 +49,7 @@ const EditorFrame = () => {
       .getElementById(element.id)
       .classList.add('border-4', 'border-sky-500');
     setPrevClickedElement(clickedElement);
-    setClickedElement(clickedElement);
+    setSelectedElement(clickedElement);
   };
 
   //dragging 네임으로 el: element, idx:idx, sectionId:sectionId
@@ -74,7 +78,6 @@ const EditorFrame = () => {
   const handleDragOver = (e, element, sectionId, idx) => {
     setDraggingOver({ el: element, sectionId: sectionId, idx: idx });
     setInsertLocation(getInsertLocation({ e, element }));
-    const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
     if (draggingOver !== undefined && draggingOver.el.type !== 'section') {
       let element = frame.contentWindow.document.getElementById(
         `parent_${draggingOver.el.id}`
@@ -84,43 +87,6 @@ const EditorFrame = () => {
     e.preventDefault();
     e.stopPropagation();
   };
-
-  // useEffect(() => {
-  //   const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
-  //   if (draggingOver !== undefined && draggingOver.el.type !== 'section') {
-  //     let element = frame.contentWindow.document.getElementById(
-  //       `parent_${draggingOver.el.id}`
-  //     );
-  //     if (!element) {
-  //       element.classList.remove(`border-l-4`);
-  //       element.classList.remove(`border-r-4`);
-  //     }
-  //   }
-  // }, [insertLocation]);
-
-  const dragStyle = () => {};
-
-  // const handleDragLeave = (e, el) => {
-  //   setDraggingLeave(el.id);
-  //   const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
-  //   if (draggingLeave !== undefined)
-  //     console.log('leave', e.target.id, draggingLeave, insertLocation);
-
-  //   if (e.target.id.startsWith('parent')) {
-  //     let element = frame.contentWindow.document.getElementById(
-  //       `parent_${el.id}`
-  //     );
-  //     let element2 = frame.contentWindow.document.getElementById(
-  //       `parent_${draggingLeave}`
-  //     );
-  //     element.classList.remove(`border-l-4`);
-  //     element.classList.remove(`border-r-4`);
-  //     element2.classList.remove(`border-l-4`);
-  //     element2.classList.remove(`border-r-4`);
-  //   }
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  // };
 
   const createChild = (element, elementIdx, sectionId) => {
     const props = {
@@ -148,8 +114,7 @@ const EditorFrame = () => {
       id: `parent_${element.id}`,
       key: `parent_${element.id}`,
       onDragOver: (e) => handleDragOver(e, element, sectionId, elementIdx),
-      // onDragLeave: (e) => handleDragLeave(e, element),
-      onClick: () => console.log('clikc', element),
+      onClick: () => console.log('click', element),
       // className: element.parentProps.className.join(' '),
     };
     const parent = React.createElement(
@@ -167,14 +132,6 @@ const EditorFrame = () => {
       inline: 'center',
     });
   }, []);
-
-  // useEffect(() => {
-  //   const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
-  //   let abc = frame.contentWindow.document.getElementById(
-  //     `parent_${element.id}`
-  //   );
-  //   console.log(abc);
-  // }, [element]);
 
   return (
     <div
@@ -208,7 +165,7 @@ const EditorFrame = () => {
             {main[sectionId].children.map((el, elementIdx) => {
               return (
                 <div key={el.id} style={{ ...el.parentProps.style }}>
-                  {el.id === clickedElement.id && <ControlWidget />}
+                  {el.id === selectedElement.id && <ControlWidget />}
                   {createParent(el, elementIdx, sectionId)}
                 </div>
               );
@@ -220,8 +177,3 @@ const EditorFrame = () => {
   );
 };
 export default EditorFrame;
-
-// initial-scale=1.0  // 초기 크기를 설정합니다.
-// user-scalable=no // 확대 기능을 사용하지 않습니다.
-// maximum-scale=1 // 최대 배율, 크기를 설정합니다.
-// width=device-width  // 화면이 표현하는 사이즈를 디바이스 사이즈에 맞춥니다.
