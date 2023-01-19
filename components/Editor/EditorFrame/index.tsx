@@ -14,6 +14,7 @@ import {
 } from '@utils/drag';
 import { useContentEditable } from '@utils/useContentEditable';
 import ControlWidget from '../ControlWidget';
+import { IframeEditorReturn } from '@utils/iframe/iframeEditorReturn';
 
 const EditorFrame = () => {
   const [main, setMain] = useRecoilState(withMainData);
@@ -26,8 +27,9 @@ const EditorFrame = () => {
 
   const editorRef = useRef(null);
 
+  const frame = IframeEditorReturn();
+
   const handleElementClick = (sectionId, idx, element) => {
-    const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
     if (
       prevClickedElement !== null &&
       frame.contentWindow.document.getElementById(prevClickedElement.el.id) !==
@@ -76,7 +78,6 @@ const EditorFrame = () => {
   const handleDragOver = (e, element, sectionId, idx) => {
     setDraggingOver({ el: element, sectionId: sectionId, idx: idx });
     setInsertLocation(getInsertLocation({ e, element }));
-    const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
     if (draggingOver !== undefined && draggingOver.el.type !== 'section') {
       let element = frame.contentWindow.document.getElementById(
         `parent_${draggingOver.el.id}`
