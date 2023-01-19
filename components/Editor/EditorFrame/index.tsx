@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil';
 import { elementInfoAtom } from '@recoil/styleSideBar/atom';
 import { withMainData, withSectionOrder } from '@recoil/editor';
 import {
+  dragEffectStyle,
   dragElementToElement,
   dragElementToSection,
   dragOuterElementToElement,
@@ -22,8 +23,9 @@ const EditorFrame = () => {
   const [insertLocation, setInsertLocation] = useState<string>();
   const [draggingOver, setDraggingOver] = useState<any>();
 
-  const [prevClickedElement, setPrevClickedElement] = useState(null);
-  const [selectedElement, setSelectedElement] = useRecoilState(elementInfoAtom);
+  const [prevSelectedElement, setPrevSelectedElement] = useState(null);
+  const [currentSelectedElement, setCurrentSelectedElement] =
+    useRecoilState(elementInfoAtom);
 
   const editorRef = useRef(null);
 
@@ -31,12 +33,12 @@ const EditorFrame = () => {
 
   const handleElementClick = (sectionId, idx, element) => {
     if (
-      prevClickedElement !== null &&
-      frame.contentWindow.document.getElementById(prevClickedElement.el.id) !==
+      prevSelectedElement !== null &&
+      frame.contentWindow.document.getElementById(prevSelectedElement.el.id) !==
         null
     ) {
       frame.contentWindow.document
-        .getElementById(prevClickedElement.el.id)
+        .getElementById(prevSelectedElement.el.id)
         .classList.remove('border-4', 'border-sky-500');
     }
     const clickedElement = {
@@ -48,11 +50,10 @@ const EditorFrame = () => {
     frame.contentWindow.document
       .getElementById(element.id)
       .classList.add('border-4', 'border-sky-500');
-    setPrevClickedElement(clickedElement);
-    setSelectedElement(clickedElement);
+    setPrevSelectedElement(clickedElement);
+    setCurrentSelectedElement(clickedElement);
   };
 
-  //dragging 네임으로 el: element, idx:idx, sectionId:sectionId
   const handleDrop = (e) => {
     const { el, elIdx } = JSON.parse(e.dataTransfer.getData('dragging'));
     if (el.id === draggingOver.el.id) return;
@@ -71,6 +72,7 @@ const EditorFrame = () => {
           dragOuterElementToElement(e, draggingOver, insertLocation, setMain);
       }
     }
+    setDraggingOver(null);
     e.preventDefault();
     e.stopPropagation();
   };
@@ -78,14 +80,12 @@ const EditorFrame = () => {
   const handleDragOver = (e, element, sectionId, idx) => {
     setDraggingOver({ el: element, sectionId: sectionId, idx: idx });
     setInsertLocation(getInsertLocation({ e, element }));
-    if (draggingOver !== undefined && draggingOver.el.type !== 'section') {
-      let element = frame.contentWindow.document.getElementById(
-        `parent_${draggingOver.el.id}`
-      );
-      element.classList.add(`border-${insertLocation}-4`);
-    }
     e.preventDefault();
     e.stopPropagation();
+  };
+
+  const handleDragEnd = () => {
+    setDraggingOver(null);
   };
 
   const createChild = (element, elementIdx, sectionId) => {
@@ -100,6 +100,7 @@ const EditorFrame = () => {
           idx: elementIdx,
           sectionId: sectionId,
         }),
+      onDragEnd: () => handleDragEnd(),
       onClick: () => handleElementClick(sectionId, elementIdx, element),
       onBlur: (e) => useContentEditable(e, elementIdx, sectionId, setMain),
       // className: element.parentProps.className.join(' '),
@@ -115,6 +116,11 @@ const EditorFrame = () => {
       key: `parent_${element.id}`,
       onDragOver: (e) => handleDragOver(e, element, sectionId, elementIdx),
       onClick: () => console.log('click', element),
+      className: `${dragEffectStyle({
+        insertLocation,
+        draggingOverId: draggingOver?.el.id,
+        elementId: element.id,
+      })}`,
       // className: element.parentProps.className.join(' '),
     };
     const parent = React.createElement(
@@ -165,7 +171,7 @@ const EditorFrame = () => {
             {main[sectionId].children.map((el, elementIdx) => {
               return (
                 <div key={el.id} style={{ ...el.parentProps.style }}>
-                  {el.id === selectedElement.id && <ControlWidget />}
+                  {el.id === currentSelectedElement.id && <ControlWidget />}
                   {createParent(el, elementIdx, sectionId)}
                 </div>
               );
