@@ -6,7 +6,6 @@ export const ComponentInfoWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   color: #fff;
-  border: 1px solid white;
 `;
 
 export const ComponentInfoContainer = styled.div`
