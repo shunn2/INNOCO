@@ -6,9 +6,11 @@ export const ComponentItems = styled.div`
   height: 32px;
   display: flex;
   align-items: center;
-  padding: 0 12px;
-  color: ${theme.color.blue};
+  padding: 0 4px;
   background-color: ${theme.color.gray.middle};
+  border-radius: 2px;
+  margin-bottom: 4px;
+  font-size: 14px;
   cursor: grabbing;
   > div {
     background-color: ${theme.color.gray.middle};
