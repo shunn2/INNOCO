@@ -1,6 +1,18 @@
-import { DragDropProps } from './types';
+import React from 'react';
 
-const DragOuterSection = (e, draggingOver, setMain, setSectionOrder) => {
+interface DragOuterSectionProps {
+  e: React.DragEvent;
+  draggingOver: any;
+  setMain: (prev) => void;
+  setSectionOrder: (prev) => void;
+}
+
+const DragOuterSection = ({
+  e,
+  draggingOver,
+  setMain,
+  setSectionOrder,
+}: DragOuterSectionProps) => {
   const { el } = JSON.parse(e.dataTransfer.getData('dragging'));
   setSectionOrder((prev) => {
     const cur = [...prev];
