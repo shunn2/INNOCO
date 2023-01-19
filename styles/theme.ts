@@ -11,6 +11,9 @@ const color = {
     middle: '#2C3139',
     light: '#AFBED1',
   },
+  white: {
+    middle: '#AFBED1',
+  },
 };
 
 const theme: DefaultTheme = {
