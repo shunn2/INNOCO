@@ -89,7 +89,10 @@ const EditorFrame = () => {
       onDragEnd: () => handleDragEnd(),
       onClick: () => handleElementClick(sectionId, elementIdx, element),
       onBlur: (e) => useContentEditable(e, elementIdx, sectionId, setMain),
-      className: clickEffectStyle({ elementId: element.id }),
+      className: clickEffectStyle({
+        elementId: element.id,
+        clickedId: currentSelectedElement.id,
+      }),
       // className: element.parentProps.className.join(' '),
     };
     const child = React.createElement(element.tag, props, element.content);
