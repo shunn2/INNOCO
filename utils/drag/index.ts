@@ -5,3 +5,4 @@ export { default as dragOuterElementToSection } from './dragOuterElementToSectio
 export { default as dragOuterElementToElement } from './dragOuterElementToElement';
 export { default as dragSection } from './dragSection';
 export { default as dragStart } from './dragStart';
+export { default as dragEffectStyle } from './dragEffectStyle';
