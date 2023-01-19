@@ -15,7 +15,7 @@ import {
 import { useContentEditable } from '@utils/useContentEditable';
 import ControlWidget from '../ControlWidget';
 import { IframeEditorReturn } from '@utils/iframe/iframeEditorReturn';
-import { dragEffectStyle } from '@utils/effect';
+import { clickEffectStyle, dragEffectStyle } from '@utils/effect';
 
 const EditorFrame = () => {
   const [main, setMain] = useRecoilState(withMainData);
@@ -23,7 +23,6 @@ const EditorFrame = () => {
   const [insertLocation, setInsertLocation] = useState<string>();
   const [draggingOver, setDraggingOver] = useState<any>();
 
-  const [prevSelectedElement, setPrevSelectedElement] = useState(null);
   const [currentSelectedElement, setCurrentSelectedElement] =
     useRecoilState(elementInfoAtom);
 
@@ -32,25 +31,12 @@ const EditorFrame = () => {
   const frame = IframeEditorReturn();
 
   const handleElementClick = (sectionId, idx, element) => {
-    if (
-      prevSelectedElement !== null &&
-      frame.contentWindow.document.getElementById(prevSelectedElement.el.id) !==
-        null
-    ) {
-      frame.contentWindow.document
-        .getElementById(prevSelectedElement.el.id)
-        .classList.remove('border-4', 'border-sky-500');
-    }
     const clickedElement = {
       id: element.id,
       el: element,
       index: idx,
       sectionId: sectionId,
     };
-    frame.contentWindow.document
-      .getElementById(element.id)
-      .classList.add('border-4', 'border-sky-500');
-    setPrevSelectedElement(clickedElement);
     setCurrentSelectedElement(clickedElement);
   };
 
@@ -103,6 +89,7 @@ const EditorFrame = () => {
       onDragEnd: () => handleDragEnd(),
       onClick: () => handleElementClick(sectionId, elementIdx, element),
       onBlur: (e) => useContentEditable(e, elementIdx, sectionId, setMain),
+      className: clickEffectStyle({ elementId: element.id }),
       // className: element.parentProps.className.join(' '),
     };
     const child = React.createElement(element.tag, props, element.content);
@@ -115,7 +102,6 @@ const EditorFrame = () => {
       id: `parent_${element.id}`,
       key: `parent_${element.id}`,
       onDragOver: (e) => handleDragOver(e, element, sectionId, elementIdx),
-      onClick: () => console.log('click', element),
       className: `box-border ${dragEffectStyle({
         insertLocation,
         draggingOverId: draggingOver?.el.id,
