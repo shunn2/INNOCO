@@ -14,7 +14,6 @@ import {
 } from '@utils/drag';
 import { useContentEditable } from '@utils/useContentEditable';
 import ControlWidget from '../ControlWidget';
-import { SvgIcon } from '@components/Common';
 
 const EditorFrame = () => {
   const [main, setMain] = useRecoilState(withMainData);
@@ -23,13 +22,17 @@ const EditorFrame = () => {
   const [draggingOver, setDraggingOver] = useState<any>();
 
   const [prevClickedElement, setPrevClickedElement] = useState(null);
-  const [clickedElement, setClickedElement] = useRecoilState(elementInfoAtom);
+  const [selectedElement, setSelectedElement] = useRecoilState(elementInfoAtom);
 
   const editorRef = useRef(null);
 
   const handleElementClick = (sectionId, idx, element) => {
     const frame = document.getElementById('editor_iframe') as HTMLIFrameElement;
-    if (prevClickedElement !== null) {
+    if (
+      prevClickedElement !== null &&
+      frame.contentWindow.document.getElementById(prevClickedElement.el.id) !==
+        null
+    ) {
       frame.contentWindow.document
         .getElementById(prevClickedElement.el.id)
         .classList.remove('border-4', 'border-sky-500');
@@ -44,7 +47,7 @@ const EditorFrame = () => {
       .getElementById(element.id)
       .classList.add('border-4', 'border-sky-500');
     setPrevClickedElement(clickedElement);
-    setClickedElement(clickedElement);
+    setSelectedElement(clickedElement);
   };
 
   //dragging 네임으로 el: element, idx:idx, sectionId:sectionId
@@ -110,7 +113,7 @@ const EditorFrame = () => {
       id: `parent_${element.id}`,
       key: `parent_${element.id}`,
       onDragOver: (e) => handleDragOver(e, element, sectionId, elementIdx),
-      onClick: () => console.log('clikc', element),
+      onClick: () => console.log('click', element),
       // className: element.parentProps.className.join(' '),
     };
     const parent = React.createElement(
@@ -161,7 +164,7 @@ const EditorFrame = () => {
             {main[sectionId].children.map((el, elementIdx) => {
               return (
                 <div key={el.id} style={{ ...el.parentProps.style }}>
-                  {el.id === clickedElement.id && <ControlWidget />}
+                  {el.id === selectedElement.id && <ControlWidget />}
                   {createParent(el, elementIdx, sectionId)}
                 </div>
               );
