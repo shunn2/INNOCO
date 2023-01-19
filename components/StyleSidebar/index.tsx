@@ -1,25 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as Styled from './styled';
-import ColorMenu from './ColorMenu';
-import ToggleMenu from './ToggleMenu';
-import BackgroundColorMenu from './BackgroundMenu';
 import { useRecoilValue } from 'recoil';
 import { elementInfoAtom } from '@recoil/styleSideBar/atom';
-import ComponentInfo from './ComponentInfo';
+import { PropsTab, StyleTab } from './TabMenu';
 
 const StyleSidebar = () => {
   const clickedComponent = useRecoilValue(elementInfoAtom);
+  const [tab, setTab] = useState(1);
+  const handleTab = (value: number) => {
+    setTab(value);
+  };
   return (
     <Styled.StyleSidebar>
       {clickedComponent.id ? (
         <>
-          <ComponentInfo />
-          <ToggleMenu title="Color">
-            <ColorMenu />
-          </ToggleMenu>
-          <ToggleMenu title="Background">
-            <BackgroundColorMenu />
-          </ToggleMenu>
+          <Styled.TabWrapper>
+            <Styled.Tab selected={tab === 1} onClick={() => handleTab(1)}>
+              Styles
+            </Styled.Tab>
+            <Styled.Tab selected={tab === 2} onClick={() => handleTab(2)}>
+              Props
+            </Styled.Tab>
+          </Styled.TabWrapper>
+          {tab === 1 && <StyleTab />}
+          {tab === 2 && <PropsTab />}
         </>
       ) : (
         <div
