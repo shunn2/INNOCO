@@ -13,12 +13,8 @@ const ToggleMenu = (props: PropsWithChildren<ToggleMenuProps>) => {
   };
 
   return (
-    <Styled.ToggleMenuContainer
-      title={title}
-      onClick={handleToggleMenu}
-      {...rest}
-    >
-      <Styled.ToggledMenu>
+    <Styled.ToggleMenuContainer title={title} {...rest}>
+      <Styled.ToggledMenu onClick={handleToggleMenu}>
         <Styled.Title>
           {title}
           <SvgIcon type="down-icon" size={18} />
