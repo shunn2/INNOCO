@@ -115,7 +115,7 @@ const EditorFrame = () => {
       // className: element.parentProps.className.join(' '),
     };
     const parent = React.createElement(
-      element.tag,
+      'div',
       props,
       createChild(element, elementIdx, sectionId)
     );
