@@ -35,8 +35,7 @@ export const textData = {
     className: ['border-transparent', 'border-4', 'hover:border-cyan-300'],
     draggable: true,
     style: {
-      minWidth: '100px',
-      minHeight: '50px',
+      padding: '10px 14px',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
