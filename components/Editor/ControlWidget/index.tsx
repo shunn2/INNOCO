@@ -21,14 +21,21 @@ const ControlWidget = (props) => {
     <div
       className="absolute flex justify-between items-center"
       style={{
-        width: `${component.offsetWidth}px`,
+        minWidth: `${component.offsetWidth}px`,
         marginBottom: `${component.offsetHeight + 25}px`,
       }}
     >
       <ControlBox>{element.el.type}</ControlBox>
-      <ControlBox onClick={() => deleteElement(element, setMain)}>X</ControlBox>
-      <ControlBox onClick={() => duplicateElement(element, setMain)}>
-        copy
+      <ControlBox>
+        <div onClick={() => deleteElement(element, setMain)} className="mx-1">
+          <img src="/iframe/duplicate.png" alt="" width={24} height={24} />
+        </div>
+        <div
+          onClick={() => duplicateElement(element, setMain)}
+          className="mx-1"
+        >
+          <img src="/iframe/trash.png" alt="" width={26} height={26} />
+        </div>
       </ControlBox>
     </div>
   );
