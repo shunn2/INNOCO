@@ -22,6 +22,7 @@ const EditorFrame = () => {
   const [sectionOrder, setSectionOrder] = useRecoilState(withSectionOrder);
   const [insertLocation, setInsertLocation] = useState<string>();
   const [draggingOver, setDraggingOver] = useState<any>();
+  const [dblClickElement, setDblClickElement] = useState<string>();
   const [currentSelectedElement, setCurrentSelectedElement] =
     useRecoilState(elementInfoAtom);
 
@@ -35,6 +36,10 @@ const EditorFrame = () => {
       sectionId: sectionId,
     };
     setCurrentSelectedElement(clickedElement);
+  };
+
+  const handleElementDblClick = (elementId) => {
+    setDblClickElement(elementId);
   };
 
   const handleDrop = (e) => {
@@ -88,9 +93,15 @@ const EditorFrame = () => {
           idx: elementIdx,
           sectionId: sectionId,
         }),
+      contentEditable: dblClickElement === element.id,
+      suppressContentEditableWarning: dblClickElement === element.id,
       onDragEnd: () => handleDragEnd(),
+      onDoubleClick: () => handleElementDblClick(element.id),
       onClick: () => handleElementClick(sectionId, elementIdx, element),
-      onBlur: (e) => useContentEditable(e, elementIdx, sectionId, setMain),
+      onBlur: (e) => {
+        useContentEditable(e, elementIdx, sectionId, setMain);
+        setDblClickElement('');
+      },
       className: clickEffectStyle({
         clickedId: currentSelectedElement.id,
         elementId: element.id,
@@ -169,6 +180,7 @@ const EditorFrame = () => {
             })}
           </div>
         ))}
+        <button onClick={() => console.log(main)}>clicik</button>
       </div>
     </div>
   );

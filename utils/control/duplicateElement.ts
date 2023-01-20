@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
-const duplicateElement = (element, setMain) => {
-  const duplicated = { ...element.el };
+const duplicateElement = (element, main, setMain) => {
+  const duplicated = { ...main[element.sectionId].children[element.index] };
   duplicated.id = uuidv4();
   setMain((prev) => {
     let cur = JSON.parse(JSON.stringify(prev));

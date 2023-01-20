@@ -28,7 +28,7 @@ const ControlWidget = (props) => {
       <ControlBox>{element.el.type}</ControlBox>
       <ControlBox>
         <div
-          onClick={() => duplicateElement(element, setMain)}
+          onClick={() => duplicateElement(element, main, setMain)}
           className="mx-1"
         >
           <img
