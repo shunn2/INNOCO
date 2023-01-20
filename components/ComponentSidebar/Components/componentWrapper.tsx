@@ -18,7 +18,7 @@ const ComponentWrapper = (props: ComponentProps) => {
   return (
     <Styled.ComponentItems draggable onDragStart={handleDragStart}>
       <SvgIcon type={icon} />
-      <div>{type}</div>
+      <Styled.ComponentType>{type}</Styled.ComponentType>
     </Styled.ComponentItems>
   );
 };

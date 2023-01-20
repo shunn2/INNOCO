@@ -3,7 +3,7 @@ import { sectionData } from './data';
 
 const SectionComponent = () => {
   return (
-    <ComponentWrapper type="Section" icon={'box-icon'} data={sectionData} />
+    <ComponentWrapper type="Section" icon={'section-icon'} data={sectionData} />
   );
 };
 

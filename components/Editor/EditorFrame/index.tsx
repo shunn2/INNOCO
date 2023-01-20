@@ -22,13 +22,10 @@ const EditorFrame = () => {
   const [sectionOrder, setSectionOrder] = useRecoilState(withSectionOrder);
   const [insertLocation, setInsertLocation] = useState<string>();
   const [draggingOver, setDraggingOver] = useState<any>();
-
   const [currentSelectedElement, setCurrentSelectedElement] =
     useRecoilState(elementInfoAtom);
 
   const editorRef = useRef(null);
-
-  const frame = IframeEditorReturn();
 
   const handleElementClick = (sectionId, idx, element) => {
     const clickedElement = {
@@ -95,8 +92,8 @@ const EditorFrame = () => {
       onClick: () => handleElementClick(sectionId, elementIdx, element),
       onBlur: (e) => useContentEditable(e, elementIdx, sectionId, setMain),
       className: clickEffectStyle({
-        elementId: element.id,
         clickedId: currentSelectedElement.id,
+        elementId: element.id,
       }),
       // className: element.parentProps.className.join(' '),
     };
