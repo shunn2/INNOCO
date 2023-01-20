@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ColorContainer = styled.div`
+export const StyleContainer = styled.div`
   display: flex;
   align-items: center;
   color: #fff;
@@ -15,4 +15,10 @@ export const ColorSquare = styled.div<{ color: string }>`
   border-radius: 6px;
   margin-right: 12px;
   background-color: ${(props) => props.color};
+`;
+
+export const AbsoluteColorPicker = styled.div`
+  position: absolute;
+  margin-left: -228px;
+  margin-top: -20px;
 `;

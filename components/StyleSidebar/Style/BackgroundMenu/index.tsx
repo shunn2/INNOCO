@@ -3,7 +3,7 @@ import { withMainData } from '@recoil/editor';
 import { elementInfoAtom } from '@recoil/styleSideBar/atom';
 import { useEffect, useState } from 'react';
 import { ChromePicker } from 'react-color';
-import * as Styled from './styled';
+import * as Styled from '../styled';
 
 const BackgroundColorMenu = () => {
   const [backgroundColor, setBackgroundColor] = useState<string>();
@@ -35,23 +35,23 @@ const BackgroundColorMenu = () => {
   };
 
   return (
-    <div>
-      <Styled.BackgroundColorContainer
+    <>
+      <Styled.StyleContainer
         className="flex"
         onClick={handleBackgroundColorOpen}
       >
-        <Styled.BackgroundColorSquare backgroundColor={backgroundColor} />
+        <Styled.ColorSquare color={backgroundColor} />
         {backgroundColor}
-        {isOpen && (
-          <div style={{ position: 'absolute', marginLeft: '-228px' }}>
-            <ChromePicker
-              color={backgroundColor}
-              onChange={(color) => handleBackgroundColorChange(color)}
-            />
-          </div>
-        )}
-      </Styled.BackgroundColorContainer>
-    </div>
+      </Styled.StyleContainer>
+      {isOpen && (
+        <Styled.AbsoluteColorPicker>
+          <ChromePicker
+            color={backgroundColor}
+            onChange={(color) => handleBackgroundColorChange(color)}
+          />
+        </Styled.AbsoluteColorPicker>
+      )}
+    </>
   );
 };
 
