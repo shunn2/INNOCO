@@ -27,14 +27,19 @@ const ControlWidget = (props) => {
     >
       <ControlBox>{element.el.type}</ControlBox>
       <ControlBox>
-        <div onClick={() => deleteElement(element, setMain)} className="mx-1">
-          <img src="/iframe/duplicate.png" alt="" width={24} height={24} />
-        </div>
         <div
           onClick={() => duplicateElement(element, setMain)}
           className="mx-1"
         >
-          <img src="/iframe/trash.png" alt="" width={26} height={26} />
+          <img
+            src="/iframe/duplicate.png"
+            alt=""
+            width={'24px'}
+            height={'24px'}
+          />
+        </div>
+        <div onClick={() => deleteElement(element, setMain)} className="mx-1">
+          <img src="/iframe/trash.png" alt="" width={'26px'} height={'26px'} />
         </div>
       </ControlBox>
     </div>
