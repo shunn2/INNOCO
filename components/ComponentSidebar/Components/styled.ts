@@ -19,3 +19,7 @@ export const ComponentItems = styled.div`
     background-color: ${theme.color.gray.middle};
   }
 `;
+
+export const ComponentType = styled.div`
+  margin-left: 5px;
+`;
