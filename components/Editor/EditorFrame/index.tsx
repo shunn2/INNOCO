@@ -14,7 +14,6 @@ import {
 } from '@utils/drag';
 import { useContentEditable } from '@hooks/useContentEditable';
 import ControlWidget from '../ControlWidget';
-import { IframeEditorReturn } from '@utils/iframe/iframeEditorReturn';
 import { clickEffectStyle, dragEffectStyle } from '@utils/effect';
 
 const EditorFrame = () => {
@@ -108,8 +107,7 @@ const EditorFrame = () => {
       }),
       // className: element.parentProps.className.join(' '),
     };
-    const child = React.createElement(element.tag, props, element.content);
-    return child;
+    return React.createElement(element.tag, props, element.content);
   };
 
   const createParent = (element, elementIdx, sectionId) => {
@@ -125,12 +123,11 @@ const EditorFrame = () => {
       })}`,
       // className: element.parentProps.className.join(' '),
     };
-    const parent = React.createElement(
+    return React.createElement(
       'div',
       props,
       createChild(element, elementIdx, sectionId)
     );
-    return parent;
   };
 
   useEffect(() => {
@@ -170,14 +167,12 @@ const EditorFrame = () => {
             }
             onDrop={handleDrop}
           >
-            {main[sectionId].children.map((el, elementIdx) => {
-              return (
-                <div key={el.id} style={{ ...el.parentProps.style }}>
-                  {el.id === currentSelectedElement.id && <ControlWidget />}
-                  {createParent(el, elementIdx, sectionId)}
-                </div>
-              );
-            })}
+            {main[sectionId].children.map((el, elementIdx) => (
+              <div key={el.id} style={{ ...el.parentProps.style }}>
+                {el.id === currentSelectedElement.id && <ControlWidget />}
+                {createParent(el, elementIdx, sectionId)}
+              </div>
+            ))}
           </div>
         ))}
         <button onClick={() => console.log(main)}>clicik</button>
