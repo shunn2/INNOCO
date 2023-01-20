@@ -12,7 +12,7 @@ import {
   dragSection,
   dragStart,
 } from '@utils/drag';
-import { useContentEditable } from '@utils/useContentEditable';
+import { useContentEditable } from '@hooks/useContentEditable';
 import ControlWidget from '../ControlWidget';
 import { IframeEditorReturn } from '@utils/iframe/iframeEditorReturn';
 import { clickEffectStyle, dragEffectStyle } from '@utils/effect';

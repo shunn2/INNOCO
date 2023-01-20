@@ -444,7 +444,19 @@ const jsonData = {
         flex: true,
       },
       image: null,
-      children: [],
+      children: [
+        // {
+        //   id: '',
+        //   type: 'comment',
+        //   props: {
+        //     onSubmit: `on-stove.innoco/${userId}/${project_name}/${pageorder}/1`,
+        //     commetList: [
+        //       '안녕',
+        //       '안녕하세요'
+        //     ],
+        //   },
+        // },
+      ],
     },
   },
   sectionOrder: [
