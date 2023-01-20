@@ -1,10 +1,9 @@
 import { ControlBox } from '@components/Common';
 import { withMainData } from '@recoil/editor';
 import { elementInfoAtom } from '@recoil/styleSideBar/atom';
-import { deleteElement } from '@utils/control';
+import { deleteElement, duplicateElement } from '@utils/control';
 import { IframeEditorReturn } from '@utils/iframe/iframeEditorReturn';
-import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 interface WidgetProps {
   top: number;
@@ -13,10 +12,11 @@ interface WidgetProps {
 
 const ControlWidget = (props) => {
   const [main, setMain] = useRecoilState(withMainData);
-  const [element, setElement] = useRecoilState(elementInfoAtom);
+  const element = useRecoilValue(elementInfoAtom);
   const component = IframeEditorReturn().contentDocument.getElementById(
     element.id
   );
+
   return (
     <div
       className="absolute flex justify-between items-center"
@@ -27,6 +27,9 @@ const ControlWidget = (props) => {
     >
       <ControlBox>{element.el.type}</ControlBox>
       <ControlBox onClick={() => deleteElement(element, setMain)}>X</ControlBox>
+      <ControlBox onClick={() => duplicateElement(element, setMain)}>
+        copy
+      </ControlBox>
     </div>
   );
 };
