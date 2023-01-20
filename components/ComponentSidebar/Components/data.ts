@@ -13,9 +13,6 @@ export const sectionData = {
     className: ['border-transparent', 'border-4', 'hover:border-cyan-300'],
   },
   content: '',
-  class: {
-    flex: true,
-  },
   image: null,
   children: [],
 };
@@ -38,22 +35,53 @@ export const textData = {
     className: ['border-transparent', 'border-4', 'hover:border-cyan-300'],
     draggable: true,
     style: {
-      minWidth: '100px',
-      minHeight: '50px',
+      padding: '10px 14px',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      fontSize: '20px',
+      fontSize: '16px',
       fontWeight: 'bold',
     },
     contentEditable: true,
     suppressContentEditableWarning: true,
-    placeholder: 'abcde',
   },
   content: 'type your words',
-  class: {
-    abc: true,
+  image: null,
+  children: [],
+};
+
+export const buttonData = {
+  id: '',
+  type: 'button',
+  tag: 'button',
+  parentProps: {
+    draggable: false,
+    style: {
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    className: ['border-transparent', 'border-4', 'hover:border-cyan-300'],
   },
+  props: {
+    className: ['border-transparent', 'border-4', 'hover:border-cyan-300'],
+    draggable: true,
+    style: {
+      padding: '10px 14px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontSize: '16px',
+      fontWeight: 'bold',
+      backgroundColor: 'dodgerblue',
+      borderRadius: '12px',
+    },
+    contentEditable: true,
+    suppressContentEditableWarning: true,
+    onClick: () => console.log('button'),
+  },
+  content: 'Button',
   image: null,
   children: [],
 };

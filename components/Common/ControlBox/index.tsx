@@ -7,12 +7,12 @@ interface BoxProps {
   onClick?: () => void;
 }
 
-const ControlBox = (props) => {
+const ControlBox = (props: PropsWithChildren) => {
   const { children, ...rest } = props;
   return (
     <div
       {...rest}
-      className="px-2 py-3 flex justify-center items-center rounded bg-sky-500 h-3.5 text-slate-200 text-white text-xs"
+      className="px-2 py-3 flex justify-center items-center rounded bg-sky-500 h-3.5 text-slate-200 text-white text-xs min-w-fit"
     >
       {children}
     </div>
