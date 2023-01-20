@@ -1,9 +1,7 @@
-import { elementInfoAtom } from '@recoil/styleSideBar/atom';
-import { useRecoilValue } from 'recoil';
-
 interface ClickEffectProps {
   clickedId: string;
   elementId: string;
+  clickedId: string;
 }
 
 const ClickEffectStyle = ({ clickedId, elementId }: ClickEffectProps) => {
