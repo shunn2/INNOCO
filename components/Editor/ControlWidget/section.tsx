@@ -12,7 +12,6 @@ const SectionControlWidget = () => {
   const component = IframeEditorReturn().contentDocument.getElementById(
     element.id
   );
-  console.log(element);
 
   return (
     <div
