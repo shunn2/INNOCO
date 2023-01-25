@@ -1,7 +1,6 @@
 interface ClickEffectProps {
   clickedId: string;
   elementId: string;
-  clickedId: string;
 }
 
 const ClickEffectStyle = ({ clickedId, elementId }: ClickEffectProps) => {

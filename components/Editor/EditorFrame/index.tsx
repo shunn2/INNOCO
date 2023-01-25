@@ -27,7 +27,7 @@ const EditorFrame = () => {
 
   const editorRef = useRef(null);
 
-  const handleElementClick = (sectionId, idx, element) => {
+  const handleElementClick = (e, sectionId, idx, element) => {
     const clickedElement = {
       id: element.id,
       el: element,
@@ -35,6 +35,7 @@ const EditorFrame = () => {
       sectionId: sectionId,
     };
     setCurrentSelectedElement(clickedElement);
+    e.stopPropagation();
   };
 
   const handleElementDblClick = (elementId) => {
@@ -71,7 +72,13 @@ const EditorFrame = () => {
 
   const handleDragOver = (e, element, sectionId, idx) => {
     setDraggingOver({ el: element, sectionId: sectionId, idx: idx });
-    setInsertLocation(getInsertLocation({ e, element }));
+    setInsertLocation(
+      getInsertLocation({
+        e,
+        element,
+        direction: element.type === 'section' ? 'col' : 'row',
+      })
+    );
     e.preventDefault();
     e.stopPropagation();
   };
@@ -96,7 +103,7 @@ const EditorFrame = () => {
       suppressContentEditableWarning: dblClickElement === element.id,
       onDragEnd: () => handleDragEnd(),
       onDoubleClick: () => handleElementDblClick(element.id),
-      onClick: () => handleElementClick(sectionId, elementIdx, element),
+      onClick: (e) => handleElementClick(e, sectionId, elementIdx, element),
       onBlur: (e) => {
         useContentEditable(e, elementIdx, sectionId, setMain);
         setDblClickElement('');
@@ -153,7 +160,15 @@ const EditorFrame = () => {
             id={sectionId}
             key={sectionId}
             {...main[sectionId].sectionProps}
-            className={main[sectionId].sectionProps.className.join(' ')}
+            // className={main[sectionId].sectionProps.className.join(' ')}
+            className={`${dragEffectStyle({
+              insertLocation,
+              draggingOverId: draggingOver?.el.id,
+              elementId: sectionId,
+            })} ${clickEffectStyle({
+              clickedId: currentSelectedElement.id,
+              elementId: sectionId,
+            })}`}
             onDragStart={(e) =>
               dragStart({
                 e: e,
@@ -166,6 +181,9 @@ const EditorFrame = () => {
               handleDragOver(e, main[sectionId], sectionId, sectionIdx)
             }
             onDrop={handleDrop}
+            onClick={(e) =>
+              handleElementClick(e, sectionId, sectionIdx, { id: sectionId })
+            }
           >
             {main[sectionId].children.map((el, elementIdx) => (
               <div key={el.id} style={{ ...el.parentProps.style }}>
