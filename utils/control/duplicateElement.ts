@@ -1,6 +1,12 @@
+import { duplicateElementProps } from '@/types/control';
 import { v4 as uuidv4 } from 'uuid';
 
-const duplicateElement = (e, element, main, setMain) => {
+const duplicateElement = ({
+  e,
+  element,
+  main,
+  setMain,
+}: duplicateElementProps) => {
   const duplicated = { ...main[element.sectionId].children[element.index] };
   duplicated.id = uuidv4();
   setMain((prev) => {
