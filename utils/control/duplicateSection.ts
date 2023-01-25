@@ -8,8 +8,11 @@ const duplicateSection = ({
   setMain,
   setSectionOrder,
 }: duplicateSectionProps) => {
-  const duplicated = { ...main[element.id] };
+  const duplicated = JSON.parse(JSON.stringify(main[element.id]));
   duplicated.id = uuidv4();
+  duplicated.children.forEach((element) => {
+    element.id = uuidv4();
+  });
   setMain((prev) => {
     let cur = JSON.parse(JSON.stringify(prev));
     cur[duplicated.id] = duplicated;
