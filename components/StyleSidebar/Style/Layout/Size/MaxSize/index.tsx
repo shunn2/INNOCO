@@ -2,13 +2,13 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { withMainData } from '@recoil/editor';
 import { elementInfoAtom } from '@recoil/styleSideBar/atom';
 import { useEffect, useState } from 'react';
-import * as Styled from '../../styled';
+import * as Styled from '../../../styled';
 import styleChange from '@utils/style/styleChange';
 import getCurrentStyle from '@utils/style/getCurrentStyle';
 import StyleInput from '@components/Common/StyleInput';
 
-const MinSizeMenu = () => {
-  const [minSize, setMinSize] = useState({ minWidth: '', minHeight: '' });
+const MaxSizeMenu = () => {
+  const [maxSize, setMaxSize] = useState({ maxWidth: '', maxHeight: '' });
 
   const element = useRecoilValue(elementInfoAtom);
   const [mainData, setMainData] = useRecoilState(withMainData);
@@ -18,30 +18,30 @@ const MinSizeMenu = () => {
   };
 
   useEffect(() => {
-    setMinSize({
-      minWidth:
-        getCurrentStyle({ element, type: 'minWidth', mainData }) || 'none',
-      minHeight:
-        getCurrentStyle({ element, type: 'minHeight', mainData }) || 'none',
+    setMaxSize({
+      maxWidth:
+        getCurrentStyle({ element, type: 'maxWidth', mainData }) || 'none',
+      maxHeight:
+        getCurrentStyle({ element, type: 'maxHeight', mainData }) || 'none',
     });
   }, [element, mainData]);
 
   return (
     <Styled.StyleContainer className="flex">
       <Styled.InputContainer>
-        <Styled.InputTitle>Min-Width</Styled.InputTitle>
+        <Styled.InputTitle>Max-Width</Styled.InputTitle>
         <StyleInput
-          placeholder={minSize.minWidth}
+          placeholder={maxSize.maxWidth}
           size={50}
-          onChange={(e) => handleSizeChange({ e, type: 'minWidth' })}
+          onChange={(e) => handleSizeChange({ e, type: 'maxWidth' })}
         />
       </Styled.InputContainer>
       <Styled.InputContainer>
-        <Styled.InputTitle>Min-Height</Styled.InputTitle>
+        <Styled.InputTitle>Max-Height</Styled.InputTitle>
         <StyleInput
-          placeholder={minSize.minHeight}
+          placeholder={maxSize.maxHeight}
           size={50}
-          onChange={(e) => handleSizeChange({ e, type: 'minHeight' })}
+          onChange={(e) => handleSizeChange({ e, type: 'maxHeight' })}
         />
       </Styled.InputContainer>
     </Styled.StyleContainer>
@@ -53,4 +53,4 @@ interface SizeChangeProps {
   type: string;
 }
 
-export default MinSizeMenu;
+export default MaxSizeMenu;
