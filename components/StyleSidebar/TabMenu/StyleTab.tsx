@@ -1,5 +1,6 @@
 import ComponentInfo from '../ComponentInfo';
 import { BackgroundColorMenu, ColorMenu } from '../Style';
+import MinSizeMenu from '../Style/Layout/MinSize';
 import SizeMenu from '../Style/Layout/Size';
 import ToggleMenu from '../ToggleMenu';
 
@@ -15,6 +16,7 @@ const StyleTab = () => {
       </ToggleMenu>
       <ToggleMenu title="Layout">
         <SizeMenu />
+        <MinSizeMenu />
       </ToggleMenu>
     </>
   );
