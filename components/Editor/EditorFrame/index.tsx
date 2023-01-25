@@ -202,10 +202,10 @@ const EditorFrame = () => {
             >
               {main[sectionId].children.map((element, elementIdx) => (
                 <div key={element.id} style={{ ...element.parentProps.style }}>
-                  {createParent({ element, elementIdx, sectionId })}{' '}
                   {element.id === currentSelectedElement.id && (
                     <ElementControlWidget />
                   )}
+                  {createParent({ element, elementIdx, sectionId })}
                 </div>
               ))}
             </div>
