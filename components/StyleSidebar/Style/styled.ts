@@ -36,7 +36,7 @@ export const InputTitle = styled.div`
   //margin or line-height 조정
 `;
 
-export const SvgContainer = styled.div<{ selected: boolean }>`
+export const SvgWrapper = styled.div<{ selected: boolean }>`
   padding: 4px;
   border: 0.5px solid #fff;
   margin-left: -1px;

@@ -6,6 +6,7 @@ import styleChange from '@utils/style/styleChange';
 import getCurrentStyle from '@utils/style/getCurrentStyle';
 import { SvgIcon } from '@components/Common';
 import * as Styled from '../../styled';
+import StyleInput from '@components/Common/StyleInput';
 
 const displayList = ['block', 'flex', 'grid', 'inline-block', 'inline', 'none'];
 
@@ -25,17 +26,26 @@ const DisplayMenu = () => {
   }, [element, mainData]);
 
   return (
-    <Styled.StyleContainer>
-      {displayList.map((v, idx) => (
-        <Styled.SvgContainer
-          key={v}
-          selected={v === display}
-          onClick={() => handleDisplayChange(v)}
-        >
-          <SvgIcon type={`${v}-icon`} />
-        </Styled.SvgContainer>
-      ))}
-    </Styled.StyleContainer>
+    <>
+      <Styled.StyleContainer className="my-4">
+        {displayList.map((v, idx) => (
+          <Styled.SvgWrapper
+            key={v}
+            selected={v === display}
+            onClick={() => handleDisplayChange(v)}
+          >
+            <SvgIcon type={`${v}-icon`} />
+          </Styled.SvgWrapper>
+        ))}
+      </Styled.StyleContainer>
+      <Styled.StyleContainer className="my-4">
+        <StyleInput
+          placeholder={display}
+          size={100}
+          onChange={(e) => handleDisplayChange(e.target.value)}
+        />
+      </Styled.StyleContainer>
+    </>
   );
 };
 
