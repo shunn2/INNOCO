@@ -3,6 +3,7 @@ import SectionComponent from './Components/section';
 import * as Styled from './styled';
 import ButtonComponent from './Components/button';
 import LinkComponent from './Components/link';
+import ImageComponent from './Components/image';
 
 const ComponentSidebar = () => {
   return (
@@ -13,6 +14,7 @@ const ComponentSidebar = () => {
         <TextComponent />
         <ButtonComponent />
         <LinkComponent />
+        <ImageComponent />
       </Styled.Category>
     </Styled.ComponentSidebar>
   );
