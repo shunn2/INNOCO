@@ -28,10 +28,20 @@ export const InputContainer = styled.div`
   padding: 4px 16px 16px 4px;
 `;
 
-export const InputTitle = styled.div`
+export const Title = styled.div`
   font-size: 14px;
   line-height: 20px;
   margin-bottom: 4px;
   color: ${theme.color.white.middle};
   //margin or line-height 조정
+`;
+
+export const SvgWrapper = styled.div<{ selected: boolean }>`
+  padding: 4px;
+  border: 0.5px solid #fff;
+  margin-left: -1px;
+  background-color: ${(props) => props.selected && '#373c44'};
+  &:hover {
+    background-color: #373c44;
+  }
 `;

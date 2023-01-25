@@ -29,7 +29,7 @@ const MaxSizeMenu = () => {
   return (
     <Styled.StyleContainer className="flex">
       <Styled.InputContainer>
-        <Styled.InputTitle>Max-Width</Styled.InputTitle>
+        <Styled.Title>Max-Width</Styled.Title>
         <StyleInput
           placeholder={maxSize.maxWidth}
           size={50}
@@ -37,7 +37,7 @@ const MaxSizeMenu = () => {
         />
       </Styled.InputContainer>
       <Styled.InputContainer>
-        <Styled.InputTitle>Max-Height</Styled.InputTitle>
+        <Styled.Title>Max-Height</Styled.Title>
         <StyleInput
           placeholder={maxSize.maxHeight}
           size={50}

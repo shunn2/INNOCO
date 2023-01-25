@@ -30,7 +30,7 @@ const SizeMenu = () => {
     <>
       <Styled.StyleContainer className="flex">
         <Styled.InputContainer>
-          <Styled.InputTitle>Width</Styled.InputTitle>
+          <Styled.Title>Width</Styled.Title>
           <StyleInput
             placeholder={size.width}
             size={50}
@@ -38,7 +38,7 @@ const SizeMenu = () => {
           />
         </Styled.InputContainer>
         <Styled.InputContainer>
-          <Styled.InputTitle>Height</Styled.InputTitle>
+          <Styled.Title>Height</Styled.Title>
           <StyleInput
             placeholder={size.height}
             size={50}
