@@ -16,6 +16,7 @@ import { useContentEditable } from '@hooks/useContentEditable';
 import ElementControlWidget from '../ControlWidget/element';
 import { clickEffectStyle, dragEffectStyle } from '@utils/effect';
 import SectionControlWidget from '../ControlWidget/section';
+import { createElementProps } from '@/types/editor';
 
 const EditorFrame = () => {
   const [main, setMain] = useRecoilState(withMainData);
@@ -88,7 +89,11 @@ const EditorFrame = () => {
     setDraggingOver(null);
   };
 
-  const createChild = (element, elementIdx, sectionId) => {
+  const createChild = ({
+    element,
+    elementIdx,
+    sectionId,
+  }: createElementProps) => {
     const props = {
       ...element.props,
       id: element.id,
@@ -115,10 +120,15 @@ const EditorFrame = () => {
       }),
       // className: element.parentProps.className.join(' '),
     };
+    // if (element.tag === 'img') return React.createElement(element.tag, props);
     return React.createElement(element.tag, props, element.content);
   };
 
-  const createParent = (element, elementIdx, sectionId) => {
+  const createParent = ({
+    element,
+    elementIdx,
+    sectionId,
+  }: createElementProps) => {
     const props = {
       ...element.parentProps,
       id: `parent_${element.id}`,
@@ -134,7 +144,7 @@ const EditorFrame = () => {
     return React.createElement(
       'div',
       props,
-      createChild(element, elementIdx, sectionId)
+      createChild({ element, elementIdx, sectionId })
     );
   };
 
@@ -190,12 +200,12 @@ const EditorFrame = () => {
                 handleElementClick(e, sectionId, sectionIdx, main[sectionId])
               }
             >
-              {main[sectionId].children.map((el, elementIdx) => (
-                <div key={el.id} style={{ ...el.parentProps.style }}>
-                  {el.id === currentSelectedElement.id && (
+              {main[sectionId].children.map((element, elementIdx) => (
+                <div key={element.id} style={{ ...element.parentProps.style }}>
+                  {element.id === currentSelectedElement.id && (
                     <ElementControlWidget />
                   )}
-                  {createParent(el, elementIdx, sectionId)}
+                  {createParent({ element, elementIdx, sectionId })}
                 </div>
               ))}
             </div>
