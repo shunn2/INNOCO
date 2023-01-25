@@ -48,7 +48,7 @@ const jsonData = {
             draggable: true,
             style: {
               // minWidth: '100px',
-              height: '50px',
+              minHeight: '50px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -72,7 +72,7 @@ const jsonData = {
       sectionProps: {
         style: {
           width: '100%',
-          height: '100px',
+          minHeight: '100px',
           display: 'flex',
           backgroundColor: '#fff',
           justifyContent: 'center',
@@ -112,7 +112,7 @@ const jsonData = {
             draggable: true,
             style: {
               // minWidth: '100px',
-              height: '50px',
+              minHeight: '50px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -136,7 +136,7 @@ const jsonData = {
       sectionProps: {
         style: {
           width: '100%',
-          height: '100px',
+          minHeight: '100px',
           display: 'flex',
           backgroundColor: '#fff',
         },
@@ -176,7 +176,7 @@ const jsonData = {
             draggable: true,
             style: {
               minWidth: '100px',
-              height: '50px',
+              minHeight: '50px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -200,7 +200,7 @@ const jsonData = {
       sectionProps: {
         style: {
           width: '100%',
-          height: '100px',
+          minHeight: '100px',
           display: 'flex',
           backgroundColor: '#fff',
         },
@@ -240,7 +240,7 @@ const jsonData = {
             draggable: true,
             style: {
               minWidth: '100px',
-              height: '50px',
+              minHeight: '50px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -277,7 +277,7 @@ const jsonData = {
             draggable: true,
             style: {
               minWidth: '100px',
-              height: '50px',
+              minHeight: '50px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -314,7 +314,7 @@ const jsonData = {
             draggable: true,
             style: {
               minWidth: '100px',
-              height: '50px',
+              minHeight: '50px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -351,7 +351,7 @@ const jsonData = {
             draggable: true,
             style: {
               minWidth: '100px',
-              height: '50px',
+              minHeight: '50px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -375,7 +375,7 @@ const jsonData = {
       sectionProps: {
         style: {
           width: '100%',
-          height: '100px',
+          minHeight: '100px',
           display: 'flex',
           backgroundColor: '#fff',
         },
@@ -401,7 +401,7 @@ const jsonData = {
       sectionProps: {
         style: {
           width: '100%',
-          height: '100px',
+          minHeight: '100px',
           display: 'flex',
           backgroundColor: '#fff',
         },
@@ -427,7 +427,7 @@ const jsonData = {
       sectionProps: {
         style: {
           width: '100%',
-          height: '100px',
+          minHeight: '100px',
           display: 'flex',
           backgroundColor: '#fff',
         },
@@ -444,19 +444,7 @@ const jsonData = {
         flex: true,
       },
       image: null,
-      children: [
-        // {
-        //   id: '',
-        //   type: 'comment',
-        //   props: {
-        //     onSubmit: `on-stove.innoco/${userId}/${project_name}/${pageorder}/1`,
-        //     commetList: [
-        //       '안녕',
-        //       '안녕하세요'
-        //     ],
-        //   },
-        // },
-      ],
+      children: [],
     },
   },
   sectionOrder: [
