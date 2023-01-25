@@ -6,6 +6,8 @@ import * as Styled from '../../styled';
 import styleChange from '@utils/style/styleChange';
 import getCurrentStyle from '@utils/style/getCurrentStyle';
 import StyleInput from '@components/Common/StyleInput';
+import MinSizeMenu from './MinSize';
+import MaxSizeMenu from './MaxSize';
 
 const SizeMenu = () => {
   const [size, setSize] = useState({ width: '', height: '' });
@@ -25,24 +27,28 @@ const SizeMenu = () => {
   }, [element, mainData]);
 
   return (
-    <Styled.StyleContainer className="flex">
-      <Styled.InputContainer>
-        <Styled.InputTitle>Width</Styled.InputTitle>
-        <StyleInput
-          placeholder={size.width}
-          size={50}
-          onChange={(e) => handleSizeChange({ e, type: 'width' })}
-        />
-      </Styled.InputContainer>
-      <Styled.InputContainer>
-        <Styled.InputTitle>Height</Styled.InputTitle>
-        <StyleInput
-          placeholder={size.height}
-          size={50}
-          onChange={(e) => handleSizeChange({ e, type: 'height' })}
-        />
-      </Styled.InputContainer>
-    </Styled.StyleContainer>
+    <>
+      <Styled.StyleContainer className="flex">
+        <Styled.InputContainer>
+          <Styled.InputTitle>Width</Styled.InputTitle>
+          <StyleInput
+            placeholder={size.width}
+            size={50}
+            onChange={(e) => handleSizeChange({ e, type: 'width' })}
+          />
+        </Styled.InputContainer>
+        <Styled.InputContainer>
+          <Styled.InputTitle>Height</Styled.InputTitle>
+          <StyleInput
+            placeholder={size.height}
+            size={50}
+            onChange={(e) => handleSizeChange({ e, type: 'height' })}
+          />
+        </Styled.InputContainer>
+      </Styled.StyleContainer>
+      <MinSizeMenu />
+      <MaxSizeMenu />
+    </>
   );
 };
 
