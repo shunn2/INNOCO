@@ -26,7 +26,7 @@ const SectionControlWidget = () => {
       <ControlBox>
         <div
           onClick={(e) =>
-            duplicateSection(e, element, main, setMain, setSectionOrder)
+            duplicateSection({ e, element, main, setMain, setSectionOrder })
           }
           className="mx-1"
         >
@@ -38,7 +38,9 @@ const SectionControlWidget = () => {
           />
         </div>
         <div
-          onClick={(e) => deleteSection(e, element, setMain, setSectionOrder)}
+          onClick={(e) =>
+            deleteSection({ e, element, setMain, setSectionOrder })
+          }
           className="mx-1"
         >
           <img src="/iframe/trash.png" alt="" width={'26px'} height={'26px'} />

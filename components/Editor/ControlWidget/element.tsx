@@ -23,7 +23,7 @@ const ElementControlWidget = () => {
       <ControlBox>{element.el.type}</ControlBox>
       <ControlBox>
         <div
-          onClick={(e) => duplicateElement(e, element, main, setMain)}
+          onClick={(e) => duplicateElement({ e, element, main, setMain })}
           className="mx-1"
         >
           <img
@@ -34,7 +34,7 @@ const ElementControlWidget = () => {
           />
         </div>
         <div
-          onClick={(e) => deleteElement(e, element, setMain)}
+          onClick={(e) => deleteElement({ e, element, setMain })}
           className="mx-1"
         >
           <img src="/iframe/trash.png" alt="" width={'26px'} height={'26px'} />
