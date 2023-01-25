@@ -4,6 +4,8 @@ import { elementInfoAtom } from '@recoil/styleSideBar/atom';
 import { useEffect, useState } from 'react';
 import { ChromePicker } from 'react-color';
 import * as Styled from '../styled';
+import getCurrentStyle from '@utils/style/getCurrentStyle';
+import styleChange from '@utils/style/styleChange';
 
 const ColorMenu = () => {
   const [color, setColor] = useState<string>();
@@ -17,20 +19,12 @@ const ColorMenu = () => {
   };
 
   useEffect(() => {
-    setColor(
-      mainData[element.sectionId].children[element.index].props.style.color ||
-        'black'
-    );
+    setColor(getCurrentStyle({ element, type: 'color', mainData }) || 'black');
   }, [element, mainData]);
 
   const handleColorChange = (color) => {
     setColor(color.hex);
-    setMainData((prev) => {
-      const cur = JSON.parse(JSON.stringify(prev));
-      cur[element.sectionId].children[element.index].props.style.color =
-        color.hex;
-      return cur;
-    });
+    styleChange({ element, type: 'color', value: color.hex, setMainData });
   };
 
   return (
