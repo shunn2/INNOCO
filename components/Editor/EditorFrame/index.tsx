@@ -13,8 +13,9 @@ import {
   dragStart,
 } from '@utils/drag';
 import { useContentEditable } from '@hooks/useContentEditable';
-import ControlWidget from '../ControlWidget';
+import ElementControlWidget from '../ControlWidget/element';
 import { clickEffectStyle, dragEffectStyle } from '@utils/effect';
+import SectionControlWidget from '../ControlWidget/section';
 
 const EditorFrame = () => {
   const [main, setMain] = useRecoilState(withMainData);
@@ -156,41 +157,48 @@ const EditorFrame = () => {
     >
       <div id="test" style={{ width: '1000px' }} ref={editorRef}>
         {sectionOrder.map((sectionId, sectionIdx) => (
-          <div
-            id={sectionId}
-            key={sectionId}
-            {...main[sectionId].sectionProps}
-            // className={main[sectionId].sectionProps.className.join(' ')}
-            className={`${dragEffectStyle({
-              insertLocation,
-              draggingOverId: draggingOver?.el.id,
-              elementId: sectionId,
-            })} ${clickEffectStyle({
-              clickedId: currentSelectedElement.id,
-              elementId: sectionId,
-            })}`}
-            onDragStart={(e) =>
-              dragStart({
-                e: e,
-                element: main[sectionId],
-                idx: sectionIdx,
-                sectionId: sectionId,
-              })
-            }
-            onDragOver={(e) =>
-              handleDragOver(e, main[sectionId], sectionId, sectionIdx)
-            }
-            onDrop={handleDrop}
-            onClick={(e) =>
-              handleElementClick(e, sectionId, sectionIdx, { id: sectionId })
-            }
-          >
-            {main[sectionId].children.map((el, elementIdx) => (
-              <div key={el.id} style={{ ...el.parentProps.style }}>
-                {el.id === currentSelectedElement.id && <ControlWidget />}
-                {createParent(el, elementIdx, sectionId)}
-              </div>
-            ))}
+          <div key={sectionId}>
+            {sectionId === currentSelectedElement.id && (
+              <SectionControlWidget />
+            )}
+            <div
+              id={sectionId}
+              key={sectionId}
+              {...main[sectionId].sectionProps}
+              // className={main[sectionId].sectionProps.className.join(' ')}
+              className={`${dragEffectStyle({
+                insertLocation,
+                draggingOverId: draggingOver?.el.id,
+                elementId: sectionId,
+              })} ${clickEffectStyle({
+                clickedId: currentSelectedElement.id,
+                elementId: sectionId,
+              })}`}
+              onDragStart={(e) =>
+                dragStart({
+                  e: e,
+                  element: main[sectionId],
+                  idx: sectionIdx,
+                  sectionId,
+                })
+              }
+              onDragOver={(e) =>
+                handleDragOver(e, main[sectionId], sectionId, sectionIdx)
+              }
+              onDrop={handleDrop}
+              onClick={(e) =>
+                handleElementClick(e, sectionId, sectionIdx, main[sectionId])
+              }
+            >
+              {main[sectionId].children.map((el, elementIdx) => (
+                <div key={el.id} style={{ ...el.parentProps.style }}>
+                  {el.id === currentSelectedElement.id && (
+                    <ElementControlWidget />
+                  )}
+                  {createParent(el, elementIdx, sectionId)}
+                </div>
+              ))}
+            </div>
           </div>
         ))}
         <button onClick={() => console.log(main)}>clicik</button>
