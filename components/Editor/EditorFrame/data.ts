@@ -8,7 +8,7 @@ const jsonData = {
       sectionProps: {
         style: {
           width: '100%',
-          minHeight: '100px',
+          minHeight: '500px',
           display: 'flex',
           backgroundColor: '#fff',
           justifyContent: 'center',
