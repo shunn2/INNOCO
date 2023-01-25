@@ -5,12 +5,7 @@ import { deleteElement, duplicateElement } from '@utils/control';
 import { IframeEditorReturn } from '@utils/iframe/iframeEditorReturn';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-interface WidgetProps {
-  top: number;
-  left: number;
-}
-
-const ControlWidget = (props) => {
+const ElementControlWidget = () => {
   const [main, setMain] = useRecoilState(withMainData);
   const element = useRecoilValue(elementInfoAtom);
   const component = IframeEditorReturn().contentDocument.getElementById(
@@ -28,7 +23,7 @@ const ControlWidget = (props) => {
       <ControlBox>{element.el.type}</ControlBox>
       <ControlBox>
         <div
-          onClick={() => duplicateElement(element, main, setMain)}
+          onClick={(e) => duplicateElement(e, element, main, setMain)}
           className="mx-1"
         >
           <img
@@ -38,7 +33,10 @@ const ControlWidget = (props) => {
             height={'24px'}
           />
         </div>
-        <div onClick={() => deleteElement(element, setMain)} className="mx-1">
+        <div
+          onClick={(e) => deleteElement(e, element, setMain)}
+          className="mx-1"
+        >
           <img src="/iframe/trash.png" alt="" width={'26px'} height={'26px'} />
         </div>
       </ControlBox>
@@ -46,4 +44,4 @@ const ControlWidget = (props) => {
   );
 };
 
-export default ControlWidget;
+export default ElementControlWidget;
