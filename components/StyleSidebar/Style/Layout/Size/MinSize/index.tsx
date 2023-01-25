@@ -29,7 +29,7 @@ const MinSizeMenu = () => {
   return (
     <Styled.StyleContainer className="flex">
       <Styled.InputContainer>
-        <Styled.InputTitle>Min-Width</Styled.InputTitle>
+        <Styled.Title>Min-Width</Styled.Title>
         <StyleInput
           placeholder={minSize.minWidth}
           size={50}
@@ -37,7 +37,7 @@ const MinSizeMenu = () => {
         />
       </Styled.InputContainer>
       <Styled.InputContainer>
-        <Styled.InputTitle>Min-Height</Styled.InputTitle>
+        <Styled.Title>Min-Height</Styled.Title>
         <StyleInput
           placeholder={minSize.minHeight}
           size={50}

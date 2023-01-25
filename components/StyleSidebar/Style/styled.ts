@@ -28,7 +28,7 @@ export const InputContainer = styled.div`
   padding: 4px 16px 16px 4px;
 `;
 
-export const InputTitle = styled.div`
+export const Title = styled.div`
   font-size: 14px;
   line-height: 20px;
   margin-bottom: 4px;

@@ -27,8 +27,11 @@ const DisplayMenu = () => {
 
   return (
     <>
+      <Styled.StyleContainer>
+        <Styled.Title>Display</Styled.Title>
+      </Styled.StyleContainer>
       <Styled.StyleContainer className="my-4">
-        {displayList.map((v, idx) => (
+        {displayList.map((v) => (
           <Styled.SvgWrapper
             key={v}
             selected={v === display}
