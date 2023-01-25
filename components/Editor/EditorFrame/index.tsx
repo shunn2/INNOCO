@@ -12,10 +12,10 @@ import {
   dragSection,
   dragStart,
 } from '@utils/drag';
-import { useContentEditable } from '@hooks/useContentEditable';
 import ElementControlWidget from '../ControlWidget/element';
-import { clickEffectStyle, dragEffectStyle } from '@utils/effect';
 import SectionControlWidget from '../ControlWidget/section';
+import { useContentEditable } from '@hooks/useContentEditable';
+import { clickEffectStyle, dragEffectStyle } from '@utils/effect';
 import { createElementProps } from '@/types/editor';
 
 const EditorFrame = () => {
@@ -202,10 +202,10 @@ const EditorFrame = () => {
             >
               {main[sectionId].children.map((element, elementIdx) => (
                 <div key={element.id} style={{ ...element.parentProps.style }}>
+                  {createParent({ element, elementIdx, sectionId })}{' '}
                   {element.id === currentSelectedElement.id && (
                     <ElementControlWidget />
                   )}
-                  {createParent({ element, elementIdx, sectionId })}
                 </div>
               ))}
             </div>

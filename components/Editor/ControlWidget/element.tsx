@@ -16,7 +16,7 @@ const ElementControlWidget = () => {
     <div
       className="absolute flex justify-between items-center"
       style={{
-        minWidth: `${component.offsetWidth}px`,
+        minWidth: `${component.offsetWidth + 8}px`,
         marginBottom: `${component.offsetHeight + 25}px`,
       }}
     >
