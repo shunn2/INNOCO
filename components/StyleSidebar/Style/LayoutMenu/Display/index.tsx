@@ -46,7 +46,8 @@ const DisplayMenu = () => {
           onChange={(e) => handleDisplayChange(e.target.value)}
         />
       </Styled.StyleContainer>
-      {display === 'flex' && <FlexMenu />}
+      {/* {display === 'flex' && <FlexMenu />} */}
+      <FlexMenu />
     </Styled.StyleBox>
   );
 };

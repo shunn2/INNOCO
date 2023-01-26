@@ -3,7 +3,7 @@ import theme from '@styles/theme';
 const SvgSprite = () => {
   const { blue, gray } = theme.color;
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" display="none">
+    <svg xmlns="http://www.w3.org/2000/svg" display="none" width={0} height={0}>
       <symbol id="box-icon">
         <path
           fillRule="evenodd"

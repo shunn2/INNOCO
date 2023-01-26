@@ -1,7 +1,8 @@
 import ComponentInfo from '../ComponentInfo';
 import { BackgroundColorMenu, ColorMenu } from '../Style';
-import DisplayMenu from '../Style/Layout/Display';
-import SizeMenu from '../Style/Layout/Size';
+import IndentMenu from '../Style/IndentMenu';
+import DisplayMenu from '../Style/LayoutMenu/Display';
+import SizeMenu from '../Style/LayoutMenu/Size';
 import ToggleMenu from '../ToggleMenu';
 import * as Styled from './styled';
 
@@ -18,6 +19,9 @@ const StyleTab = () => {
       </ToggleMenu>
       <ToggleMenu title="Background">
         <BackgroundColorMenu />
+      </ToggleMenu>
+      <ToggleMenu title="Indents">
+        <IndentMenu />
       </ToggleMenu>
     </Styled.TabContents>
   );

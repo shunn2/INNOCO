@@ -9,10 +9,10 @@ import { SvgIcon } from '@components/Common';
 
 const flexList = {
   flexDirection: 'Direction',
-  alignItems: 'Align items',
+  alignItems: 'Align Items',
   justifyContent: 'Justify Content',
-  flexWrap: 'Children wrap',
-  alignContent: 'Align content',
+  flexWrap: 'Children Wrap',
+  alignContent: 'Align Content',
 };
 const propertyList = {
   flexDirection: ['row', 'column', 'row-reverse', 'column-reverse'],
