@@ -8,21 +8,17 @@ import styleChange from '@utils/style/styleChange';
 import getCurrentStyle from '@utils/style/getCurrentStyle';
 
 const BackgroundColorMenu = () => {
-  const [backgroundColor, setBackgroundColor] = useState<string>();
-  const [isOpen, setIsOpen] = useState(false);
-
   const element = useRecoilValue(elementInfoAtom);
   const [mainData, setMainData] = useRecoilState(withMainData);
+
+  const [backgroundColor, setBackgroundColor] = useState<string>(
+    getCurrentStyle({ element, type: 'backgrounColor', mainData }) || 'black'
+  );
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleBackgroundColorOpen = () => {
     setIsOpen(!isOpen);
   };
-
-  useEffect(() => {
-    setBackgroundColor(
-      getCurrentStyle({ element, type: 'backgrounColor', mainData }) || 'black'
-    );
-  }, [element, mainData]);
 
   const handleBackgroundColorChange = (color) => {
     setBackgroundColor(color.hex);
@@ -35,7 +31,7 @@ const BackgroundColorMenu = () => {
   };
 
   return (
-    <>
+    <Styled.StyleBox>
       <Styled.StyleContainer
         className="flex"
         onClick={handleBackgroundColorOpen}
@@ -51,7 +47,7 @@ const BackgroundColorMenu = () => {
           />
         </Styled.AbsoluteColorPicker>
       )}
-    </>
+    </Styled.StyleBox>
   );
 };
 
