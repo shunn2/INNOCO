@@ -7,6 +7,7 @@ import getCurrentStyle from '@utils/style/getCurrentStyle';
 import { SvgIcon } from '@components/Common';
 import * as Styled from '../../styled';
 import StyleInput from '@components/Common/StyleInput';
+import FlexMenu from './Flex';
 
 const displayList = ['block', 'flex', 'grid', 'inline-block', 'inline', 'none'];
 
@@ -26,7 +27,7 @@ const DisplayMenu = () => {
   }, [element, mainData]);
 
   return (
-    <>
+    <Styled.StyleBox>
       <Styled.StyleContainer>
         <Styled.Title>Display</Styled.Title>
       </Styled.StyleContainer>
@@ -48,7 +49,8 @@ const DisplayMenu = () => {
           onChange={(e) => handleDisplayChange(e.target.value)}
         />
       </Styled.StyleContainer>
-    </>
+      {display === 'flex' && <FlexMenu />}
+    </Styled.StyleBox>
   );
 };
 
