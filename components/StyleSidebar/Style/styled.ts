@@ -43,7 +43,10 @@ export const Title = styled.div`
 
 export const SvgWrapper = styled.div<{ selected: boolean }>`
   padding: 4px;
-  border: 0.5px solid #fff;
+  border: ${(props) =>
+    props.selected
+      ? `2px solid ${theme.color.white.dark}`
+      : `0.5px solid ${theme.color.white.dark}`};
   margin-left: -1px;
   background-color: ${(props) => props.selected && '#373c44'};
   &:hover {
