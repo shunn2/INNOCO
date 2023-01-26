@@ -1,17 +1,22 @@
 import theme from '@styles/theme';
 import styled from 'styled-components';
 
+export const StyleBox = styled.div`
+  margin: 16px 12px;
+`;
+
 export const StyleContainer = styled.div`
   display: flex;
   align-items: center;
+  margin: 12px 0;
   color: #fff;
-  padding: 0 12px;
+  color: ${theme.color.white.middle};
 `;
 
 export const ColorSquare = styled.div<{ color: string }>`
   width: 24px;
   height: 24px;
-  border: 1px solid #fff;
+  border: 1px solid ${theme.color.white.middle};
   border-radius: 6px;
   margin-right: 12px;
   cursor: pointer;

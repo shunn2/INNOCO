@@ -28,7 +28,7 @@ const SizeMenu = () => {
 
   return (
     <>
-      <Styled.StyleContainer className="flex">
+      <Styled.StyleBox className="flex">
         <Styled.InputContainer>
           <Styled.Title>Width</Styled.Title>
           <StyleInput
@@ -45,7 +45,7 @@ const SizeMenu = () => {
             onChange={(e) => handleSizeChange({ e, type: 'height' })}
           />
         </Styled.InputContainer>
-      </Styled.StyleContainer>
+      </Styled.StyleBox>
       <MinSizeMenu />
       <MaxSizeMenu />
     </>

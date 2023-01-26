@@ -27,7 +27,7 @@ const MaxSizeMenu = () => {
   }, [element, mainData]);
 
   return (
-    <Styled.StyleContainer className="flex">
+    <Styled.StyleBox className="flex">
       <Styled.InputContainer>
         <Styled.Title>Max-Width</Styled.Title>
         <StyleInput
@@ -44,7 +44,7 @@ const MaxSizeMenu = () => {
           onChange={(e) => handleSizeChange({ e, type: 'maxHeight' })}
         />
       </Styled.InputContainer>
-    </Styled.StyleContainer>
+    </Styled.StyleBox>
   );
 };
 

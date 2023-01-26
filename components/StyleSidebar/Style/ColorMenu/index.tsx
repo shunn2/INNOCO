@@ -28,7 +28,7 @@ const ColorMenu = () => {
   };
 
   return (
-    <>
+    <Styled.StyleBox>
       <Styled.StyleContainer className="flex" onClick={handleColorOpen}>
         <Styled.ColorSquare color={color} />
         {color}
@@ -41,7 +41,7 @@ const ColorMenu = () => {
           />
         </Styled.AbsoluteColorPicker>
       )}
-    </>
+    </Styled.StyleBox>
   );
 };
 

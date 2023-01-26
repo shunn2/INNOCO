@@ -27,7 +27,7 @@ const MinSizeMenu = () => {
   }, [element, mainData]);
 
   return (
-    <Styled.StyleContainer className="flex">
+    <Styled.StyleBox className="flex">
       <Styled.InputContainer>
         <Styled.Title>Min-Width</Styled.Title>
         <StyleInput
@@ -44,7 +44,7 @@ const MinSizeMenu = () => {
           onChange={(e) => handleSizeChange({ e, type: 'minHeight' })}
         />
       </Styled.InputContainer>
-    </Styled.StyleContainer>
+    </Styled.StyleBox>
   );
 };
 

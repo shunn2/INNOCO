@@ -35,7 +35,7 @@ const BackgroundColorMenu = () => {
   };
 
   return (
-    <>
+    <Styled.StyleBox>
       <Styled.StyleContainer
         className="flex"
         onClick={handleBackgroundColorOpen}
@@ -51,7 +51,7 @@ const BackgroundColorMenu = () => {
           />
         </Styled.AbsoluteColorPicker>
       )}
-    </>
+    </Styled.StyleBox>
   );
 };
 
