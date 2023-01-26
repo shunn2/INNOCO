@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { getInsertLocation } from '@utils/getInsertLocation';
 import { useRecoilState } from 'recoil';
-import { elementInfoAtom } from '@recoil/styleSideBar/atom';
+import { elementInfoAtom } from '@recoil/selectedElement/atom';
 import { withMainData, withSectionOrder } from '@recoil/editor';
 import {
   dragElementToElement,

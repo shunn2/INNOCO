@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as Styled from './styled';
 import { useRecoilValue } from 'recoil';
-import { elementInfoAtom } from '@recoil/styleSideBar/atom';
+import { elementInfoAtom } from '@recoil/selectedElement/atom';
 import { PropsTab, StyleTab } from './TabMenu';
 
 const StyleSidebar = () => {

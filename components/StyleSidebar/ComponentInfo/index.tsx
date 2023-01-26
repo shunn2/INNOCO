@@ -1,5 +1,5 @@
 import { SvgIcon } from '@components/Common';
-import { elementInfoAtom } from '@recoil/styleSideBar/atom';
+import { elementInfoAtom } from '@recoil/selectedElement/atom';
 import { useRecoilValue } from 'recoil';
 import * as Styled from './styled';
 
