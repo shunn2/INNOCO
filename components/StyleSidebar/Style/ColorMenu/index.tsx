@@ -8,19 +8,17 @@ import getCurrentStyle from '@utils/style/getCurrentStyle';
 import styleChange from '@utils/style/styleChange';
 
 const ColorMenu = () => {
-  const [color, setColor] = useState<string>();
-  const [isOpen, setIsOpen] = useState(false);
-
   const element = useRecoilValue(elementInfoAtom);
   const [mainData, setMainData] = useRecoilState(withMainData);
+
+  const [color, setColor] = useState<string>(
+    getCurrentStyle({ element, type: 'color', mainData }) || 'black'
+  );
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleColorOpen = () => {
     setIsOpen(!isOpen);
   };
-
-  useEffect(() => {
-    setColor(getCurrentStyle({ element, type: 'color', mainData }) || 'black');
-  }, [element, mainData]);
 
   const handleColorChange = (color) => {
     setColor(color.hex);
