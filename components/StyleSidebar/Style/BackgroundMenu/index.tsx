@@ -1,6 +1,6 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { withMainData } from '@recoil/editor';
-import { elementInfoAtom } from '@recoil/styleSideBar/atom';
+import { elementInfoAtom } from '@recoil/selectedElement/atom';
 import { useEffect, useState } from 'react';
 import { ChromePicker } from 'react-color';
 import * as Styled from '../styled';

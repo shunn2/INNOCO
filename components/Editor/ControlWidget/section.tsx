@@ -1,6 +1,6 @@
 import { ControlBox } from '@components/Common';
 import { withMainData, withSectionOrder } from '@recoil/editor';
-import { elementInfoAtom } from '@recoil/styleSideBar/atom';
+import { elementInfoAtom } from '@recoil/selectedElement/atom';
 import { deleteSection, duplicateSection } from '@utils/control';
 import { IframeEditorReturn } from '@utils/iframe/iframeEditorReturn';
 import { useRecoilState, useRecoilValue } from 'recoil';

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { elementInfoAtom } from '@recoil/styleSideBar/atom';
+import { elementInfoAtom } from '@recoil/selectedElement/atom';
 import { withMainData } from '@recoil/editor';
 import styleChange from '@utils/style/styleChange';
 import getCurrentStyle from '@utils/style/getCurrentStyle';
