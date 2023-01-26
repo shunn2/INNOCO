@@ -8,12 +8,14 @@ import getCurrentStyle from '@utils/style/getCurrentStyle';
 import { SvgIcon } from '@components/Common';
 
 const flexList = {
+  flexDirection: 'Direction',
   alignItems: 'Align items',
   justifyContent: 'Justify Content',
   flexWrap: 'Children wrap',
   alignContent: 'Align content',
 };
 const propertyList = {
+  flexDirection: ['row', 'column', 'row-reverse', 'column-reverse'],
   alignItems: ['start', 'center', 'end', 'stretch', 'baseline'],
   justifyContent: ['start', 'center', 'end', 'space-between', 'space-around'],
   flexWrap: ['nowrap', 'wrap', 'wrap-reverse'],
@@ -29,6 +31,7 @@ const propertyList = {
 
 const FlexMenu = () => {
   const [flexProperty, setFlexProperty] = useState<FlexPropertyProps>({
+    flexDirection: '',
     alignItems: '',
     justifyContent: '',
     flexWrap: '',
@@ -44,6 +47,8 @@ const FlexMenu = () => {
 
   useEffect(() => {
     setFlexProperty({
+      flexDirection:
+        getCurrentStyle({ element, type: 'flexDirection', mainData }) || 'none',
       alignItems:
         getCurrentStyle({ element, type: 'alignItems', mainData }) || 'none',
       justifyContent:
@@ -59,7 +64,7 @@ const FlexMenu = () => {
   return (
     <>
       {Object.keys(flexList).map((property) => (
-        <>
+        <div key={`flex_property_${property}`}>
           <Styled.Title>{flexList[property]}</Styled.Title>
           <Styled.StyleContainer>
             {propertyList[property].map((v) => (
@@ -72,13 +77,14 @@ const FlexMenu = () => {
               </Styled.SvgWrapper>
             ))}
           </Styled.StyleContainer>
-        </>
+        </div>
       ))}
     </>
   );
 };
 
 interface FlexPropertyProps {
+  flexDirection: string;
   alignItems: string;
   justifyContent: string;
   flexWrap: string;
