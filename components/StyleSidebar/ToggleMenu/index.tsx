@@ -7,7 +7,7 @@ export interface ToggleMenuProps {
 }
 const ToggleMenu = (props: PropsWithChildren<ToggleMenuProps>) => {
   const { children, title, ...rest } = props;
-  const [isToggleOpen, setIsToggleOpen] = useState(false);
+  const [isToggleOpen, setIsToggleOpen] = useState(true);
   const handleToggleMenu = () => {
     setIsToggleOpen(!isToggleOpen);
   };
