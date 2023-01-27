@@ -10,18 +10,19 @@ export default NextAuth({
     CredentialsProvider({
       name: 'credentials',
       credentials: {
-        memberLoginId: { label: 'Email', type: 'memberLoginId' },
-        memberLoginPw: { label: 'Password', type: 'memberLoginPw' },
+        userLoginId: { label: 'Email', type: 'userLoginId' },
+        userLoginPw: { label: 'Password', type: 'userLoginPw' },
       },
       async authorize(credentials: SignInPayload, req: NextApiRequest) {
         const payload = {
-          memberLoginId: credentials.memberLoginId,
-          memberLoginPw: credentials.memberLoginPw,
+          userLoginId: credentials.userLoginId,
+          userLoginPw: credentials.userLoginPw,
         };
+
         const res = await authApi.signIn(payload);
         if (res.value) {
           const token = res.value.token;
-          const user = { id: token };
+          const user = { id: token.accessToken, email: token.refreshToken };
           return user;
         }
         return null;
@@ -33,7 +34,10 @@ export default NextAuth({
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.accessToken = user.id;
+      if (user) {
+        token.accessToken = user.id;
+        token.refreshToken = user.email;
+      }
       return token;
     },
     async session({ session, token, user }) {

@@ -44,6 +44,7 @@ const EditorFrame = () => {
     setDblClickElement(elementId);
   };
 
+  // REVIEW START
   const handleDrop = (e) => {
     const { el, elIdx } = JSON.parse(e.dataTransfer.getData('dragging'));
     if (el.id === draggingOver.el.id) return;
@@ -71,7 +72,7 @@ const EditorFrame = () => {
     e.preventDefault();
     e.stopPropagation();
   };
-
+  //REVIEW END
   const handleDragOver = (e, element, sectionId, idx) => {
     setDraggingOver({ el: element, sectionId: sectionId, idx: idx });
     setInsertLocation(
@@ -211,7 +212,6 @@ const EditorFrame = () => {
             </div>
           </div>
         ))}
-        <button onClick={() => console.log(main)}>clicik</button>
       </div>
     </div>
   );

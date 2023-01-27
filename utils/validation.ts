@@ -18,8 +18,8 @@ export const validateInput = (type: string, input: string) => {
     return input.length > 0;
   };
 
-  if (type === 'memberEmail') return validateEmail();
-  if (type === 'memberLoginId') return validateId();
-  if (type === 'memberLoginPw') return validatePassword();
-  if (type === 'memberName') return validateName();
+  if (type === 'userEmail') return validateEmail();
+  if (type === 'userLoginId') return validateId();
+  if (type === 'userLoginPw') return validatePassword();
+  if (type === 'userName') return validateName();
 };

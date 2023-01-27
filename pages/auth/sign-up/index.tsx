@@ -8,18 +8,18 @@ import { authApi } from '@api';
 
 const SignUp = () => {
   const initialSignUpPayload: SignUpPayload = {
-    memberLoginId: '',
-    memberLoginPw: '',
-    memberEmail: '',
-    memberName: '',
-    memberProfileUrl: '',
+    userLoginId: '',
+    userLoginPw: '',
+    userEmail: '',
+    userName: '',
+    userProfileUrl: '',
   };
 
   const initialErrorState = {
-    memberEmail: false,
-    memberLoginId: false,
-    memberLoginPw: false,
-    memberName: false,
+    userEmail: false,
+    userLoginId: false,
+    userLoginPw: false,
+    userName: false,
   };
 
   const [signUpPayload, setSignUpPayload] =
@@ -31,20 +31,15 @@ const SignUp = () => {
   const signUp = useSignUp();
 
   useEffect(() => {
-    const {
-      memberEmail,
-      memberLoginId,
-      memberLoginPw,
-      memberName,
-      memberProfileUrl,
-    } = signUpPayload;
+    const { userEmail, userLoginId, userLoginPw, userName, userProfileUrl } =
+      signUpPayload;
 
     setDisabled(
       !!(
-        !memberEmail ||
-        !memberLoginId ||
-        !memberLoginPw ||
-        !memberName ||
+        !userEmail ||
+        !userLoginId ||
+        !userLoginPw ||
+        !userName ||
         !checkDuplicate ||
         isDuplicated
       )
@@ -53,7 +48,7 @@ const SignUp = () => {
 
   const handleChange =
     (type: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (type === 'memberLoginId') setCheckDuplicate(false);
+      if (type === 'userLoginId') setCheckDuplicate(false);
       const input = e.target.value;
       setSignUpPayload({ ...signUpPayload, [type]: '' });
 
@@ -62,7 +57,6 @@ const SignUp = () => {
         return;
       }
       setError({ ...error, [type]: false });
-
       setSignUpPayload({ ...signUpPayload, [type]: input });
     };
 
@@ -71,8 +65,8 @@ const SignUp = () => {
   };
 
   const checkDuplicateId = async () => {
-    const memberLoginId = signUpPayload.memberLoginId;
-    const { value } = await authApi.checkDuplicate(memberLoginId);
+    const userLoginId = signUpPayload.userLoginId;
+    const { value } = await authApi.checkDuplicate(userLoginId);
     if (!value) {
       setCheckDuplicate(true);
     }
@@ -86,29 +80,29 @@ const SignUp = () => {
         <Input
           type="auth"
           placeholder={'이메일을 입력하세요.'}
-          onChange={handleChange('memberEmail')}
-          error={error.memberEmail}
+          onChange={handleChange('userEmail')}
+          error={error.userEmail}
         />
-        {error.memberEmail && <ErrorMessage type="email" />}
+        {error.userEmail && <ErrorMessage type="email" />}
         <Input
           placeholder={'이름을 입력하세요.'}
-          onChange={handleChange('memberName')}
+          onChange={handleChange('userName')}
         />
         <Input
           placeholder={'아이디 입력하세요.'}
-          onChange={handleChange('memberLoginId')}
-          error={error.memberLoginId}
+          onChange={handleChange('userLoginId')}
+          error={error.userLoginId}
         />
         <button onClick={checkDuplicateId}>아이디 중복 확인</button>
         {isDuplicated && <ErrorMessage type="duplicate" />}
-        {error.memberLoginId && <ErrorMessage type="id" />}
+        {error.userLoginId && <ErrorMessage type="id" />}
         <Input
           placeholder={'비밀번호를 입력하세요.'}
           type="password"
-          onChange={handleChange('memberLoginPw')}
-          error={error.memberLoginPw}
+          onChange={handleChange('userLoginPw')}
+          error={error.userLoginPw}
         />
-        {error.memberLoginPw && <ErrorMessage type="password" />}
+        {error.userLoginPw && <ErrorMessage type="password" />}
         {/* TODO: 이메일 인증 */}
         <Button
           disabled={disabled}
