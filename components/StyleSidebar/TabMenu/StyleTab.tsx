@@ -1,8 +1,11 @@
 import ComponentInfo from '../ComponentInfo';
-import { BackgroundColorMenu, ColorMenu } from '../Style';
-import IndentMenu from '../Style/IndentMenu';
-import DisplayMenu from '../Style/LayoutMenu/Display';
-import SizeMenu from '../Style/LayoutMenu/Size';
+import {
+  BackgroundColorMenu,
+  ColorMenu,
+  DisplayMenu,
+  IndentMenu,
+  SizeMenu,
+} from '../Style';
 import ToggleMenu from '../ToggleMenu';
 import * as Styled from './styled';
 
