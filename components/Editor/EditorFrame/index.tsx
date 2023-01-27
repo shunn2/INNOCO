@@ -211,7 +211,6 @@ const EditorFrame = () => {
             </div>
           </div>
         ))}
-        <button onClick={() => console.log(main)}>clicik</button>
       </div>
     </div>
   );

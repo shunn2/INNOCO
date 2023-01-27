@@ -3,7 +3,7 @@ import { Input, Button, Layout } from '@components/Common';
 import { AuthContainer, ErrorMessage } from '@components/Auth';
 import { SignInPayload } from '@/types/auth';
 import { validateInput } from '@utils/validation';
-import { getSession, signIn } from 'next-auth/react';
+import { getSession, signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 const SignIn = () => {
@@ -16,7 +16,7 @@ const SignIn = () => {
     userLoginId: false,
     userLoginPw: false,
   };
-
+  const { data: session } = useSession();
   const [signInPayload, setSignInPayload] =
     useState<SignInPayload>(initialSignInPayload);
   const [error, setError] = useState(initialErrorState);
@@ -30,8 +30,9 @@ const SignIn = () => {
   const router = useRouter();
 
   useEffect(() => {
+    console.log(session);
+
     const getUserSession = async () => {
-      const session = await getSession();
       if (session) {
         window.localStorage.setItem(
           'access_token',
@@ -42,7 +43,7 @@ const SignIn = () => {
       }
     };
     getUserSession();
-  }, []);
+  }, [session]);
 
   const handleChange =
     (type: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,7 +91,6 @@ const SignIn = () => {
           로그인
         </Button>
       </AuthContainer>
-      <button onClick={() => console.log(signInPayload)}>sdf</button>
     </Layout>
   );
 };
