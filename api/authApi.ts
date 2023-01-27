@@ -10,7 +10,6 @@ const HEADERS = {
 const createAxiosWithoutToken = (url: string) => {
   return axios.create({
     baseURL: `${process.env.BASE_URL}/${url}`,
-    headers: HEADERS,
   });
 };
 
@@ -31,9 +30,9 @@ class AuthApi {
     return data;
   }
 
-  async checkDuplicate(memberLoginId: string) {
+  async checkDuplicate(userLoginId: string) {
     const { data } = await createAxiosWithoutToken('auth').get(
-      `/check/${memberLoginId}`
+      `/check/${userLoginId}`
     );
     return data;
   }
