@@ -15,19 +15,18 @@ const axiosInstanceWithToken = axios.create({
 
 const createAxiosWithToken = (): AxiosInstance => {
   const accessToken = getToken();
+
   setAuthorizationHeader(JSON.parse(accessToken));
   return axiosInstanceWithToken;
 };
 
 const setAuthorizationHeader = (token: string) => {
-  axiosInstanceWithToken.defaults.headers[
-    'Authorization'
-  ] = `Bearer ${JSON.parse(token)}`;
+  axiosInstanceWithToken.defaults.headers['Authorization'] = `Bearer ${token}`;
 };
 
 const getToken = () => {
   const accessToken = window.localStorage.getItem('access_token');
-  return JSON.stringify(accessToken);
+  return accessToken;
 };
 
 export { createAxiosWithToken, setAuthorizationHeader };
