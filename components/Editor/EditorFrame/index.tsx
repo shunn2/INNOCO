@@ -44,36 +44,6 @@ const EditorFrame = () => {
     setDblClickElement(elementId);
   };
 
-  // REVIEW START
-  const handleDrop = (e) => {
-    const { el, elIdx } = JSON.parse(e.dataTransfer.getData('dragging'));
-    if (el.id === draggingOver.el.id) return;
-    if (el.type === 'section') {
-      if (elIdx !== '') dragSection({ e, draggingOver, setSectionOrder });
-      else dragOuterSection({ e, draggingOver, setMain, setSectionOrder });
-    }
-    if (el.type !== 'section') {
-      if (draggingOver.el.type === 'section') {
-        if (elIdx !== '') dragElementToSection({ e, draggingOver, setMain });
-        else dragOuterElementToSection({ e, draggingOver, setMain });
-      } else {
-        if (elIdx !== '')
-          dragElementToElement({ e, draggingOver, insertLocation, setMain });
-        else
-          dragOuterElementToElement({
-            e,
-            draggingOver,
-            insertLocation,
-            setMain,
-          });
-      }
-    }
-    setDraggingOver(null);
-    e.preventDefault();
-    e.stopPropagation();
-  };
-  //REVIEW END
-
   const handleDragOver = (e, element, sectionId, idx) => {
     setDraggingOver({ el: element, sectionId: sectionId, idx: idx });
     setInsertLocation(
