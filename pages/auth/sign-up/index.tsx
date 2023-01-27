@@ -53,14 +53,10 @@ const SignUp = () => {
       setSignUpPayload({ ...signUpPayload, [type]: '' });
 
       if (!validateInput(type, input)) {
-        console.log(11);
-
         setError({ ...error, [type]: true });
         return;
       }
       setError({ ...error, [type]: false });
-      console.log(type, input);
-
       setSignUpPayload({ ...signUpPayload, [type]: input });
     };
 
@@ -115,7 +111,6 @@ const SignUp = () => {
         >
           회원가입
         </Button>
-        <button onClick={() => console.log(signUpPayload)}>ckucj</button>
       </AuthContainer>
     </Layout>
   );

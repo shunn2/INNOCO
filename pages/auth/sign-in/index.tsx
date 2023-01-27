@@ -8,13 +8,13 @@ import { useRouter } from 'next/router';
 
 const SignIn = () => {
   const initialSignInPayload: SignInPayload = {
-    memberLoginId: '',
-    memberLoginPw: '',
+    userLoginId: '',
+    userLoginPw: '',
   };
 
   const initialErrorState = {
-    memberLoginId: false,
-    memberLoginPw: false,
+    userLoginId: false,
+    userLoginPw: false,
   };
 
   const [signInPayload, setSignInPayload] =
@@ -23,8 +23,8 @@ const SignIn = () => {
   const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
-    const { memberLoginId, memberLoginPw } = signInPayload;
-    setDisabled(!!(!memberLoginId || !memberLoginPw));
+    const { userLoginId, userLoginPw } = signInPayload;
+    setDisabled(!!(!userLoginId || !userLoginPw));
   }, [signInPayload]);
 
   const router = useRouter();
@@ -60,8 +60,8 @@ const SignIn = () => {
   const handleSignInButtonClick = async () => {
     await signIn('credentials', {
       redirect: true,
-      memberLoginId: signInPayload.memberLoginId,
-      memberLoginPw: signInPayload.memberLoginPw,
+      userLoginId: signInPayload.userLoginId,
+      userLoginPw: signInPayload.userLoginPw,
     });
   };
 
@@ -71,17 +71,17 @@ const SignIn = () => {
         <p>Login</p>
         <Input
           placeholder={'아이디를 입력하세요.'}
-          onChange={handleChange('memberLoginId')}
-          error={error.memberLoginId}
+          onChange={handleChange('userLoginId')}
+          error={error.userLoginId}
         />
-        {error.memberLoginId && <ErrorMessage type="id" />}
+        {error.userLoginId && <ErrorMessage type="id" />}
         <Input
           placeholder={'비밀번호를 입력하세요.'}
           type="password"
-          onChange={handleChange('memberLoginPw')}
-          error={error.memberLoginPw}
+          onChange={handleChange('userLoginPw')}
+          error={error.userLoginPw}
         />
-        {error.memberLoginPw && <ErrorMessage type="password" />}
+        {error.userLoginPw && <ErrorMessage type="password" />}
         <Button
           disabled={disabled}
           variant="auth"
@@ -90,6 +90,7 @@ const SignIn = () => {
           로그인
         </Button>
       </AuthContainer>
+      <button onClick={() => console.log(signInPayload)}>sdf</button>
     </Layout>
   );
 };

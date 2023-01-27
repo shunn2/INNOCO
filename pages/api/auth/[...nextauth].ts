@@ -10,18 +10,21 @@ export default NextAuth({
     CredentialsProvider({
       name: 'credentials',
       credentials: {
-        memberLoginId: { label: 'Email', type: 'memberLoginId' },
-        memberLoginPw: { label: 'Password', type: 'memberLoginPw' },
+        userLoginId: { label: 'Email', type: 'userLoginId' },
+        userLoginPw: { label: 'Password', type: 'userLoginPw' },
       },
       async authorize(credentials: SignInPayload, req: NextApiRequest) {
         const payload = {
-          memberLoginId: credentials.memberLoginId,
-          memberLoginPw: credentials.memberLoginPw,
+          userLoginId: credentials.userLoginId,
+          userLoginPw: credentials.userLoginPw,
         };
+
         const res = await authApi.signIn(payload);
+
         if (res.value) {
           const token = res.value.token;
-          const user = { id: token };
+
+          const user = { id: token.accessToken };
           return user;
         }
         return null;
