@@ -20,11 +20,9 @@ export default NextAuth({
         };
 
         const res = await authApi.signIn(payload);
-
         if (res.value) {
           const token = res.value.token;
-
-          const user = { id: token.accessToken };
+          const user = { id: token.accessToken, email: token.refreshToken };
           return user;
         }
         return null;
@@ -36,7 +34,10 @@ export default NextAuth({
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.accessToken = user.id;
+      if (user) {
+        token.accessToken = user.id;
+        token.refreshToken = user.email;
+      }
       return token;
     },
     async session({ session, token, user }) {
