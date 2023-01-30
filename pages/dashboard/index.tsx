@@ -9,9 +9,16 @@ import { ProjectInfo } from '@components/Dashboard';
 import queryKeys from '@react-query/queryKeys';
 import { Projects } from '@/types/project';
 import { useEffect } from 'react';
+import { createAxiosWithToken } from '@api/customAxios';
 
 const Dashboard = () => {
-  const handleCreateProjectButton = () => {};
+  const handleCreateProjectButton = async () => {
+    const { data } = await createAxiosWithToken().post('/projects', {
+      projectName: 'testename111',
+      projectThumbnailUrl: 'testeurl111',
+    });
+    console.log('create projects', data);
+  };
   const projects: Projects = useProjects();
 
   return (
