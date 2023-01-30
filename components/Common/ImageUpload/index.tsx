@@ -1,7 +1,11 @@
 import { api } from '@api';
-import useImage from '@hooks/useImage';
+import { Image } from '@/types/image';
 import { ChangeEvent, PropsWithChildren } from 'react';
 import * as Styled from './styled';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { elementInfoAtom } from '@recoil/selectedElement/atom';
+import { withMainData } from '@recoil/editor';
+import imageChange from '@utils/style/imageChange';
 
 interface ImageUploadInterface {
   onClick: () => void;
@@ -9,18 +13,25 @@ interface ImageUploadInterface {
 
 const ImageUpload = (props: PropsWithChildren<ImageUploadInterface>) => {
   const { children, ...rest } = props;
-  const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
+
+  const element = useRecoilValue(elementInfoAtom);
+  const [mainData, setMainData] = useRecoilState(withMainData);
+
+  const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const image = e.target.files[0];
-    const formData = new FormData();
-    formData.append('multipartFile', image);
-    api.postImage(image);
+    const data: Image = await api.postImage(image);
+    imageChange({ element, url: data.value, setMainData });
   };
   return (
     <Styled.ImageUploadWrapper {...rest}>
-      <input
+      <Styled.ImageUploadLabel htmlFor="image-upload">
+        Choose File
+      </Styled.ImageUploadLabel>
+      <Styled.ImageUploadInput
         type={'file'}
         accept={'image/*'}
         onChange={(e) => handleImageUpload(e)}
+        id="image-upload"
       />
     </Styled.ImageUploadWrapper>
   );
