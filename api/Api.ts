@@ -5,8 +5,18 @@ class Api {
     const { data } = await createAxiosWithToken().get('/projects/list/me');
     return data;
   }
-  async postImage() {
-    const { data } = await createAxiosWithToken().post('/image/upload');
+  async postImage(multipartFile) {
+    const { data } = await createAxiosWithToken().post(
+      '/image/upload',
+      {
+        multipartFile,
+      },
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
     return data;
   }
 }
