@@ -3,7 +3,6 @@ import axios, { AxiosInstance } from 'axios';
 const BASE_URL = process.env.BASE_URL;
 const HEADERS = {
   'Cache-Control': 'no-cache',
-  // 'Access-Control-Allow-Origin': '*',
   'Content-Type': 'application/json; charset=utf-8',
 };
 

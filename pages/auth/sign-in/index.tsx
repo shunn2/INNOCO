@@ -30,8 +30,6 @@ const SignIn = () => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(session);
-
     const getUserSession = async () => {
       if (session) {
         window.localStorage.setItem(

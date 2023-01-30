@@ -16,6 +16,9 @@ const color = {
     light: '#fff',
     dark: '#627087',
   },
+  unique: {
+    side: '#373c44',
+  },
 };
 
 const theme: DefaultTheme = {
