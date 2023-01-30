@@ -17,6 +17,9 @@ declare module 'styled-components' {
         middle: string;
         dark: string;
       };
+      unique: {
+        side: string;
+      };
     };
   }
 }
