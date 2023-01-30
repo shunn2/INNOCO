@@ -1,12 +1,16 @@
-import ImageUpload from '@components/Common/ImageUpload';
+import * as Styled from './styled';
+import ComponentInfo from '../ComponentInfo';
+import ToggleMenu from '../ToggleMenu';
+import ImageMenu from '../Props/ImageMenu';
 
 const PropsTab = () => {
   return (
-    <div>
-      <ImageUpload onClick={() => console.log('image')}>
-        <p>upload</p>
-      </ImageUpload>
-    </div>
+    <Styled.TabContents>
+      <ComponentInfo />
+      <ToggleMenu title="Main">
+        <ImageMenu />
+      </ToggleMenu>
+    </Styled.TabContents>
   );
 };
 
