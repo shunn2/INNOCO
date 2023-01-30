@@ -1,3 +1,4 @@
+import { signOut } from 'next-auth/react';
 import * as Styled from './styled';
 
 const Header = () => {
@@ -11,6 +12,15 @@ const Header = () => {
         sizes="100vw"
       />
       {/* <div>유저정보</div> */}
+      <button
+        onClick={() =>
+          signOut({
+            callbackUrl: '/auth/sign-in',
+          })
+        }
+      >
+        LOGOUT
+      </button>
     </Styled.HeaderContainer>
   );
 };
