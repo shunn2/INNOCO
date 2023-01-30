@@ -9,7 +9,7 @@ export const elementInfoAtom = atom({
   key: 'elementInfoAtom',
   default: {
     id: null,
-    el: { type: '', props: '' },
+    el: { type: '', props: { src: '' } },
     index: 0,
     sectionId: '',
   },
