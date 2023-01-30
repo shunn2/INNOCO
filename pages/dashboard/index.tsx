@@ -1,15 +1,14 @@
 import { SvgIcon, Layout } from '@components/Common';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { signOut, useSession } from 'next-auth/react';
 import { api } from '@api';
 import { dehydrate, QueryClient } from 'react-query';
 import useProjects from '@hooks/useProjects';
 import { ProjectInfo } from '@components/Dashboard';
 import queryKeys from '@react-query/queryKeys';
 import { Projects } from '@/types/project';
-import { useEffect } from 'react';
 import { createAxiosWithToken } from '@api/customAxios';
+import theme from '@styles/theme';
 
 const Dashboard = () => {
   const handleCreateProjectButton = async () => {
@@ -25,24 +24,19 @@ const Dashboard = () => {
     <Layout>
       <DashboardContainer>
         <Title>My Project</Title>
-        <Link href="/editor">
-          <CreateProjectButtonWrapper onClick={handleCreateProjectButton}>
-            <SvgIcon type="project-create" size={32} />
-            <p>Create New Project</p>
-          </CreateProjectButtonWrapper>
-        </Link>
-        {projects?.value.projects.map((project) => (
-          <ProjectInfo project={project} key={project.projectId} />
-        ))}
-        <button
-          onClick={() =>
-            signOut({
-              callbackUrl: '/auth/sign-in',
-            })
-          }
-        >
-          로그아웃
-        </button>
+        <DashboardGrid>
+          <ProjectBox>
+            <Link href="/editor">
+              <CreateProjectButtonWrapper onClick={handleCreateProjectButton}>
+                <SvgIcon type="project-create" size={32} />
+                <p>Create New Project</p>
+              </CreateProjectButtonWrapper>
+            </Link>
+          </ProjectBox>
+          {projects?.value.projects.map((project) => (
+            <ProjectInfo project={project} key={project.projectId} />
+          ))}
+        </DashboardGrid>
       </DashboardContainer>
     </Layout>
   );
@@ -67,9 +61,24 @@ const DashboardContainer = styled.div`
   padding: 32px;
 `;
 
-const Title = styled.h1`
-  font-size: 32px;
-  margin-bottom: 16px;
+const DashboardGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(320px, 1fr));
+  grid-gap: 24px;
+`;
+
+const ProjectBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: ${theme.color.gray.middle};
+  border-radius: 4px;
+`;
+
+const Title = styled.h4`
+  margin: 16px 0;
 `;
 
 const CreateProjectButtonWrapper = styled.div`
