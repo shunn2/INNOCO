@@ -21,7 +21,7 @@ export default NextAuth({
 
         const res = await authApi.signIn(payload);
         if (res.value) {
-          const token = res.value.token;
+          const token = res.value;
           const user = { id: token.accessToken, email: token.refreshToken };
           return user;
         }
