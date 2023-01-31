@@ -1011,19 +1011,19 @@ const SvgSprite = () => {
         <path
           d="M5 7H19"
           stroke={theme.color.white.middle}
-          stroke-width="1.5"
+          strokeWidth="1.5"
           strokeLinecap="round"
         />
         <path
           d="M5 12H15"
           stroke={theme.color.white.middle}
-          stroke-width="1.5"
+          strokeWidth="1.5"
           strokeLinecap="round"
         />
         <path
           d="M5 17H11"
           stroke={theme.color.white.middle}
-          stroke-width="1.5"
+          strokeWidth="1.5"
           strokeLinecap="round"
         />
       </symbol>
