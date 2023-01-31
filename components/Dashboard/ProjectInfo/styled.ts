@@ -8,9 +8,33 @@ export const ProjectInfoContainer = styled.a`
 `;
 
 export const ProjectContentWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
   padding: 16px 18px 16px;
   font-size: 20px;
   z-index: 9;
+`;
+
+export const SettingWrapper = styled.div`
+  position: relative;
+`;
+
+export const SettingModal = styled.div`
+  position: absolute;
+  background-color: ${theme.color.white.dark};
+`;
+
+export const SettingList = styled.div`
+  width: 80px;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 4px;
+  &:hover {
+    color: ${theme.color.unique.side};
+    cursor: pointer;
+  }
 `;
 
 export const ProjectThumbnailWrapeer = styled.div`
