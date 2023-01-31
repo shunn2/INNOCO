@@ -22,7 +22,7 @@ const ImageMenu = () => {
         <Styled.ImageInput placeholder={existImage} />
       </Styled.PropsContainer>
       <Styled.PropsContainer>
-        <ImageUpload onClick={() => console.log('image')} />
+        <ImageUpload />
       </Styled.PropsContainer>
     </Styled.PropsBox>
   );
