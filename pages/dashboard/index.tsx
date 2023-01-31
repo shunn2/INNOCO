@@ -9,14 +9,19 @@ import queryKeys from '@react-query/queryKeys';
 import { Projects } from '@/types/project';
 import { createAxiosWithToken } from '@api/customAxios';
 import theme from '@styles/theme';
+import { useState } from 'react';
+import ProjectCreateModal from '@components/Dashboard/CreateProject';
 
 const Dashboard = () => {
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const handleCreateModalOpen = () => {
+    setCreateModalOpen(!createModalOpen);
+  };
   const handleCreateProjectButton = async () => {
     const { data } = await createAxiosWithToken().post('/projects', {
       projectName: 'testename111',
       projectThumbnailUrl: 'testeurl111',
     });
-    console.log('create projects', data);
   };
   const projects: Projects = useProjects();
 
@@ -26,17 +31,21 @@ const Dashboard = () => {
         <Title>My Project</Title>
         <DashboardGrid>
           <ProjectBox>
-            <Link href="/editor">
-              <CreateProjectButtonWrapper onClick={handleCreateProjectButton}>
-                <SvgIcon type="project-create" size={32} />
-                <p>Create New Project</p>
-              </CreateProjectButtonWrapper>
-            </Link>
+            <CreateProjectButtonWrapper onClick={handleCreateModalOpen}>
+              <SvgIcon type="project-create" size={32} />
+              <p>Create New Project</p>
+            </CreateProjectButtonWrapper>
           </ProjectBox>
           {projects?.value.projects.map((project) => (
             <ProjectInfo project={project} key={project.projectId} />
           ))}
         </DashboardGrid>
+        {createModalOpen && (
+          <ProjectCreateModal
+            isOpen={createModalOpen}
+            handleIsOpen={handleCreateModalOpen}
+          />
+        )}
       </DashboardContainer>
     </Layout>
   );
