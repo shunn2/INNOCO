@@ -10,19 +10,14 @@ import { Projects } from '@/types/project';
 import { createAxiosWithToken } from '@api/customAxios';
 import theme from '@styles/theme';
 import { useState } from 'react';
-import ProjectCreateModal from '@components/Dashboard/CreateProject';
+import CreateProject from '@components/Dashboard/CreateProject';
 
 const Dashboard = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const handleCreateModalOpen = () => {
     setCreateModalOpen(!createModalOpen);
   };
-  const handleCreateProjectButton = async () => {
-    const { data } = await createAxiosWithToken().post('/projects', {
-      projectName: 'testename111',
-      projectThumbnailUrl: 'testeurl111',
-    });
-  };
+
   const projects: Projects = useProjects();
 
   return (
@@ -41,7 +36,7 @@ const Dashboard = () => {
           ))}
         </DashboardGrid>
         {createModalOpen && (
-          <ProjectCreateModal
+          <CreateProject
             isOpen={createModalOpen}
             handleIsOpen={handleCreateModalOpen}
           />

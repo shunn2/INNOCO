@@ -6,3 +6,4 @@ export { default as Header } from './Header/index';
 export { default as Layout } from './Layout/index';
 export { default as ControlBox } from './ControlBox/index';
 export { default as ProtectRoute } from './ProtectRoute/index';
+export { default as Select } from './Select';

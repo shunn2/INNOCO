@@ -31,9 +31,11 @@ export const AbsoluteColorPicker = styled.div`
 
 export const InputContainer = styled.div`
   padding: 4px 16px 16px 4px;
+  align-items: center;
 `;
 
 export const Title = styled.div`
+  min-width: 70px;
   font-size: 14px;
   line-height: 20px;
   margin-bottom: 4px;

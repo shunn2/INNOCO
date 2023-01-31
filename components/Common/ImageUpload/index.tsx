@@ -8,7 +8,8 @@ import { withMainData } from '@recoil/editor';
 import imageChange from '@utils/style/imageChange';
 
 interface ImageUploadInterface {
-  onClick: () => void;
+  type?: string;
+  setURL?: (url) => void;
 }
 
 const ImageUpload = (props: PropsWithChildren<ImageUploadInterface>) => {
@@ -20,6 +21,7 @@ const ImageUpload = (props: PropsWithChildren<ImageUploadInterface>) => {
   const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const image = e.target.files[0];
     const data: Image = await api.postImage(image);
+    if (props.type === 'thumbnail') return props.setURL(data.value);
     imageChange({ element, url: data.value, setMainData });
   };
   return (

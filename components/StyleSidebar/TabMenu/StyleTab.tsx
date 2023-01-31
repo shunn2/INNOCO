@@ -3,6 +3,7 @@ import {
   BackgroundColorMenu,
   ColorMenu,
   DisplayMenu,
+  FontMenu,
   IndentMenu,
   SizeMenu,
 } from '../Style';
@@ -16,6 +17,9 @@ const StyleTab = () => {
       <ToggleMenu title="Layout">
         <DisplayMenu />
         <SizeMenu />
+      </ToggleMenu>
+      <ToggleMenu title="Typography">
+        <FontMenu />
       </ToggleMenu>
       <ToggleMenu title="Color">
         <ColorMenu />
