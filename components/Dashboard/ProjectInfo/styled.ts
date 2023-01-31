@@ -1,35 +1,33 @@
 import styled from 'styled-components';
 import Image from 'next/image';
+import theme from '@styles/theme';
 
-export const ProjectInfoContainer = styled.div`
-  display: flex;
-  align-items: flex-start;
-  margin: 20px 0;
+export const ProjectInfoContainer = styled.a`
+  background-color: ${theme.color.gray.middle};
+  border-radius: 4px;
 `;
 
 export const ProjectContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-left: 12px;
+  padding: 16px 18px 16px;
+  font-size: 20px;
+  z-index: 9;
+`;
 
-  & > :first-child {
-    margin-bottom: 4px;
-  }
+export const ProjectThumbnailWrapeer = styled.div`
+  overflow: hidden;
 `;
 
 export const ProjectThumbnail = styled.img`
-  width: 100px;
-  height: 64px;
-  border-radius: 8px;
+  width: 100%;
+  height: 240px;
+  z-index: 5;
+  transition: all 0.2s linear;
+  &:hover {
+    transform: scale(1.2);
+  }
 `;
 
 export const ProjectStatus = styled.div`
-  display: flex;
-  align-items: center;
-  width: fit-content;
-  height: 24px;
-  padding: 6px;
-  border: 1px solid white;
-  border-radius: 20px;
+  margin: 6px 0;
   font-size: 12px;
 `;
