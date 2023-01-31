@@ -1007,6 +1007,90 @@ const SvgSprite = () => {
           ></path>
         </g>
       </symbol>
+      <symbol id="text-align-left">
+        <path
+          d="M5 7H19"
+          stroke={theme.color.white.middle}
+          stroke-width="1.5"
+          strokeLinecap="round"
+        />
+        <path
+          d="M5 12H15"
+          stroke={theme.color.white.middle}
+          stroke-width="1.5"
+          strokeLinecap="round"
+        />
+        <path
+          d="M5 17H11"
+          stroke={theme.color.white.middle}
+          stroke-width="1.5"
+          strokeLinecap="round"
+        />
+      </symbol>
+      <symbol id="text-align-right">
+        <g
+          id="interface-icon-flex-direction-row"
+          transform="rotate(-180) translate(-25, -25)"
+        >
+          <path
+            d="M5 7H19"
+            stroke={theme.color.white.middle}
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+          <path
+            d="M5 12H15"
+            stroke={theme.color.white.middle}
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+          <path
+            d="M5 17H11"
+            stroke={theme.color.white.middle}
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+        </g>
+      </symbol>
+      <symbol id="text-align-center">
+        <path
+          d="M3 7H21"
+          stroke={theme.color.white.middle}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+        <path
+          d="M6 12H18"
+          stroke={theme.color.white.middle}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+        <path
+          d="M10 17H14"
+          stroke={theme.color.white.middle}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+      </symbol>
+      <symbol id="text-transform-uppercase">
+        <polygon points="321.143,256.006 361.506,256.006 341.325,195.462 			" />
+        <polygon points="132.107,320.006 153.995,320.006 145.248,284.977 			" />
+        <path
+          d="M490.667,0H21.333C9.536,0,0,9.557,0,21.333v469.333C0,502.464,9.536,512,21.333,512h469.333
+				c11.776,0,21.333-9.536,21.333-21.333V21.333C512,9.557,502.443,0,490.667,0z M197.163,404.693
+				c-11.392,2.859-23.019-4.096-25.856-15.509l-6.635-26.517h-48.555l-10.816,28.821c-3.2,8.576-11.349,13.867-19.968,13.867
+				c-2.517,0-5.035-0.448-7.509-1.365c-11.029-4.16-16.597-16.448-12.48-27.477l64-170.667c3.285-8.725,12.053-14.208,21.184-13.803
+				c9.344,0.533,17.237,7.061,19.477,16.128l42.667,170.667C215.552,390.272,208.597,401.856,197.163,404.693z M207.083,143.083
+				c-4.181,4.181-9.643,6.251-15.083,6.251c-5.461,0-10.923-2.069-15.083-6.251l-6.251-6.251v12.501
+				c0,11.797-9.557,21.333-21.333,21.333c-11.797,0-21.333-9.536-21.333-21.333v-12.501l-6.251,6.251
+				c-4.181,4.181-9.643,6.251-15.083,6.251c-5.461,0-10.923-2.069-15.083-6.251c-8.341-8.32-8.341-21.824,0-30.165l42.645-42.645
+				c1.963-1.963,4.331-3.541,6.955-4.629c5.205-2.155,11.072-2.155,16.299,0c2.603,1.088,4.971,2.667,6.933,4.629l42.667,42.645
+				C215.403,121.259,215.403,134.763,207.083,143.083z M433.408,404.245c-2.24,0.747-4.523,1.109-6.741,1.109
+				c-8.939,0-17.259-5.653-20.245-14.592l-30.699-92.096h-68.8l-30.699,92.096c-3.712,11.157-15.723,17.237-26.987,13.483
+				c-11.157-3.733-17.195-15.808-13.483-26.987l85.333-256c2.901-8.704,11.051-14.592,20.245-14.592
+				c9.173,0,17.323,5.888,20.224,14.592l85.333,256C450.624,388.437,444.565,400.512,433.408,404.245z"
+        />
+      </symbol>
     </svg>
   );
 };
