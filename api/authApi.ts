@@ -36,6 +36,18 @@ class AuthApi {
     );
     return data;
   }
+
+  async regenerateToken(refreshToken: string) {
+    const { data } = await axios.get(
+      `${process.env.BASE_URL}/auth/regenerate`,
+      {
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+        },
+      }
+    );
+    return data;
+  }
 }
 
 const authApi = new AuthApi();
