@@ -20,6 +20,7 @@ interface FontInterface {
 }
 
 interface FontChangeProps {
+  e?: React.MouseEvent;
   type: string;
   value: string;
 }
@@ -68,7 +69,16 @@ const FontMenu = () => {
       getCurrentStyle({ element, type: 'textDecoration', mainData }) || 'none',
   });
 
-  const handleFont = ({ type, value }: FontChangeProps) => {
+  const handleFont = (props: FontChangeProps) => {
+    const { type, value } = props;
+    if (
+      (props.type === 'textTransform' || props.type === 'textDecoration') &&
+      props.value === font[type]
+    ) {
+      setFont({ ...font, [type]: 'none' });
+      styleChange({ element, type, value: 'none', setMainData });
+      return;
+    }
     setFont({ ...font, [type]: value });
     styleChange({ element, type, value, setMainData });
   };
@@ -141,8 +151,8 @@ const FontMenu = () => {
               <Styled.SvgWrapper
                 key={v.value}
                 selected={v.value === font['textTransform']}
-                onClick={() =>
-                  handleFont({ type: 'textTransform', value: v.value })
+                onClick={(e) =>
+                  handleFont({ e, type: 'textTransform', value: v.value })
                 }
               >
                 <SvgIcon type={`textTransform-${v.value}`} />
@@ -152,8 +162,8 @@ const FontMenu = () => {
               <Styled.SvgWrapper
                 key={v.value}
                 selected={v.value === font['textDecoration']}
-                onClick={() =>
-                  handleFont({ type: 'textDecoration', value: v.value })
+                onClick={(e) =>
+                  handleFont({ e, type: 'textDecoration', value: v.value })
                 }
               >
                 <SvgIcon type={`textDecoration-${v.value}`} />
