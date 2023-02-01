@@ -15,6 +15,8 @@ interface FontInterface {
   fontWeight: string;
   fontStyle: string;
   textAlign: string;
+  textTransform: string;
+  textDecoration: string;
 }
 
 interface FontChangeProps {
@@ -40,6 +42,11 @@ const textAlignProperty = [
   { value: 'center' },
   { value: 'right' },
 ];
+const textTransformProperty = [{ value: 'uppercase' }, { value: 'lowercase' }];
+const textDecorationProperty = [
+  { value: 'underline' },
+  { value: 'line-through' },
+];
 
 const FontMenu = () => {
   const element = useRecoilValue(elementInfoAtom);
@@ -55,9 +62,14 @@ const FontMenu = () => {
       getCurrentStyle({ element, type: 'fontStyle', mainData }) || 'normal',
     textAlign:
       getCurrentStyle({ element, type: 'textAlign', mainData }) || 'left',
+    textTransform:
+      getCurrentStyle({ element, type: 'textTransform', mainData }) || 'none',
+    textDecoration:
+      getCurrentStyle({ element, type: 'textDecoration', mainData }) || 'none',
   });
 
   const handleFont = ({ type, value }: FontChangeProps) => {
+    setFont({ ...font, [type]: value });
     styleChange({ element, type, value, setMainData });
   };
 
@@ -86,26 +98,71 @@ const FontMenu = () => {
       <div className="flex my-2">
         <Styled.InputContainer>
           <Styled.Title>Font-Size</Styled.Title>
-          <StyleInput placeholder={font.fontSize} size={50} />
+          <StyleInput
+            placeholder={font.fontSize}
+            size={50}
+            onChange={(e) =>
+              handleFont({ type: 'fontSize', value: e.target.value })
+            }
+          />
         </Styled.InputContainer>
         <Styled.InputContainer>
           <Styled.Title>Font-Weight</Styled.Title>
-          <StyleInput placeholder={font.fontWeight} size={50} />
+          <StyleInput
+            placeholder={font.fontWeight}
+            size={50}
+            onChange={(e) =>
+              handleFont({ type: 'fontWeight', value: e.target.value })
+            }
+          />
         </Styled.InputContainer>
       </div>
-      <Styled.StyleContainer>
-        {textAlignProperty.map((v) => (
-          <Styled.SvgWrapper
-            key={v.value}
-            selected={v.value === font['textAlign']}
-          >
-            <SvgIcon type={`text-align-${v.value}`} />
-          </Styled.SvgWrapper>
-        ))}
-      </Styled.StyleContainer>
-      <div>
-        <SvgIcon type="text-transform-uppercase" />
+      <div className="flex my-2">
+        <Styled.InputContainer>
+          <Styled.Title>Text-Algin</Styled.Title>
+          <Styled.StyleContainer>
+            {textAlignProperty.map((v) => (
+              <Styled.SvgWrapper
+                key={v.value}
+                selected={v.value === font['textAlign']}
+                onClick={() =>
+                  handleFont({ type: 'textAlign', value: v.value })
+                }
+              >
+                <SvgIcon type={`text-align-${v.value}`} />
+              </Styled.SvgWrapper>
+            ))}
+          </Styled.StyleContainer>
+        </Styled.InputContainer>
+        <Styled.InputContainer>
+          <Styled.Title>Text-Decoration</Styled.Title>
+          <Styled.StyleContainer>
+            {textTransformProperty.map((v) => (
+              <Styled.SvgWrapper
+                key={v.value}
+                selected={v.value === font['textTransform']}
+                onClick={() =>
+                  handleFont({ type: 'textTransform', value: v.value })
+                }
+              >
+                <SvgIcon type={`textTransform-${v.value}`} />
+              </Styled.SvgWrapper>
+            ))}
+            {textDecorationProperty.map((v) => (
+              <Styled.SvgWrapper
+                key={v.value}
+                selected={v.value === font['textDecoration']}
+                onClick={() =>
+                  handleFont({ type: 'textDecoration', value: v.value })
+                }
+              >
+                <SvgIcon type={`textDecoration-${v.value}`} />
+              </Styled.SvgWrapper>
+            ))}
+          </Styled.StyleContainer>
+        </Styled.InputContainer>
       </div>
+      <Styled.StyleContainer></Styled.StyleContainer>
     </Styled.StyleBox>
   );
 };
