@@ -29,20 +29,6 @@ const SignIn = () => {
 
   const router = useRouter();
 
-  useEffect(() => {
-    const getUserSession = async () => {
-      if (session) {
-        window.localStorage.setItem(
-          'access_token',
-          JSON.stringify(session.accessToken)
-        );
-        router.push('/dashboard', undefined, { shallow: true });
-        return;
-      }
-    };
-    getUserSession();
-  }, [session]);
-
   const handleChange =
     (type: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       const input = e.target.value;
