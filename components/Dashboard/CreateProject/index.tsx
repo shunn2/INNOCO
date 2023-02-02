@@ -16,9 +16,9 @@ interface CreateProjectProps {
 }
 
 const CreateProject = ({ isOpen, handleIsOpen }: CreateProjectProps) => {
-  const [projectName, setProjectName] = useState<string>();
+  const [projectName, setProjectName] = useState<string>('');
   const [projectThumbnail, setProjectThumbnail] = useState<string>();
-  const [mainPageName, setMainPageName] = useState<string>();
+  const [mainPageName, setMainPageName] = useState<string>('');
   const [templateId, setTemplateId] = useState<string>();
 
   const [createDisabled, setCreateDisabled] = useState<boolean>(true);
@@ -42,6 +42,17 @@ const CreateProject = ({ isOpen, handleIsOpen }: CreateProjectProps) => {
   const handleMainPageName = (e) => {
     setMainPageName(e.target.value);
   };
+  const handleSubmitDisabled = () => {
+    if (!projectName.length || !mainPageName.length) {
+      setCreateDisabled(true);
+      return;
+    }
+    setCreateDisabled(false);
+  };
+
+  useEffect(() => {
+    handleSubmitDisabled();
+  }, [projectName, mainPageName]);
 
   return (
     <CreateModal isOpen={isOpen}>
@@ -80,13 +91,13 @@ const CreateProject = ({ isOpen, handleIsOpen }: CreateProjectProps) => {
       <div>
         <Styled.InputLabel>Project Thumbnail</Styled.InputLabel>
         <Styled.TemplateContainer>
-          <Styled.Thumbnail
-            src={''}
-            width={250}
-            height={250}
-            alt="Blank"
+          <Styled.TemplateWrapper
+            selected={templateId === ''}
             onClick={() => handleTemplateId('')}
-          />
+          >
+            <Styled.Thumbnail src={null} width={250} height={250} />
+            <Styled.ThumbnailTitle>Blank</Styled.ThumbnailTitle>
+          </Styled.TemplateWrapper>
           {templates?.value.map((template, idx) => (
             <Styled.TemplateWrapper
               key={template.templateId}
