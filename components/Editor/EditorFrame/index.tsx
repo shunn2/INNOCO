@@ -69,7 +69,6 @@ const EditorFrame = () => {
       }
     }
     setDraggingOver(null);
-    e.preventDefault();
     e.stopPropagation();
   };
   //REVIEW END
@@ -82,7 +81,6 @@ const EditorFrame = () => {
         direction: element.type === 'section' ? 'col' : 'row',
       })
     );
-    e.preventDefault();
     e.stopPropagation();
   };
 
