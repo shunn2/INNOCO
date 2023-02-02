@@ -8,7 +8,7 @@ const customStyles = {
     right: 'auto',
     bottom: 'auto',
     transform: 'translate(-50%, -50%)',
-    minWidth: '600px',
+    minWidth: '800px',
     minHeight: '500px',
     backgroundColor: '#000',
     opacity: 1.0,

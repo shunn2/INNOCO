@@ -20,7 +20,7 @@ const Select = (props: SelectProps) => {
       {optionList.map((option) => (
         <Styled.Option
           value={option.value}
-          selected={selected === option.value}
+          defaultValue={selected}
           key={option.title}
         >
           {option.title}
