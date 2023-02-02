@@ -1,13 +1,11 @@
 import { SvgIcon, Layout } from '@components/Common';
 import styled from 'styled-components';
-import Link from 'next/link';
 import { api } from '@api';
 import { dehydrate, QueryClient } from 'react-query';
 import useProjects from '@hooks/useProjects';
 import { ProjectInfo } from '@components/Dashboard';
 import queryKeys from '@react-query/queryKeys';
 import { Projects } from '@/types/project';
-import { createAxiosWithToken } from '@api/customAxios';
 import theme from '@styles/theme';
 import { useState } from 'react';
 import CreateProject from '@components/Dashboard/CreateProject';
@@ -79,6 +77,7 @@ const ProjectBox = styled.div`
   align-items: center;
   background-color: ${theme.color.gray.middle};
   border-radius: 4px;
+  cursor: pointer;
 `;
 
 const Title = styled.h4`

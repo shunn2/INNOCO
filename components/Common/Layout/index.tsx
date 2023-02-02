@@ -19,7 +19,8 @@ const Layout = (props: { children: ReactNode }) => {
         'access_token',
         JSON.stringify(session.accessToken)
       );
-      router.push('/dashboard', undefined, { shallow: true });
+      if (router.pathname === '/auth/sign-in')
+        router.push('/dashboard', undefined, { shallow: true });
       return;
     }
   }, [session]);

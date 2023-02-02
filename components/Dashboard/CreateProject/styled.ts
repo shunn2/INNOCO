@@ -13,8 +13,9 @@ export const CloseButton = styled.div`
   cursor: pointer;
 `;
 
-export const SubmitButton = styled.div`
-  background-color: ${theme.color.blue.middle};
+export const SubmitButton = styled.button<{ disabled: boolean }>`
+  background-color: ${(props) =>
+    props.disabled ? theme.color.gray.middle : theme.color.blue.middle};
   padding: 6px 10px;
   border-radius: 4px;
   cursor: pointer;
@@ -36,6 +37,7 @@ export const InputWrapper = styled.div`
 export const InputLabel = styled.div`
   font-size: 12px;
   margin: 8px 0 4px 4px;
+  color: ${theme.color.gray.light};
 `;
 
 export const ThumbnailWrapper = styled.div`
@@ -43,8 +45,25 @@ export const ThumbnailWrapper = styled.div`
   margin-top: 16px;
 `;
 
-export const Thumbnail = styled.img`
-  width: 300px;
-  height: 240px;
-  margin-left: 36px;
+export const Thumbnail = styled.img<{ width: number; height: number }>`
+  width: ${(props) => `${props.width}px`};
+  height: ${(props) => `${props.height}px`};
+`;
+
+export const ThumbnailTitle = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
+`;
+
+export const TemplateContainer = styled.div`
+  width: 100%;
+  display: flex;
+  overflow-x: scroll;
+`;
+
+export const TemplateWrapper = styled.div<{ selected?: boolean }>`
+  border: ${(props) =>
+    props.selected ? `2px solid ${theme.color.blue.middle}` : ''};
 `;

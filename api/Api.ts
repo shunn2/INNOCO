@@ -7,7 +7,13 @@ class Api {
   }
   async fetchTemplates() {
     const { data } = await createAxiosWithToken().get('/templates');
-    console.log(data);
+    return data;
+  }
+  async createProject(projectName, projectThumbnailUrl) {
+    const { data } = await createAxiosWithToken().post('/projects', {
+      projectName,
+      projectThumbnailUrl,
+    });
     return data;
   }
   async deleteProject(projectId) {
