@@ -1,6 +1,6 @@
 const queryKeys = {
   projects: 'projects',
-  image: 'image',
+  templates: 'templates',
 };
 
 export default queryKeys;
