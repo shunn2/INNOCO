@@ -4,6 +4,7 @@ export interface Project {
   projectStatus: string;
   projectAuthority: string;
   projectThumbnailUrl: string;
+  mainPageId: string;
   createdDate: string;
   modifiedDate: string;
 }

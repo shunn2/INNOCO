@@ -38,6 +38,7 @@ export const SettingList = styled.div`
 `;
 
 export const ProjectThumbnailWrapeer = styled.div`
+  cursor: pointer;
   overflow: hidden;
 `;
 

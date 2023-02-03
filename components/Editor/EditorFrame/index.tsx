@@ -17,8 +17,15 @@ import SectionControlWidget from '../ControlWidget/section';
 import { useContentEditable } from '@hooks/useContentEditable';
 import { clickEffectStyle, dragEffectStyle } from '@utils/effect';
 import { createElementProps } from '@/types/editor';
+import { useRouter } from 'next/router';
 
 const EditorFrame = () => {
+  const router = useRouter();
+  const { projectId, pageId } = router.query;
+  useEffect(() => {
+    console.log('project', projectId);
+    console.log('page', pageId);
+  }, [projectId, pageId]);
   const [main, setMain] = useRecoilState(withMainData);
   const [sectionOrder, setSectionOrder] = useRecoilState(withSectionOrder);
   const [insertLocation, setInsertLocation] = useState<string>();
@@ -44,7 +51,6 @@ const EditorFrame = () => {
     setDblClickElement(elementId);
   };
 
-  // REVIEW START
   const handleDrop = (e) => {
     const { el, elIdx } = JSON.parse(e.dataTransfer.getData('dragging'));
     if (el.id === draggingOver.el.id) return;
@@ -71,7 +77,7 @@ const EditorFrame = () => {
     setDraggingOver(null);
     e.stopPropagation();
   };
-  //REVIEW END
+
   const handleDragOver = (e, element, sectionId, idx) => {
     setDraggingOver({ el: element, sectionId: sectionId, idx: idx });
     setInsertLocation(
