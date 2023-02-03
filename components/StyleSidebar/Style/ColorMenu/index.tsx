@@ -11,9 +11,7 @@ const ColorMenu = () => {
   const element = useRecoilValue(elementInfoAtom);
   const [mainData, setMainData] = useRecoilState(withMainData);
 
-  const [color, setColor] = useState<string>(
-    getCurrentStyle({ element, type: 'color', mainData }) || 'black'
-  );
+  const [color, setColor] = useState<string>();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleColorOpen = () => {
@@ -24,6 +22,10 @@ const ColorMenu = () => {
     setColor(color.hex);
     styleChange({ element, type: 'color', value: color.hex, setMainData });
   };
+
+  useEffect(() => {
+    setColor(getCurrentStyle({ element, type: 'color', mainData }) || 'black');
+  }, [element]);
 
   return (
     <Styled.StyleBox>

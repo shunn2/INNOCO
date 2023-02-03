@@ -11,9 +11,7 @@ const BackgroundColorMenu = () => {
   const element = useRecoilValue(elementInfoAtom);
   const [mainData, setMainData] = useRecoilState(withMainData);
 
-  const [backgroundColor, setBackgroundColor] = useState<string>(
-    getCurrentStyle({ element, type: 'backgrounColor', mainData }) || 'black'
-  );
+  const [backgroundColor, setBackgroundColor] = useState<string>();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleBackgroundColorOpen = () => {
@@ -30,8 +28,16 @@ const BackgroundColorMenu = () => {
     });
   };
 
+  useEffect(() => {
+    setBackgroundColor(
+      getCurrentStyle({ element, type: 'backgroundColor', mainData }) || 'white'
+    );
+  }, [element]);
+
   return (
     <Styled.StyleBox>
+      <button onClick={() => console.log(mainData)}>click</button>
+
       <Styled.StyleContainer
         className="flex"
         onClick={handleBackgroundColorOpen}
