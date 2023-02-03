@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 export const StyleBox = styled.div`
   margin: 16px 12px;
+  position: relative;
 `;
 
 export const StyleContainer = styled.div`
@@ -25,8 +26,9 @@ export const ColorSquare = styled.div<{ color: string }>`
 
 export const AbsoluteColorPicker = styled.div`
   position: absolute;
-  margin-left: -228px;
-  margin-top: -20px;
+  z-index: 99;
+  top: 0px;
+  left: 36px;
 `;
 
 export const InputContainer = styled.div`
