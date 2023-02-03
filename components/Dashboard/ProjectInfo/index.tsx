@@ -1,6 +1,7 @@
 import { Project } from '@/types/project';
 import { api } from '@api';
 import { SvgIcon } from '@components/Common';
+import Link from 'next/link';
 import { useState } from 'react';
 import * as Styled from './styled';
 
@@ -9,8 +10,13 @@ interface ProjectProps {
 }
 
 const ProjectInfo = ({ project }: ProjectProps) => {
-  const { projectId, projectName, projectStatus, projectThumbnailUrl } =
-    project;
+  const {
+    projectId,
+    projectName,
+    projectStatus,
+    projectThumbnailUrl,
+    mainPageId,
+  } = project;
   const [isSettingOpen, setIsSettingOpen] = useState<boolean>(false);
   const handleSettingOpen = () => {
     setIsSettingOpen(!isSettingOpen);
@@ -21,9 +27,11 @@ const ProjectInfo = ({ project }: ProjectProps) => {
   };
   return (
     <Styled.ProjectInfoContainer>
-      <Styled.ProjectThumbnailWrapeer>
-        <Styled.ProjectThumbnail src={projectThumbnailUrl} />
-      </Styled.ProjectThumbnailWrapeer>
+      <Link href={`/editor/${projectId}/${mainPageId}`}>
+        <Styled.ProjectThumbnailWrapeer>
+          <Styled.ProjectThumbnail src={projectThumbnailUrl} />
+        </Styled.ProjectThumbnailWrapeer>
+      </Link>
       <Styled.ProjectContentWrapper>
         <div>
           <div>{projectName}</div>
