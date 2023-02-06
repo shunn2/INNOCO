@@ -1,8 +1,11 @@
 import { Project } from '@/types/project';
 import { api } from '@api';
 import { SvgIcon } from '@components/Common';
+import projectAtom from '@recoil/project/atom';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { uuid } from 'uuidv4';
 import * as Styled from './styled';
 
 interface ProjectProps {
@@ -10,11 +13,13 @@ interface ProjectProps {
 }
 
 const ProjectInfo = ({ project }: ProjectProps) => {
+  const [projectInfo, setProjectInfo] = useRecoilState(projectAtom);
   const {
     projectId,
     projectName,
     projectStatus,
     projectThumbnailUrl,
+    projectAuthority,
     mainPageId,
   } = project;
   const [isSettingOpen, setIsSettingOpen] = useState<boolean>(false);
@@ -27,7 +32,12 @@ const ProjectInfo = ({ project }: ProjectProps) => {
   };
   return (
     <Styled.ProjectInfoContainer>
-      <Link href={`/editor/${projectId}/${mainPageId}`}>
+      <Link
+        href={`/editor/${projectId}/${mainPageId}`}
+        onClick={() =>
+          setProjectInfo({ authority: projectAuthority, name: uuid() })
+        }
+      >
         <Styled.ProjectThumbnailWrapeer>
           <Styled.ProjectThumbnail src={projectThumbnailUrl} />
         </Styled.ProjectThumbnailWrapeer>
