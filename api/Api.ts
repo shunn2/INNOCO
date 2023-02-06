@@ -22,6 +22,12 @@ class Api {
     );
     return data;
   }
+  async publishProject(projectId) {
+    const { data } = await createAxiosWithToken().get(
+      `/projects/${projectId}/publish`
+    );
+    return data;
+  }
   async postImage(multipartFile) {
     const { data } = await createAxiosWithToken().post(
       '/image/upload',

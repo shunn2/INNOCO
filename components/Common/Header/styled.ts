@@ -14,3 +14,13 @@ export const LogoImage = styled(Image)`
   height: auto;
   background-color: transparent;
 `;
+
+export const PublishButton = styled.button`
+  background-color: ${theme.color.blue.middle};
+  color: ${theme.color.white.light};
+  padding: 6px 12px;
+  border-radius: 6px;
+  &:hover {
+    background-color: ${theme.color.blue.light};
+  }
+`;
