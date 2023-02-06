@@ -9,6 +9,13 @@ class PageApi {
     );
     return data;
   }
+  async getPageList(projectId, source) {
+    const { data } = await createAxiosWithToken().get(
+      `/projects/${projectId}/pages`,
+      { params: { source } }
+    );
+    return data;
+  }
 }
 
 const pageApi = new PageApi();
