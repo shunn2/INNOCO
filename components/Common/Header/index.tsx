@@ -5,7 +5,6 @@ import Button from '../Button';
 import * as Styled from './styled';
 
 const Header = () => {
-  const router = useRouter();
   const [blank, route, projectId, pageId] = useRouter().asPath.split('/');
 
   const handlePublish = async () => {
