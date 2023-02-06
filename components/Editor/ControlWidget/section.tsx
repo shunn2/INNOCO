@@ -23,8 +23,8 @@ const SectionControlWidget = () => {
     <div
       className="absolute flex justify-between items-center"
       style={{
-        minWidth: `${component.offsetWidth}px`,
-        marginBottom: `${component.offsetHeight + 25}px`,
+        minWidth: `${component.clientWidth + 8}px`,
+        marginTop: `-26px`,
       }}
     >
       <ControlBox>{element.el.type}</ControlBox>
