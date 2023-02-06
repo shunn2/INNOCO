@@ -36,6 +36,18 @@ class Api {
     );
     return data;
   }
+  async getProjectSync(projectId) {
+    const { data } = await createAxiosWithToken().get(
+      `projects/${projectId}/sync-check`
+    );
+    return data;
+  }
+  async checkProjectAuth(projectId, auth) {
+    const { data } = await createAxiosWithToken().get(
+      `projects/${projectId}/auth-check=${auth}`
+    );
+    return data;
+  }
 }
 
 const api = new Api();

@@ -68,6 +68,7 @@ export default NextAuth({
         token.accessToken = user.name;
         token.refreshToken = user.email;
       }
+
       return token;
     },
     async session({ session, token, user }) {
@@ -75,6 +76,8 @@ export default NextAuth({
       session.user.email = String(token.refreshToken);
       session.user.image = String(token.error);
       session.accessToken = token.accessToken;
+      session.expires = token.sub;
+
       return session;
     },
   },
