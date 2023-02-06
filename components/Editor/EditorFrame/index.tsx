@@ -21,8 +21,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { api } from '@api';
 import editorAtom from '@recoil/editor/atom';
-import CreateSection from '@utils/createElement/CreateSection';
-import createParent from '@utils/createElement/createParent';
+import { createParent, CreateSection } from '@utils/createElement';
 
 const EditorFrame = () => {
   //============

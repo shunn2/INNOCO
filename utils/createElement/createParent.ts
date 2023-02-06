@@ -1,6 +1,6 @@
-import { dragEffectStyle } from '@utils/effect';
 import React from 'react';
 import createChild from './createChild';
+import { dragEffectStyle } from '@utils/effect';
 
 interface CreaetParentProps {
   element: any;
