@@ -10,13 +10,9 @@ import {
   dragOuterElementToSection,
   dragOuterSection,
   dragSection,
-  dragStart,
 } from '@utils/drag';
 import ElementControlWidget from '../ControlWidget/element';
 import SectionControlWidget from '../ControlWidget/section';
-import { useContentEditable } from '@hooks/useContentEditable';
-import { clickEffectStyle, dragEffectStyle } from '@utils/effect';
-import { createElementProps } from '@/types/editor';
 import { useRouter } from 'next/router';
 import * as StompJS from '@stomp/stompjs';
 import { useSession } from '@lib/next-auth-react-query';
@@ -25,6 +21,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { api } from '@api';
 import editorAtom from '@recoil/editor/atom';
+import { createParent, CreateSection } from '@utils/createElement';
 
 const EditorFrame = () => {
   //============
@@ -39,7 +36,6 @@ const EditorFrame = () => {
   const [sectionOrder, setSectionOrder] = useRecoilState(withSectionOrder);
   const [insertLocation, setInsertLocation] = useState<string>();
   const [draggingOver, setDraggingOver] = useState<any>();
-  const [dblClickElement, setDblClickElement] = useState<string>();
   const [currentSelectedElement, setCurrentSelectedElement] =
     useRecoilState(elementInfoAtom);
 
@@ -261,13 +257,13 @@ const EditorFrame = () => {
     setIsSynced(data.value);
   };
 
-  useEffect(() => {
-    let authority = projectInfo.authority;
-    if (authority === 'OWNER') authority = 'EDITOR';
-    setUserAuthority(authority);
-    console.log('autd', userAuthority);
-    editorConnect();
-  }, []);
+  // useEffect(() => {
+  //   let authority = projectInfo.authority;
+  //   if (authority === 'OWNER') authority = 'EDITOR';
+  //   setUserAuthority(authority);
+  //   console.log('autd', userAuthority);
+  //   editorConnect();
+  // }, []);
 
   useEffect(() => {
     setJoinedUserCount(users.length);
@@ -344,10 +340,6 @@ const EditorFrame = () => {
     e.stopPropagation();
   };
 
-  const handleElementDblClick = (elementId) => {
-    setDblClickElement(elementId);
-  };
-
   const handleDrop = (e) => {
     const { el, elIdx } = JSON.parse(e.dataTransfer.getData('dragging'));
 
@@ -390,77 +382,12 @@ const EditorFrame = () => {
     e.stopPropagation();
   };
 
-  const handleDragEnd = () => {
-    setDraggingOver(null);
-  };
-
-  const createChild = ({
-    element,
-    elementIdx,
-    sectionId,
-  }: createElementProps) => {
-    const props = {
-      ...element.props,
-      id: element.id,
-      key: element.id,
-      onDragStart: (e) =>
-        dragStart({
-          e: e,
-          element: element,
-          idx: elementIdx,
-          sectionId: sectionId,
-        }),
-      contentEditable: dblClickElement === element.id,
-      suppressContentEditableWarning: dblClickElement === element.id,
-      onDragEnd: () => handleDragEnd(),
-      onDoubleClick: () => handleElementDblClick(element.id),
-      onClick: (e) => handleElementClick(e, sectionId, elementIdx, element),
-      onBlur: (e) => {
-        useContentEditable(e, elementIdx, sectionId, setMain);
-        setDblClickElement('');
-      },
-      className: clickEffectStyle({
-        clickedId: currentSelectedElement.id,
-        elementId: element.id,
-      }),
-      // className: element.parentProps.className.join(' '),
-    };
-    // if (element.tag === 'img') return React.createElement(element.tag, props);
-    return React.createElement(element.tag, props, element.content);
-  };
-
-  const createParent = ({
-    element,
-    elementIdx,
-    sectionId,
-  }: createElementProps) => {
-    const props = {
-      ...element.parentProps,
-      id: `parent_${element.id}`,
-      key: `parent_${element.id}`,
-      onDragOver: (e) => handleDragOver(e, element, sectionId, elementIdx),
-      className: `box-border ${dragEffectStyle({
-        insertLocation,
-        draggingOverId: draggingOver?.el.id,
-
-        elementId: element.id,
-      })}`,
-      // className: element.parentProps.className.join(' '),
-    };
-    return React.createElement(
-      'div',
-      props,
-      createChild({ element, elementIdx, sectionId })
-    );
-  };
-
-  // useEffect(() => {
-  //   editorRef.current.scrollIntoView({
-  //     behavior: 'auto',
-  //     block: 'end',
-  //     inline: 'center',
-  //   });
-  // }, []);
+  useEffect(() => {
+    editorRef.current.scrollIntoView({
+      behavior: 'auto',
+      inline: 'center',
+    });
+  }, []);
 
   return (
     <div
@@ -470,56 +397,47 @@ const EditorFrame = () => {
         justifyContent: 'center',
         marginTop: '50px',
       }}
+      ref={editorRef}
     >
-      <div id="test" style={{ width: '1000px' }} ref={editorRef}>
+      <div id="test" style={{ width: '1000px' }}>
         {sectionOrder.map((sectionId, sectionIdx) => {
           return (
             <div key={sectionId}>
               {sectionId === currentSelectedElement.id && (
                 <SectionControlWidget />
               )}
-              <div
-                id={sectionId}
-                key={sectionId}
-                {...main[sectionId].sectionProps}
-                // className={main[sectionId].sectionProps.className.join(' ')}
-                className={`${dragEffectStyle({
-                  insertLocation,
-                  draggingOverId: draggingOver?.el.id,
-                  elementId: sectionId,
-                })} ${clickEffectStyle({
-                  clickedId: currentSelectedElement.id,
-                  elementId: sectionId,
-                })}`}
-                onDragStart={(e) =>
-                  dragStart({
-                    e: e,
-                    element: main[sectionId],
-                    idx: sectionIdx,
-                    sectionId,
-                  })
-                }
-                onDragOver={(e) =>
+              <CreateSection
+                sectionId={sectionId}
+                sectionIdx={sectionIdx}
+                draggingOver={draggingOver}
+                insertLocation={insertLocation}
+                handleDragOver={(e) =>
                   handleDragOver(e, main[sectionId], sectionId, sectionIdx)
                 }
-                onDrop={handleDrop}
-                onDragEnd={() => handleEditorChange(ed)}
+                handleDrop={handleDrop}
                 onClick={(e) =>
                   handleElementClick(e, sectionId, sectionIdx, main[sectionId])
                 }
+                handleEditorChange={() => handleEditorChange(ed)}
               >
                 {main[sectionId].children.map((element, elementIdx) => (
-                  <div
-                    key={element.id}
-                    style={{ ...element.parentProps.style }}
-                  >
+                  <div key={element.id}>
                     {element.id === currentSelectedElement.id && (
                       <ElementControlWidget />
                     )}
-                    {createParent({ element, elementIdx, sectionId })}
+                    {createParent({
+                      element,
+                      elementIdx,
+                      sectionId,
+                      insertLocation,
+                      draggingOver,
+                      handleDragOver(e) {
+                        handleDragOver(e, element, sectionId, elementIdx);
+                      },
+                    })}
                   </div>
                 ))}
-              </div>
+              </CreateSection>
             </div>
           );
         })}
