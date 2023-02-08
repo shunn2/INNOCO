@@ -1,11 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { getInsertLocation } from '@utils/getInsertLocation';
-import {
-  useRecoilSnapshot,
-  useRecoilState,
-  useRecoilTransactionObserver_UNSTABLE,
-  useRecoilValue,
-} from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { elementInfoAtom } from '@recoil/selectedElement/atom';
 import { withMainData, withSectionOrder } from '@recoil/editor';
 import {
@@ -21,7 +16,6 @@ import ElementControlWidget from '../ControlWidget/element';
 import SectionControlWidget from '../ControlWidget/section';
 import { useRouter } from 'next/router';
 import * as StompJS from '@stomp/stompjs';
-import { useSession } from '@lib/next-auth-react-query';
 import projectAtom from '@recoil/project/atom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -31,8 +25,6 @@ import { CreateSection } from '@utils/createElement';
 import { createElementProps } from '@/types/editor';
 import { useContentEditable } from '@hooks/useContentEditable';
 import { clickEffectStyle, dragEffectStyle } from '@utils/effect';
-import { log } from 'console';
-import { EditorHeader } from './styled';
 import Avatar from 'react-avatar';
 
 interface UserProps {
