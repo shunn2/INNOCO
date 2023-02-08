@@ -3,7 +3,8 @@ import jsonData from '@components/Editor/EditorFrame/data';
 
 const editorAtom = atom({
   key: 'editoratom',
-  default: jsonData,
+  // default: jsonData,
+  default: { title: '', main: {}, sectionOrder: [] },
 });
 
 // export const getEditorSelector = selector({
