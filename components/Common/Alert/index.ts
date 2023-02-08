@@ -1,20 +1,21 @@
 import Swal from 'sweetalert2';
 
 interface AlertProps {
-  icon?: 'error' | 'success' | 'info';
-  title: string;
-  text: string;
+  icon?: 'error' | 'success' | 'info' | 'warning';
+  title?: string;
+  text?: string;
+  confirmButtonText?: string;
+  cancelButtonText?: string;
   showCancelButton?: boolean;
   confirmButtonColor?: string;
   cancelButtonColor?: string;
-  callBack?: () => void;
 }
 
-const Alert = (props: AlertProps) => {
-  Swal.fire({
+const Alert = async (props: AlertProps) => {
+  const data = await Swal.fire({
     ...props,
-  }).then((res) => props.callBack());
-  //   if (isConfirmed) props.callBack;
+  });
+  return data;
 };
 
 Alert.defaultProps = {
