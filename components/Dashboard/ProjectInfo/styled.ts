@@ -17,6 +17,10 @@ export const ProjectContentWrapper = styled.div`
 
 export const SettingWrapper = styled.div`
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
 `;
 
 export const SettingModal = styled.div`
