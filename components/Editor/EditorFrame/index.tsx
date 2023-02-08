@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { getInsertLocation } from '@utils/getInsertLocation';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  useRecoilSnapshot,
+  useRecoilState,
+  useRecoilTransactionObserver_UNSTABLE,
+  useRecoilValue,
+} from 'recoil';
 import { elementInfoAtom } from '@recoil/selectedElement/atom';
 import { withMainData, withSectionOrder } from '@recoil/editor';
 import {
@@ -16,6 +21,7 @@ import ElementControlWidget from '../ControlWidget/element';
 import SectionControlWidget from '../ControlWidget/section';
 import { useRouter } from 'next/router';
 import * as StompJS from '@stomp/stompjs';
+import { useSession } from '@lib/next-auth-react-query';
 import projectAtom from '@recoil/project/atom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -25,7 +31,12 @@ import { CreateSection } from '@utils/createElement';
 import { createElementProps } from '@/types/editor';
 import { useContentEditable } from '@hooks/useContentEditable';
 import { clickEffectStyle, dragEffectStyle } from '@utils/effect';
+import Avatar from 'react-avatar';
 import UserAvatar from '@components/Common/UserAvatar';
+
+const CONNECTION_URL = 'ws://10.5.26.40:8080/ws';
+const SEND_URL = '/publish/documents';
+const EDITOR_SUBSCRIBE_URL = '/subscribe/page/';
 
 const EditorFrame = () => {
   //============
@@ -60,10 +71,6 @@ const EditorFrame = () => {
   //필수는 아님
   const [joinedUserCount, setJoinedUserCount] = useState(0);
   const [isNewUserJoin, setIsNewUserJoin] = useState(false);
-
-  const CONNECTION_URL = 'ws://10.5.26.40:8080/ws';
-  const SEND_URL = '/publish/documents';
-  const EDITOR_SUBSCRIBE_URL = '/subscribe/page/';
 
   function isUserJoinEvent(message) {
     let evt = JSON.parse(message.body).eventType;
@@ -168,8 +175,10 @@ const EditorFrame = () => {
               if (isUserJoinEvent(message)) {
                 //새로운 유저가 입장하는 이벤트 발생
                 setUsers(JSON.parse(message.body).currentChannelSubscribers);
+
                 if (projectInfo.id === parsedBody.currentEditorId) {
                   //서버에 거쳐서 확인한 본인의 권한이 에디터라면 세팅
+
                   if (parsedBody.sender !== projectInfo.id) {
                     //방금 들어온 유저가 본인이 아니라면 현재 에디터에 편집하고 있는 내용을 새로운 유저에게 전송
                     setIsNewUserJoin(true);
@@ -180,6 +189,7 @@ const EditorFrame = () => {
                   }
                   return;
                 }
+
                 //이미 에디터가 입장해 있는데 에디터 권한으로 들어왔다면 - 뷰어로 변경하는 로직 구현
                 if (
                   parsedBody.authorityChanged === true &&
@@ -462,6 +472,17 @@ const EditorFrame = () => {
   useDidMountEffect(() => {
     if (isConnected) handleEditorChange(ed);
   }, [ed]);
+  //   export const EditorHeader = styled.div`
+  //   position: sticky;
+  //   top: 0;
+  //   left: 0;
+  //   right: 0;
+  //   border: 2px solid white;
+  //   width: calc(100vw);
+  //   height: 30px;
+  //   color: white;
+  //   background-color: ${theme.color.gray.dark};
+  // `;
 
   const handlePublish = async () => {
     const data = await api.publishProject(projectInfo.projectId);
