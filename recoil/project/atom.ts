@@ -1,11 +1,17 @@
 import { atom, selector } from 'recoil';
+import { recoilPersist } from 'recoil-persist'; // ✔
+
+const { persistAtom } = recoilPersist();
 
 const projectAtom = atom({
   key: 'projectAtom',
   default: {
-    authority: 'VIEWER',
-    name: '',
+    authority: '',
+    id: '',
+    pageId: '',
+    projectId: '',
   },
+  effects_UNSTABLE: [persistAtom],
 });
 
 // export const getEditorSelector = selector({

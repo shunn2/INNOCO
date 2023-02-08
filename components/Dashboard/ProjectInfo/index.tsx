@@ -1,10 +1,18 @@
 import { Project } from '@/types/project';
 import { api } from '@api';
 import { SvgIcon } from '@components/Common';
+import {
+  withAuthority,
+  withPageId,
+  withProjectId,
+  withUserId,
+} from '@recoil/project';
 import projectAtom from '@recoil/project/atom';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
+import styled from 'styled-components';
 import { uuid } from 'uuidv4';
 import * as Styled from './styled';
 
@@ -13,7 +21,12 @@ interface ProjectProps {
 }
 
 const ProjectInfo = ({ project }: ProjectProps) => {
-  const [projectInfo, setProjectInfo] = useRecoilState(projectAtom);
+  const { data: session, status } = useSession();
+  const [userId, setUserId] = useRecoilState(withUserId);
+  const [userAuthority, setUserAuthority] = useRecoilState(withAuthority);
+  const [pageId, setPageId] = useRecoilState(withPageId);
+  const [_, setProjectId] = useRecoilState(withProjectId);
+
   const {
     projectId,
     projectName,
@@ -30,13 +43,21 @@ const ProjectInfo = ({ project }: ProjectProps) => {
     await api.deleteProject(projectId);
     location.reload();
   };
+  console.log('main', mainPageId);
+
   return (
     <Styled.ProjectInfoContainer>
       <Link
         href={`/editor/${projectId}/${mainPageId}`}
-        onClick={() =>
-          setProjectInfo({ authority: projectAuthority, name: uuid() })
-        }
+        onClick={() => {
+          console.log('expire', session.expires);
+          setUserId(session.expires);
+          setUserAuthority(
+            projectAuthority === 'OWNER' ? 'EDITOR' : projectAuthority
+          );
+          setProjectId(projectId);
+          setPageId(mainPageId);
+        }}
       >
         <Styled.ProjectThumbnailWrapeer>
           <Styled.ProjectThumbnail src={projectThumbnailUrl} />
@@ -57,10 +78,19 @@ const ProjectInfo = ({ project }: ProjectProps) => {
               </Styled.SettingList>
             </Styled.SettingModal>
           )}
+          <Authority>{projectAuthority}</Authority>
         </Styled.SettingWrapper>
       </Styled.ProjectContentWrapper>
     </Styled.ProjectInfoContainer>
   );
 };
+
+const Authority = styled.div`
+  font-size: 12px;
+  display: flex;
+  margin-right: 8px;
+  margin-top: 8px;
+  justify-content: flex-end;
+`;
 
 export default ProjectInfo;

@@ -15,5 +15,5 @@ export const Category = styled.div`
 export const CategoryTitle = styled.h4`
   font-size: 12px;
   font-weight: bold;
-  padding: 12px 8px 12px 0px;
+  padding: 12px 8px 16px 0px;
 `;

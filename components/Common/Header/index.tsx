@@ -5,13 +5,6 @@ import Button from '../Button';
 import * as Styled from './styled';
 
 const Header = () => {
-  const [blank, route, projectId, pageId] = useRouter().asPath.split('/');
-
-  const handlePublish = async () => {
-    const data = await api.publishProject(projectId);
-    console.log(data);
-  };
-
   return (
     <Styled.HeaderContainer>
       <Styled.LogoImage
@@ -21,12 +14,6 @@ const Header = () => {
         height="0"
         sizes="100vw"
       />
-      {/* <div>유저정보</div> */}
-      {route === 'editor' && (
-        <Styled.PublishButton onClick={() => handlePublish()}>
-          publish
-        </Styled.PublishButton>
-      )}
       <button
         onClick={() =>
           signOut({

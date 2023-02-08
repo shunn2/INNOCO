@@ -4,7 +4,7 @@ import theme from '@styles/theme';
 export const StyleSidebar = styled.div`
   width: 300px;
   height: 100%;
-  background-color: ${theme.color.gray.middle};
+  background-color: ${theme.color.blue.dark};
   color: ${theme.color.blue};
 `;
 

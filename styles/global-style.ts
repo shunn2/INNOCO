@@ -45,7 +45,7 @@ const GlobalStyle = createGlobalStyle`
   footer, header, hgroup, menu, nav, section, main {
     display: block;
   }
-  
+
   form {
     position: relative;
   }
