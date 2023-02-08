@@ -46,7 +46,7 @@ class Api {
     const { data } = await createAxiosWithToken().get(
       `projects/${projectId}/sync-check`
     );
-    return data.value;
+    return data;
   }
   async checkProjectAuth(projectId, auth) {
     const { data } = await createAxiosWithToken().get(
