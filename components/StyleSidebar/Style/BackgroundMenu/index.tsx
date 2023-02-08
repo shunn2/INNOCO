@@ -36,8 +36,6 @@ const BackgroundColorMenu = () => {
 
   return (
     <Styled.StyleBox>
-      <button onClick={() => console.log(mainData)}>click</button>
-
       <Styled.StyleContainer
         className="flex"
         onClick={handleBackgroundColorOpen}
