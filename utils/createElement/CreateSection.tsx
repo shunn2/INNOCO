@@ -32,6 +32,7 @@ const CreateSection = (props: PropsWithChildren<CreateSectionProps>) => {
 
   const [currentSelectedElement, setCurrentSelectedElement] =
     useRecoilState(elementInfoAtom);
+
   return (
     <div
       id={sectionId}
@@ -55,7 +56,7 @@ const CreateSection = (props: PropsWithChildren<CreateSectionProps>) => {
       }
       onDragOver={(e) => handleDragOver(e)}
       onDrop={handleDrop}
-      //   onDragEnd={() => handleEditorChange()}
+      // onDragEnd={() => handleEditorChange()}
       onClick={(e) => onClick(e)}
     >
       {children}
