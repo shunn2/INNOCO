@@ -17,11 +17,12 @@ interface CreateProjectProps {
 
 const CreateProject = ({ isOpen, handleIsOpen }: CreateProjectProps) => {
   const [projectName, setProjectName] = useState<string>('');
-  const [projectThumbnail, setProjectThumbnail] = useState<string>();
+  const [projectThumbnail, setProjectThumbnail] = useState<string>('/logo.png');
   const [mainPageName, setMainPageName] = useState<string>('');
   const [templateId, setTemplateId] = useState<string>();
-
   const [createDisabled, setCreateDisabled] = useState<boolean>(true);
+
+  const [contentsOrder, setContentsOrder] = useState(0);
 
   const templates: Templates = useTemplates();
 
@@ -49,81 +50,123 @@ const CreateProject = ({ isOpen, handleIsOpen }: CreateProjectProps) => {
     }
     setCreateDisabled(false);
   };
+  const handleContentsOrder = () => {
+    if (!contentsOrder) setContentsOrder(1);
+    else setContentsOrder(0);
+  };
 
   useEffect(() => {
     handleSubmitDisabled();
   }, [projectName, mainPageName]);
 
+  useEffect(() => {
+    console.log(11);
+  }, []);
+
   return (
     <CreateModal isOpen={isOpen}>
-      <Styled.ButtonWrapper>
-        <Styled.CloseButton onClick={handleIsOpen}>x</Styled.CloseButton>
-      </Styled.ButtonWrapper>
-      <Styled.Title>Make your Project</Styled.Title>
-      <Styled.InputWrapper>
-        <Styled.InputLabel>Project Name</Styled.InputLabel>
-        <Input
-          placeholder="project name"
-          size={300}
-          onChange={handleProjectName}
-        />
-      </Styled.InputWrapper>
-      <Styled.InputWrapper>
-        <Styled.InputLabel>Project Thumbnail</Styled.InputLabel>
-        <Styled.ThumbnailWrapper>
-          <ImageUpload type="thumbnail" setURL={setProjectThumbnail} />
-          <Styled.Thumbnail
-            className="ml-9"
-            src={projectThumbnail}
-            width={300}
-            height={240}
-          />
-        </Styled.ThumbnailWrapper>
-      </Styled.InputWrapper>
-      <Styled.InputWrapper>
-        <Styled.InputLabel>Main Page Name</Styled.InputLabel>
-        <Input
-          placeholder="main page name"
-          size={300}
-          onChange={handleMainPageName}
-        />
-      </Styled.InputWrapper>
-      <div>
-        <Styled.InputLabel>Project Thumbnail</Styled.InputLabel>
-        <Styled.TemplateContainer>
-          <Styled.TemplateWrapper
-            selected={templateId === ''}
-            onClick={() => handleTemplateId('')}
-          >
-            <Styled.Thumbnail src={null} width={250} height={250} />
-            <Styled.ThumbnailTitle>Blank</Styled.ThumbnailTitle>
-          </Styled.TemplateWrapper>
-          {templates?.value.map((template, idx) => (
-            <Styled.TemplateWrapper
-              key={template.templateId}
-              selected={template.templateId === templateId}
-            >
-              <Styled.Thumbnail
-                src={template.templateThumbnailUrl}
-                width={250}
-                height={250}
-                onClick={() => handleTemplateId(template.templateId)}
+      <Styled.ProjectModalContainer>
+        <Styled.ButtonWrapper>
+          <p />
+          <Styled.CloseButton onClick={handleIsOpen}>x</Styled.CloseButton>
+        </Styled.ButtonWrapper>
+        <Styled.Title>Make your Project</Styled.Title>
+        {contentsOrder === 0 && (
+          <>
+            <Styled.InputWrapper>
+              <Styled.InputLabel>Project Name</Styled.InputLabel>
+              <Input
+                placeholder="Project Name"
+                size={300}
+                onChange={handleProjectName}
               />
-              <Styled.ThumbnailTitle>
-                {template.templateName}
-              </Styled.ThumbnailTitle>
-            </Styled.TemplateWrapper>
-          ))}
-        </Styled.TemplateContainer>
-      </div>
-      <Styled.ButtonWrapper>
-        <Styled.SubmitButton
-          onClick={() => createProject()}
-          disabled={createDisabled}
-        >
-          Create
-        </Styled.SubmitButton>
-      </Styled.ButtonWrapper>
+            </Styled.InputWrapper>
+            <Styled.InputWrapper>
+              <Styled.InputLabel>Project Thumbnail</Styled.InputLabel>
+              <Styled.ThumbnailWrapper>
+                <ImageUpload type="thumbnail" setURL={setProjectThumbnail} />
+                <Styled.Thumbnail
+                  className="ml-40"
+                  src={projectThumbnail}
+                  width={350}
+                  height={240}
+                  selected={false}
+                />
+              </Styled.ThumbnailWrapper>
+            </Styled.InputWrapper>
+          </>
+        )}
+        {contentsOrder === 1 && (
+          <>
+            <Styled.InputWrapper>
+              <Styled.InputLabel>Main Page Name</Styled.InputLabel>
+              <Input
+                placeholder="main page name"
+                size={300}
+                onChange={handleMainPageName}
+              />
+            </Styled.InputWrapper>
+            <div>
+              <Styled.InputLabel>Page Template</Styled.InputLabel>
+              <Styled.TemplateContainer>
+                <Styled.TemplateWrapper
+                  selected={templateId === ''}
+                  onClick={() => handleTemplateId('')}
+                >
+                  <Styled.Thumbnail
+                    src={null}
+                    width={250}
+                    height={250}
+                    selected={templateId === ''}
+                  />
+                  <Styled.ThumbnailTitle>Blank</Styled.ThumbnailTitle>
+                </Styled.TemplateWrapper>
+                {templates?.value.map((template, idx) => (
+                  <Styled.TemplateWrapper key={template.templateId}>
+                    <Styled.Thumbnail
+                      src={template.templateThumbnailUrl}
+                      width={250}
+                      height={250}
+                      onClick={() => handleTemplateId(template.templateId)}
+                      selected={templateId === template.templateId}
+                    />
+                    <Styled.ThumbnailTitle>
+                      {template.templateName}
+                    </Styled.ThumbnailTitle>
+                  </Styled.TemplateWrapper>
+                ))}
+              </Styled.TemplateContainer>
+            </div>
+          </>
+        )}
+        <Styled.ButtonWrapper>
+          {contentsOrder === 0 ? (
+            <button />
+          ) : (
+            <Styled.SubmitButton
+              disabled={false}
+              onClick={() => handleContentsOrder()}
+            >
+              prev
+            </Styled.SubmitButton>
+          )}
+          {contentsOrder === 1 ? (
+            <Styled.SubmitButton
+              onClick={() => createProject()}
+              disabled={createDisabled}
+            >
+              Create
+            </Styled.SubmitButton>
+          ) : (
+            <Styled.SubmitButton
+              disabled={false}
+              onClick={() => handleContentsOrder()}
+            >
+              next
+            </Styled.SubmitButton>
+          )}
+        </Styled.ButtonWrapper>
+      </Styled.ProjectModalContainer>
     </CreateModal>
   );
 };
