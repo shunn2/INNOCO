@@ -59,10 +59,6 @@ const CreateProject = ({ isOpen, handleIsOpen }: CreateProjectProps) => {
     handleSubmitDisabled();
   }, [projectName, mainPageName]);
 
-  useEffect(() => {
-    console.log(11);
-  }, []);
-
   return (
     <CreateModal isOpen={isOpen}>
       <Styled.ProjectModalContainer>
@@ -77,6 +73,7 @@ const CreateProject = ({ isOpen, handleIsOpen }: CreateProjectProps) => {
               <Styled.InputLabel>Project Name</Styled.InputLabel>
               <Input
                 placeholder="Project Name"
+                value={projectName}
                 size={300}
                 onChange={handleProjectName}
               />
@@ -102,6 +99,7 @@ const CreateProject = ({ isOpen, handleIsOpen }: CreateProjectProps) => {
               <Styled.InputLabel>Main Page Name</Styled.InputLabel>
               <Input
                 placeholder="main page name"
+                value={mainPageName}
                 size={300}
                 onChange={handleMainPageName}
               />
@@ -139,7 +137,7 @@ const CreateProject = ({ isOpen, handleIsOpen }: CreateProjectProps) => {
             </div>
           </>
         )}
-        <Styled.ButtonWrapper>
+        <Styled.ButtonWrapper className="mt-12">
           {contentsOrder === 0 ? (
             <button />
           ) : (
