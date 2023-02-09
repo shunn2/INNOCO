@@ -57,18 +57,19 @@ export default NextAuth({
         const decodedAccess: AuthToken = jwt_decode(token.accessToken);
         if (decodedAccess.exp < Date.now() / 1000) {
           const data = await refreshAccessToken(token.refreshToken);
-          if (data.code === 6002) {
+          if (data.code !== 0) {
             token.error = 'invalid';
           } else {
             token.accessToken = data.value.accessToken;
             token.refreshToken = data.value.refreshToken;
           }
+          return token;
         }
-      } else if (user) {
+      }
+      if (user) {
         token.accessToken = user.name;
         token.refreshToken = user.email;
       }
-
       return token;
     },
     async session({ session, token, user }) {
@@ -77,7 +78,6 @@ export default NextAuth({
       session.user.image = String(token.error);
       session.accessToken = token.accessToken;
       session.expires = token.sub;
-
       return session;
     },
   },
