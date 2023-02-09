@@ -1,10 +1,10 @@
 import { api } from '@api';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import Button from '../Button';
 import * as Styled from './styled';
 
 const Header = () => {
+  const router = useRouter().pathname.split('/');
   return (
     <Styled.HeaderContainer>
       <Styled.LogoImage
@@ -14,15 +14,17 @@ const Header = () => {
         height="0"
         sizes="100vw"
       />
-      <button
-        onClick={() =>
-          signOut({
-            callbackUrl: '/auth/sign-in',
-          })
-        }
-      >
-        LOGOUT
-      </button>
+      {router[1] !== 'auth' && (
+        <Styled.LogoutButton
+          onClick={() =>
+            signOut({
+              callbackUrl: '/auth/sign-in',
+            })
+          }
+        >
+          LOGOUT
+        </Styled.LogoutButton>
+      )}
     </Styled.HeaderContainer>
   );
 };
