@@ -25,8 +25,8 @@ const Dashboard = () => {
         <DashboardGrid>
           <ProjectBox>
             <CreateProjectButtonWrapper onClick={handleCreateModalOpen}>
-              <SvgIcon type="project-create" size={32} />
-              <p>Create New Project</p>
+              <SvgIcon type="project-create" size={36} />
+              <span className="text-4xl">Create New Project</span>
             </CreateProjectButtonWrapper>
           </ProjectBox>
           {projects?.value.projects.map((project) => (
@@ -78,6 +78,9 @@ const ProjectBox = styled.div`
   background-color: ${theme.color.gray.middle};
   border-radius: 4px;
   cursor: pointer;
+  &:hover {
+    color: ${theme.color.white.middle};
+  }
 `;
 
 const Title = styled.h4`

@@ -43,14 +43,12 @@ const ProjectInfo = ({ project }: ProjectProps) => {
     await api.deleteProject(projectId);
     location.reload();
   };
-  console.log('main', mainPageId);
 
   return (
     <Styled.ProjectInfoContainer>
       <Link
         href={`/editor/${projectId}/${mainPageId}`}
         onClick={() => {
-          console.log('expire', session.expires);
           setUserId(session.expires);
           setUserAuthority(
             projectAuthority === 'OWNER' ? 'EDITOR' : projectAuthority
@@ -64,33 +62,27 @@ const ProjectInfo = ({ project }: ProjectProps) => {
         </Styled.ProjectThumbnailWrapeer>
       </Link>
       <Styled.ProjectContentWrapper>
-        <div>
+        <Styled.ProjectInfoRow>
           <div>{projectName}</div>
+          <Styled.SettingWrapper onClick={handleSettingOpen}>
+            <SvgIcon type="setting-icon" />
+            {isSettingOpen && (
+              <Styled.SettingModal>
+                <Styled.SettingList>Edit</Styled.SettingList>
+                <Styled.SettingList onClick={deleteProject}>
+                  Delete
+                </Styled.SettingList>
+              </Styled.SettingModal>
+            )}
+          </Styled.SettingWrapper>
+        </Styled.ProjectInfoRow>
+        <Styled.ProjectInfoRow className="mt-3">
           <Styled.ProjectStatus>{projectStatus}</Styled.ProjectStatus>
-        </div>
-        <Styled.SettingWrapper onClick={handleSettingOpen}>
-          <SvgIcon type="setting-icon" />
-          {isSettingOpen && (
-            <Styled.SettingModal>
-              <Styled.SettingList>Edit</Styled.SettingList>
-              <Styled.SettingList onClick={deleteProject}>
-                Delete
-              </Styled.SettingList>
-            </Styled.SettingModal>
-          )}
-          <Authority>{projectAuthority}</Authority>
-        </Styled.SettingWrapper>
+          <Styled.ProjectStatus>{projectAuthority}</Styled.ProjectStatus>
+        </Styled.ProjectInfoRow>
       </Styled.ProjectContentWrapper>
     </Styled.ProjectInfoContainer>
   );
 };
-
-const Authority = styled.div`
-  font-size: 12px;
-  display: flex;
-  margin-right: 8px;
-  margin-top: 8px;
-  justify-content: flex-end;
-`;
 
 export default ProjectInfo;

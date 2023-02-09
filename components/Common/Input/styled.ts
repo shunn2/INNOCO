@@ -23,7 +23,6 @@ export const Input = styled.input<{
   }
 
   &:focus {
-    border: 1px solid ${theme.color.blue};
-    outline-color: ${theme.color.blue};
+    border: 1px solid ${theme.color.blue.middle};
   }
 `;

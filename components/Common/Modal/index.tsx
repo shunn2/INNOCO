@@ -1,3 +1,4 @@
+import theme from '@styles/theme';
 import { PropsWithChildren } from 'react';
 import Modal from 'react-modal';
 
@@ -9,8 +10,8 @@ const customStyles = {
     bottom: 'auto',
     transform: 'translate(-50%, -50%)',
     minWidth: '800px',
-    minHeight: '500px',
-    backgroundColor: '#000',
+    minHeight: '600px',
+    backgroundColor: `${theme.color.gray.dark}`,
     opacity: 1.0,
   },
   overlay: {

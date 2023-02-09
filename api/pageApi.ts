@@ -16,6 +16,12 @@ class PageApi {
     );
     return data;
   }
+  async getPageForEditor(projectId, pageId, source) {
+    const { data } = await createAxiosWithToken().get(
+      `/projects/${projectId}/pages/${pageId}?source=${source}`
+    );
+    return JSON.parse(data.value.pageJson);
+  }
 }
 
 const pageApi = new PageApi();

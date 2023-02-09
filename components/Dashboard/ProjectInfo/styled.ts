@@ -2,14 +2,12 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import theme from '@styles/theme';
 
-export const ProjectInfoContainer = styled.a`
+export const ProjectInfoContainer = styled.div`
   background-color: ${theme.color.gray.middle};
   border-radius: 4px;
 `;
 
 export const ProjectContentWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
   padding: 16px 18px 16px;
   font-size: 20px;
   z-index: 9;
@@ -25,7 +23,10 @@ export const SettingWrapper = styled.div`
 
 export const SettingModal = styled.div`
   position: absolute;
-  background-color: ${theme.color.white.dark};
+  background-color: ${theme.color.blue.light};
+  border-radius: 6px;
+  left: -12px;
+  top: 24px;
 `;
 
 export const SettingList = styled.div`
@@ -59,4 +60,10 @@ export const ProjectThumbnail = styled.img`
 export const ProjectStatus = styled.div`
   margin: 6px 0;
   font-size: 12px;
+`;
+
+export const ProjectInfoRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;

@@ -3,6 +3,7 @@ import * as Styled from './styled';
 
 export interface InputProps {
   placeholder: string;
+  value?: string | number;
   type?: string;
   error?: boolean;
   size?: number;

@@ -1,4 +1,5 @@
 import { useSession } from '@lib/next-auth-react-query';
+import { GetServerSidePropsContext } from 'next';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { ReactNode, useEffect } from 'react';
@@ -15,10 +16,8 @@ const Layout = (props: { children: ReactNode }) => {
       });
     }
     if (session) {
-      window.localStorage.setItem(
-        'access_token',
-        JSON.stringify(session.accessToken)
-      );
+      localStorage.setItem('access_token', JSON.stringify(session.accessToken));
+      localStorage.setItem('refresh_token', JSON.stringify(session.user.email));
       if (router.pathname === '/auth/sign-in')
         router.push('/dashboard', undefined, { shallow: true });
       return;
