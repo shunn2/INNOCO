@@ -12,10 +12,10 @@ const customStyles = {
     minWidth: '800px',
     minHeight: '600px',
     backgroundColor: `${theme.color.gray.dark}`,
-    opacity: 1.0,
+    borderRadius: '16px',
   },
   overlay: {
-    opacity: 1.0,
+    backgroundColor: 'rgba(255,255,255,0.1)',
   },
 };
 

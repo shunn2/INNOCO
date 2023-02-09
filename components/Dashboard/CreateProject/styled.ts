@@ -48,7 +48,7 @@ export const InputWrapper = styled.div`
 
 export const InputLabel = styled.div`
   font-size: 12px;
-  margin: 8px 0 4px 4px;
+  margin: 8px 0 12px 4px;
   color: ${theme.color.gray.light};
 `;
 
