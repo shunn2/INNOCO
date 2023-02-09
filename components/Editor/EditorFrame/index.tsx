@@ -198,7 +198,6 @@ const EditorFrame = () => {
                 return;
               }
               if (isUserDisconnectEvent(message)) {
-                console.log('dis', message);
                 setUsers(parsedBody.currentChannelSubscribers);
                 return;
               }
@@ -380,7 +379,6 @@ const EditorFrame = () => {
         pageApi
           .getPageForEditor(projectInfo.projectId, projectInfo.pageId, source)
           .then((response) => {
-            console.log('mess', response);
             setEditorMain(response.main);
             setEditorSectionOrder(response.sectionOrder);
           });
