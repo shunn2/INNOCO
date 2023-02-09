@@ -35,7 +35,7 @@ export const SubmitButton = styled.button<{ disabled: boolean }>`
 
 export const Title = styled.div`
   font-size: 20px;
-  margin-bottom: 36px;
+  margin-bottom: 14px;
   color: ${theme.color.gray.light};
 `;
 
