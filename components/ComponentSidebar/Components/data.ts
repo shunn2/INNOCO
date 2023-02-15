@@ -152,3 +152,85 @@ export const imageData = {
   image: null,
   children: [],
 };
+
+export const guestBook = {
+  id: 'guestBook',
+  section_id: 1,
+  type: 'section',
+  dataComponent: 'guestBook',
+  sectionProps: {
+    style: {
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'white',
+    },
+  },
+  children: [
+    {
+      id: 'content',
+      type: 'content',
+      tag: 'div',
+      props: {
+        style: {
+          display: 'flex',
+          alignItems: 'center',
+          width: '500px',
+          minHeight: '50px',
+        },
+      },
+      children: [
+        {
+          id: 'comment_1',
+          tag: 'div',
+          nickname: '익명',
+          date: '',
+          props: {
+            style: {},
+          },
+          content: '안녕하세요',
+        },
+      ],
+    },
+    {
+      id: 'input',
+      type: 'input',
+      tag: 'textarea',
+      props: {
+        placeholder: '방명록을 작성하세요',
+        style: {
+          width: '400px',
+          height: '56px',
+          padding: '16px',
+          border: '0.5px solid #aaa',
+          borderRadius: '6px',
+          marginBottom: '12px',
+          resize: 'none',
+        },
+      },
+    },
+    {
+      id: 'button',
+      type: 'button',
+      tag: 'button',
+      parentProps: {
+        style: {
+          display: 'flex',
+          justifyContent: 'flex-end',
+        },
+      },
+      props: {
+        style: {
+          padding: '4px 14px',
+          fontSize: '14px',
+          fontWeight: '500',
+          backgroundColor: '#14B885',
+          borderRadius: '4px',
+          color: 'white',
+        },
+      },
+    },
+  ],
+};
