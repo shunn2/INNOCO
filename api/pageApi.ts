@@ -16,11 +16,16 @@ class PageApi {
     );
     return data;
   }
-  async getPageForEditor(projectId, pageId, source) {
+  async getPageForEditor(projectId, pageId) {
     const { data } = await createAxiosWithToken().get(
-      `/projects/${projectId}/pages/${pageId}?source=${source}`
+      `/projects/${projectId}/pages/${pageId}`
     );
     return JSON.parse(data.value.pageJson);
+  }
+  async overWritePage(projectId) {
+    const { data } = await createAxiosWithToken().get(
+      `/projects/${projectId}/overwrite`
+    );
   }
 }
 
