@@ -29,6 +29,7 @@ import Alert from '@components/Common/Alert';
 
 import { createElementProps } from '@/types/editor';
 import useDidMountEffect from '@hooks/useDidMountEffect';
+// import CreateGuestBook from '@utils/createElement/dataComponent/guestBook';
 
 const CONNECTION_URL = process.env.NEXT_PUBLIC_SOCKET_URL;
 const SEND_URL = process.env.NEXT_PUBLIC_SOCKET_SEND_URL;
@@ -350,6 +351,51 @@ const EditorFrame = () => {
     );
   };
 
+  const CreateGuestBook = ({ data, sectionId, sectionIdx }) => {
+    const sectionProps = {
+      ...data.sectionProps,
+      draggable: true,
+    };
+    return (
+      <div
+        {...sectionProps}
+        id={sectionId}
+        onDragStart={(e) =>
+          dragStart({
+            e: e,
+            element: main[sectionId],
+            idx: sectionIdx,
+            sectionId,
+          })
+        }
+        onDragOver={(e) =>
+          handleDragOver(e, main[sectionId], sectionId, sectionIdx)
+        }
+        onDrop={handleDrop}
+        // onDragEnd={() => handleEditorChange()}
+        onClick={(e) =>
+          handleElementClick(e, sectionId, sectionIdx, main[sectionId])
+        }
+        className={`${dragEffectStyle({
+          insertLocation,
+          draggingOverId: draggingOver?.el.id,
+          elementId: sectionId,
+        })} ${clickEffectStyle({
+          clickedId: currentSelectedElement.id,
+          elementId: sectionId,
+        })}`}
+      >
+        <h4 className="my-3">0개의 방명록</h4>
+        <div {...data.children[1].parentProps}>
+          <textarea id="input" {...data.children[1].props} />
+          <div {...data.children[2].parentProps}>
+            <button {...data.children[2].props}>작성</button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   useEffect(() => {
     if (JSON.stringify(editorMain) !== JSON.stringify(main))
       setMain(editorMain);
@@ -361,7 +407,7 @@ const EditorFrame = () => {
     //편집중인 에디터가 없어 DB 저장 내역을 받아와야 할 때
     if (isSynced || viewerExists) {
       pageApi
-        .getPageForEditor(projectInfo.projectId, projectInfo.pageId, 'SAVED')
+        .getPageForEditor(projectInfo.projectId, projectInfo.pageId)
         .then((response) => {
           setEditorMain(response.main);
           setEditorSectionOrder(response.sectionOrder);
@@ -374,10 +420,9 @@ const EditorFrame = () => {
         confirmButtonText: '게시된 프로젝트',
         cancelButtonText: '자동저장된 프로젝트',
       }).then((res) => {
-        let source = 'SAVED';
-        if (res.isConfirmed) source = 'PUBLISHED';
+        if (res.isConfirmed) pageApi.overWritePage(projectInfo.projectId);
         pageApi
-          .getPageForEditor(projectInfo.projectId, projectInfo.pageId, source)
+          .getPageForEditor(projectInfo.projectId, projectInfo.pageId)
           .then((response) => {
             setEditorMain(response.main);
             setEditorSectionOrder(response.sectionOrder);
@@ -445,34 +490,42 @@ const EditorFrame = () => {
                 {sectionId === currentSelectedElement.id && (
                   <SectionControlWidget />
                 )}
-                <CreateSection
-                  sectionId={sectionId}
-                  sectionIdx={sectionIdx}
-                  draggingOver={draggingOver}
-                  insertLocation={insertLocation}
-                  handleDragOver={(e) =>
-                    handleDragOver(e, main[sectionId], sectionId, sectionIdx)
-                  }
-                  handleDrop={handleDrop}
-                  onClick={(e) =>
-                    handleElementClick(
-                      e,
-                      sectionId,
-                      sectionIdx,
-                      main[sectionId]
-                    )
-                  }
-                  handleEditorChange={() => handleEditorChange(editorData)}
-                >
-                  {main[sectionId].children.map((element, elementIdx) => (
-                    <div key={element.id}>
-                      {element.id === currentSelectedElement.id && (
-                        <ElementControlWidget />
-                      )}
-                      {createParent({ element, elementIdx, sectionId })}
-                    </div>
-                  ))}
-                </CreateSection>
+                {main[sectionId].dataComponent === 'guestBook' ? (
+                  <CreateGuestBook
+                    data={main[sectionId]}
+                    sectionId={sectionId}
+                    sectionIdx={sectionIdx}
+                  />
+                ) : (
+                  <CreateSection
+                    sectionId={sectionId}
+                    sectionIdx={sectionIdx}
+                    draggingOver={draggingOver}
+                    insertLocation={insertLocation}
+                    handleDragOver={(e) =>
+                      handleDragOver(e, main[sectionId], sectionId, sectionIdx)
+                    }
+                    handleDrop={handleDrop}
+                    onClick={(e) =>
+                      handleElementClick(
+                        e,
+                        sectionId,
+                        sectionIdx,
+                        main[sectionId]
+                      )
+                    }
+                    handleEditorChange={() => handleEditorChange(editorData)}
+                  >
+                    {main[sectionId].children.map((element, elementIdx) => (
+                      <div key={element.id}>
+                        {element.id === currentSelectedElement.id && (
+                          <ElementControlWidget />
+                        )}
+                        {createParent({ element, elementIdx, sectionId })}
+                      </div>
+                    ))}
+                  </CreateSection>
+                )}
               </div>
             );
           })}
