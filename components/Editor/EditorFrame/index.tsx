@@ -97,9 +97,9 @@ const EditorFrame = () => {
         <CreateModal isOpen={renderCandidate}>
           <form
             onSubmit={(e) => sendNewCandidate(e, candidateChecked)}
-            className="top-8 right-0 text-slate-50"
+            className="flex flex-col justify-between h-full text-slate-50"
           >
-            <div className="flex w-full h-6 justify-between items-end text-5xl mb-10">
+            <div className="flex w-full justify-between items-end text-5xl mb-10">
               <span>Editor Candidate List</span>
               <div
                 className="cursor-pointer"
@@ -108,13 +108,11 @@ const EditorFrame = () => {
                 x
               </div>
             </div>
-            <div className="checkbox-group">
+            <div className="checkbox-group min-h-[350px]">
               {candidates?.map((candidate) => (
-                <div key={candidate.sessionId}>
+                <div key={candidate.sessionId} className="text-4xl">
                   <input
                     type="checkbox"
-                    className="text-7xl"
-                    style={{ display: 'inline-block' }}
                     id={candidate}
                     value={candidate}
                     onClick={() => clickCandidate(candidate)}
@@ -123,9 +121,14 @@ const EditorFrame = () => {
                 </div>
               ))}
             </div>
-            <button type="submit" className="absolute">
-              위임
-            </button>
+            <div className="w-full flex justify-end">
+              <button
+                type="submit"
+                className="py-3	px-6 ml-8	text-white bg-[#33ADFF] hover:bg-[#238DE0] rounded-md"
+              >
+                위임
+              </button>
+            </div>
           </form>
         </CreateModal>
       )
@@ -281,8 +284,6 @@ const EditorFrame = () => {
                 setRenderCandidate(true);
                 return;
               }
-
-              console.log(JSON.parse(message.body).newEditor);
               if (
                 isNewEditorAssignEvent(message) &&
                 JSON.parse(message.body).newEditor.userId === projectInfo.id
