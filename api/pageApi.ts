@@ -23,7 +23,7 @@ class PageApi {
     return JSON.parse(data.value.pageJson);
   }
   async overWritePage(projectId) {
-    const { data } = await createAxiosWithToken().get(
+    const { data } = await createAxiosWithToken().put(
       `/projects/${projectId}/overwrite`
     );
   }

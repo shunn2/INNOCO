@@ -21,7 +21,7 @@ import {
 } from '@utils/drag';
 import { getInsertLocation } from '@utils/getInsertLocation';
 import { CreateSection } from '@utils/createElement';
-import { useContentEditable } from '@hooks/useContentEditable';
+import UseContentEditable from '@hooks/useContentEditable';
 import { clickEffectStyle, dragEffectStyle } from '@utils/effect';
 import { ElementControlWidget, SectionControlWidget } from '../ControlWidget';
 import UserAvatar from '@components/Common/UserAvatar';
@@ -29,6 +29,7 @@ import Alert from '@components/Common/Alert';
 
 import { createElementProps } from '@/types/editor';
 import useDidMountEffect from '@hooks/useDidMountEffect';
+import CreateModal from '@components/Common/Modal';
 // import CreateGuestBook from '@utils/createElement/dataComponent/guestBook';
 
 const CONNECTION_URL = process.env.NEXT_PUBLIC_SOCKET_URL;
@@ -59,6 +60,85 @@ const EditorFrame = () => {
   const [users, setUsers] = useState([]);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [isNewUserJoin, setIsNewUserJoin] = useState<boolean>(false);
+
+  const [renderCandidate, setRenderCandidate] = useState(false);
+  const [candidateChecked, setCandidateChecked] = useState('');
+  const [candidates, setCandidates] = useState([]);
+
+  const CandidateComponent = ({ candidates }) => {
+    const clickCandidate = (candidate) => {
+      setCandidateChecked(candidate);
+    };
+
+    const sendNewCandidate = (e, candidate) => {
+      e.preventDefault();
+      stompClient.current.publish({
+        destination: SEND_URL,
+        body: JSON.stringify({
+          pageId: projectInfo.pageId,
+          messageType: 'AUTHORITY',
+          eventType: 'REASSIGN_EDITOR',
+          newEditor: candidate,
+          sender: projectInfo.id,
+        }),
+      });
+      setCandidateChecked('');
+      setCandidates([]);
+      setRenderCandidate(false);
+      Alert({
+        icon: 'warning',
+        title: `권한을 ${candidate.userId}에게 위임하여 VIEWER로 변경되었습니다.`,
+      });
+      setUserAuthority('VIEWER');
+    };
+    return (
+      renderCandidate &&
+      userAuthority === 'EDITOR' && (
+        <CreateModal isOpen={renderCandidate}>
+          <form
+            onSubmit={(e) => sendNewCandidate(e, candidateChecked)}
+            className="top-8 right-0 text-slate-50"
+          >
+            <div className="flex w-full h-6 justify-between items-end text-5xl mb-10">
+              <span>Editor Candidate List</span>
+              <div
+                className="cursor-pointer"
+                onClick={() => setRenderCandidate(false)}
+              >
+                x
+              </div>
+            </div>
+            <div className="checkbox-group">
+              {candidates?.map((candidate) => (
+                <div key={candidate.sessionId}>
+                  <input
+                    type="checkbox"
+                    className="text-7xl"
+                    style={{ display: 'inline-block' }}
+                    id={candidate}
+                    value={candidate}
+                    onClick={() => clickCandidate(candidate)}
+                  ></input>
+                  <label htmlFor={candidate}>{candidate.userId}</label>
+                </div>
+              ))}
+            </div>
+            <button type="submit" className="absolute">
+              위임
+            </button>
+          </form>
+        </CreateModal>
+      )
+    );
+  };
+
+  function isEditorCandidateListEvent(message) {
+    return JSON.parse(message.body).eventType === 'FIND_EDITOR_CANDIDATE_LIST';
+  }
+
+  function isNewEditorAssignEvent(message) {
+    return JSON.parse(message.body).eventType === 'REASSIGN_EDITOR';
+  }
 
   function isUserJoinEvent(message) {
     let evt = JSON.parse(message.body).eventType;
@@ -192,6 +272,29 @@ const EditorFrame = () => {
                 )
                   setViewerExists(true);
               }
+              if (
+                isEditorCandidateListEvent(message) &&
+                JSON.parse(message.body).sender === projectInfo.id
+              ) {
+                console.log(JSON.parse(message.body).editorCandidates);
+                setCandidates(JSON.parse(message.body).editorCandidates);
+                setRenderCandidate(true);
+                return;
+              }
+
+              console.log(JSON.parse(message.body).newEditor);
+              if (
+                isNewEditorAssignEvent(message) &&
+                JSON.parse(message.body).newEditor.userId === projectInfo.id
+              ) {
+                Alert({
+                  icon: 'warning',
+                  title: `권한을 ${JSON.parse(message.body).sender}에게
+                  위임받아 editor로 변경되었습니다.`,
+                });
+                setUserAuthority('EDITOR');
+                return;
+              }
               if (isNewUserNeedsToSetInitialContent(message)) {
                 //본인이 방금 입장하여 최초로 에디터에 내용을 세팅해야 하는 유저라면 에디터가 보낸 메세지를 받아서 세팅함.
                 setEditorMain(parsedContent.main);
@@ -313,7 +416,7 @@ const EditorFrame = () => {
       onDoubleClick: () => handleElementDblClick(element.id),
       onClick: (e) => handleElementClick(e, sectionId, elementIdx, element),
       onBlur: (e) => {
-        useContentEditable(e, elementIdx, sectionId, setMain);
+        UseContentEditable(e, elementIdx, sectionId, setMain);
         setDblClickElement('');
       },
       className: clickEffectStyle({
@@ -481,6 +584,15 @@ const EditorFrame = () => {
         >
           Publish
         </button>
+        {userAuthority === 'EDITOR' && (
+          <button
+            onClick={findEditorCandidateList}
+            className="py-1	px-3 ml-2	text-white bg-[#33ADFF] hover:bg-[#238DE0] rounded-md"
+          >
+            Reassign
+          </button>
+        )}
+        <CandidateComponent candidates={candidates} />
       </div>
       <div id="test" style={{ width: '1000px' }}>
         {sectionOrder.length &&
