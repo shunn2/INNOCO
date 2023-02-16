@@ -69,9 +69,9 @@ const GlobalStyle = createGlobalStyle`
   }
   /* input 기본 스타일 초기화 */
   input {
-    -webkit-appearance: none;
+    /* -webkit-appearance: none;
     -moz-appearance: none;
-    appearance: none;
+    appearance: none; */
   }
   input:focus {
     outline: none;
