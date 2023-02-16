@@ -9,6 +9,8 @@ const customStyles = {
     right: 'auto',
     bottom: 'auto',
     transform: 'translate(-50%, -50%)',
+    padding: '36px',
+    height: '600px',
     minWidth: '800px',
     minHeight: '600px',
     backgroundColor: `${theme.color.gray.dark}`,
