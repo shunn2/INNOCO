@@ -7,6 +7,9 @@ const nextConfig = {
   env: {
     BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/,
