@@ -73,6 +73,13 @@ const GlobalStyle = createGlobalStyle`
     -moz-appearance: none;
     appearance: none; */
   }
+  input[type=checkbox]{
+    width: 16px; /*Desired width*/
+    height: 16px; /*Desired height*/
+    margin: 0 20px;
+    cursor: pointer;
+
+  }
   input:focus {
     outline: none;
   }
