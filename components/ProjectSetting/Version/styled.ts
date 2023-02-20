@@ -1,7 +1,9 @@
 import theme from '@styles/theme';
 import styled from 'styled-components';
 
-export const ProjectVersionContainer = styled.div``;
+export const ProjectVersionContainer = styled.div`
+  min-width: 750px;
+`;
 
 export const VersionAlertMessage = styled.p`
   color: ${theme.color.white.dark};
