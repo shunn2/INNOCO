@@ -10,6 +10,7 @@ import {
 import projectAtom from '@recoil/project/atom';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
@@ -22,6 +23,7 @@ interface ProjectProps {
 
 const ProjectInfo = ({ project }: ProjectProps) => {
   const { data: session, status } = useSession();
+  const router = useRouter();
   const [userId, setUserId] = useRecoilState(withUserId);
   const [userAuthority, setUserAuthority] = useRecoilState(withAuthority);
   const [pageId, setPageId] = useRecoilState(withPageId);
@@ -42,6 +44,9 @@ const ProjectInfo = ({ project }: ProjectProps) => {
   const deleteProject = async () => {
     await api.deleteProject(projectId);
     location.reload();
+  };
+  const handleEditClick = () => {
+    router.push(`/setting/${projectId}`);
   };
 
   return (
@@ -68,7 +73,9 @@ const ProjectInfo = ({ project }: ProjectProps) => {
             <SvgIcon type="setting-icon" />
             {isSettingOpen && (
               <Styled.SettingModal>
-                <Styled.SettingList>Edit</Styled.SettingList>
+                <Styled.SettingList onClick={handleEditClick}>
+                  Edit
+                </Styled.SettingList>
                 <Styled.SettingList onClick={deleteProject}>
                   Delete
                 </Styled.SettingList>
