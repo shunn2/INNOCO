@@ -1,9 +1,13 @@
 import styled, { css } from 'styled-components';
 import theme from '@styles/theme';
 
-export const Input = styled.input<{ size: number }>`
-  width: 100%;
-  height: 24px;
+export const Input = styled.input<{
+  size: number;
+  width?: number;
+  height?: number;
+}>`
+  width: ${(props) => (props.width ? `${props.width}px` : '100%')};
+  height: ${(props) => (props.height ? `${props.height}px` : '24px')};
   background-color: ${theme.color.gray.middle};
   color: ${theme.color.white.dark};
   padding: 2px 6px;

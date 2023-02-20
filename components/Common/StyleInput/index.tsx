@@ -4,7 +4,10 @@ import * as Styled from './styled';
 export interface StyleInputProps {
   placeholder: string;
   size: number;
+  width?: number;
+  height?: number;
   selectList?: string[];
+  value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
