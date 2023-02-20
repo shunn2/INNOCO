@@ -5,6 +5,10 @@ class Api {
     const { data } = await createAxiosWithToken().get('/projects/list/me');
     return data;
   }
+  async fetchSingleProject(projectId) {
+    const { data } = await createAxiosWithToken().get(`/projects/${projectId}`);
+    return data;
+  }
   async fetchTemplates() {
     const { data } = await createAxiosWithToken().get('/templates');
     return data;
