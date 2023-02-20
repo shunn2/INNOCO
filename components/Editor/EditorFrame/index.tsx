@@ -21,7 +21,6 @@ import {
 } from '@utils/drag';
 import { getInsertLocation } from '@utils/getInsertLocation';
 import { CreateSection } from '@utils/createElement';
-import UseContentEditable from '@hooks/useContentEditable';
 import { clickEffectStyle, dragEffectStyle } from '@utils/effect';
 import { ElementControlWidget, SectionControlWidget } from '../ControlWidget';
 import UserAvatar from '@components/Common/UserAvatar';
@@ -30,6 +29,7 @@ import Alert from '@components/Common/Alert';
 import { createElementProps } from '@/types/editor';
 import useDidMountEffect from '@hooks/useDidMountEffect';
 import CreateModal from '@components/Common/Modal';
+import { contentEditable } from '@hooks/contentEditable';
 // import CreateGuestBook from '@utils/createElement/dataComponent/guestBook';
 
 const CONNECTION_URL = process.env.NEXT_PUBLIC_SOCKET_URL;
@@ -417,7 +417,7 @@ const EditorFrame = () => {
       onDoubleClick: () => handleElementDblClick(element.id),
       onClick: (e) => handleElementClick(e, sectionId, elementIdx, element),
       onBlur: (e) => {
-        UseContentEditable(e, elementIdx, sectionId, setMain);
+        contentEditable(e, elementIdx, sectionId, setMain);
         setDblClickElement('');
       },
       className: clickEffectStyle({
