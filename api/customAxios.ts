@@ -44,7 +44,6 @@ axiosInstanceWithToken.interceptors.request.use(
     const access_token = localStorage.getItem('access_token');
     const refresh_token = JSON.parse(localStorage.getItem('refresh_token'));
     const decodedAccess: AuthToken = jwt_decode(access_token);
-
     if (decodedAccess.exp < Date.now() / 1000) {
       const res = await authApi.regenerateToken(refresh_token);
       const { accessToken, refreshToken } = res.value;
@@ -58,5 +57,31 @@ axiosInstanceWithToken.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+// axiosInstanceWithToken.interceptors.response.use(
+//   (response) => {
+//     return response;
+//   },
+//   async (error) => {
+//     const {
+//       config,
+//       response: { status },
+//     } = error;
+//     if (status === 401) {
+//       const originalRequest = config;
+//       const refresh_token = await localStorage.getItem('refresh_token');
+//       const res = await authApi.regenerateToken(refresh_token);
+//       console.log('res', res);
+//       const { accessToken, refreshToken } = res.value;
+//       await localStorage.multiSet([
+//         ['access_token', accessToken],
+//         ['refresh_token', refreshToken],
+//       ]);
+//       originalRequest.headers.authorization = `Bearer ${accessToken}`;
+//       return axios(originalRequest);
+//     }
+//     return Promise.reject(error);
+//   }
+// );
 
 export { createAxiosWithToken, setAuthorizationHeader };

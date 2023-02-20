@@ -533,7 +533,7 @@ const EditorFrame = () => {
           });
       });
     }
-  }, [editorExists, viewerExists, isSynced]);
+  }, [editorExists, viewerExists, isSynced, projectInfo]);
 
   useEffect(() => {
     //만약 새로운 유저가 들어왔다면, 현재 작성중인 에디터의 컨텐츠를 전송함.

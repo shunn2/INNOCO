@@ -44,7 +44,7 @@ const Dashboard = () => {
   );
 };
 
-export const getServerSideProp = async (context) => {
+export const getServerSideProps = async (context) => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(queryKeys.projects, () =>
