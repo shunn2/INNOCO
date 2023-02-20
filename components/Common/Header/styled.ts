@@ -13,6 +13,7 @@ export const LogoImage = styled(Image)`
   width: 120px;
   height: auto;
   background-color: transparent;
+  cursor: pointer;
 `;
 
 export const LogoutButton = styled.button`
