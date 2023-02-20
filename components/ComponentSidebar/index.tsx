@@ -5,6 +5,7 @@ import ButtonComponent from './Components/button';
 import LinkComponent from './Components/link';
 import ImageComponent from './Components/image';
 import GuestBookComponent from './Components/guestBook';
+import PageList from './PageList';
 
 const ComponentSidebar = () => {
   return (
@@ -20,6 +21,9 @@ const ComponentSidebar = () => {
       <Styled.Category>
         <Styled.CategoryTitle>DATA COMPONENT</Styled.CategoryTitle>
         <GuestBookComponent />
+      </Styled.Category>
+      <Styled.Category>
+        <PageList />
       </Styled.Category>
     </Styled.ComponentSidebar>
   );
