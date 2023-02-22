@@ -6,7 +6,7 @@ const nextConfig = {
   },
   env: {
     BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
-    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL || 'http://localhost:3000',
   },
   eslint: {
     ignoreDuringBuilds: true,
