@@ -43,14 +43,18 @@ const SignIn = () => {
     };
 
   const handleSignInButtonClick = async () => {
-    const signInResult = await signIn('credentials', {
-      redirect: true,
+    await signIn('credentials', {
+      redirect: false,
       userLoginId: signInPayload.userLoginId,
       userLoginPw: signInPayload.userLoginPw,
+    }).then(({ ok, error }) => {
+      if (ok) {
+        router.push('/dashboard');
+      }
+      if (error) {
+        router.push('/auth/sign-in');
+      }
     });
-    if (signInResult && signInResult.error) {
-      router.push('/auth/sign-in');
-    }
   };
 
   return (
