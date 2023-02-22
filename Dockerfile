@@ -8,9 +8,6 @@ RUN mkdir -p /stove/deploy/{project}
 
 ADD . /stove/deploy/{project}
 
-ARG NEXTAUTH_URL
-ENV NEXTAUTH_URL=$NEXTAUTH_URL
-
 RUN cd /stove/deploy/{project}/ && \
     npm cache clean --force && \
     npm install && \
