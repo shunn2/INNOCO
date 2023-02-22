@@ -20,6 +20,7 @@ async function refreshAccessToken(refreshToken) {
 }
 
 export default NextAuth({
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: 'credentials',

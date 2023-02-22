@@ -47,8 +47,6 @@ const SignIn = () => {
       redirect: true,
       userLoginId: signInPayload.userLoginId,
       userLoginPw: signInPayload.userLoginPw,
-    }).then((res) => {
-      console.log(res);
     });
   };
 
