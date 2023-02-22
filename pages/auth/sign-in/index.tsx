@@ -43,11 +43,14 @@ const SignIn = () => {
     };
 
   const handleSignInButtonClick = async () => {
-    await signIn('credentials', {
+    const signInResult = await signIn('credentials', {
       redirect: true,
       userLoginId: signInPayload.userLoginId,
       userLoginPw: signInPayload.userLoginPw,
     });
+    if (signInResult && signInResult.error) {
+      router.push('/auth/sign-in');
+    }
   };
 
   return (
