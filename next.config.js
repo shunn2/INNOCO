@@ -6,6 +6,7 @@ const nextConfig = {
   },
   env: {
     BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   },
   eslint: {
     ignoreDuringBuilds: true,
