@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Button, Header, Layout } from '@components/Common';
+import { Input, Button, Layout } from '@components/Common';
 import { AuthContainer, ErrorMessage } from '@components/Auth';
 import { validateInput } from '@utils/validation';
 import { SignUpPayload } from '@/types/auth';
 import { useSignUp } from '@hooks';
 import { authApi } from '@api';
+import Alert from '@components/Common/Alert';
 
 const SignUp = () => {
   const initialSignUpPayload: SignUpPayload = {
@@ -27,7 +28,7 @@ const SignUp = () => {
   const [error, setError] = useState(initialErrorState);
   const [disabled, setDisabled] = useState(true);
   const [checkDuplicate, setCheckDuplicate] = useState(false);
-  const [isDuplicated, setIsDuplicated] = useState(false);
+  const [isDuplicated, setIsDuplicated] = useState({ email: false, id: false });
   const signUp = useSignUp();
 
   useEffect(() => {
@@ -41,14 +42,16 @@ const SignUp = () => {
         !userLoginPw ||
         !userName ||
         !checkDuplicate ||
-        isDuplicated
+        isDuplicated.email ||
+        isDuplicated.id
       )
     );
   }, [signUpPayload, checkDuplicate]);
 
   const handleChange =
     (type: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (type === 'userLoginId') setCheckDuplicate(false);
+      if (type === 'userLoginId' || type === 'userEmail')
+        setCheckDuplicate(false);
       const input = e.target.value;
       setSignUpPayload({ ...signUpPayload, [type]: '' });
 
@@ -66,11 +69,23 @@ const SignUp = () => {
 
   const checkDuplicateId = async () => {
     const userLoginId = signUpPayload.userLoginId;
-    const { value } = await authApi.checkDuplicate(userLoginId);
+    const { value } = await authApi.checkDuplicateId(userLoginId);
     if (!value) {
       setCheckDuplicate(true);
     }
-    setIsDuplicated(value);
+    setIsDuplicated({ ...isDuplicated, id: value });
+    if (!value) Alert({ icon: 'success', title: '사용가능한 ID입니다.' });
+    if (value) Alert({ icon: 'error', title: '중복된 ID입니다.' });
+  };
+  const checkDuplicateEmail = async () => {
+    const userEmail = signUpPayload.userEmail;
+    const { value } = await authApi.checkDuplicateEmail(userEmail);
+    if (!value) {
+      setCheckDuplicate(true);
+    }
+    setIsDuplicated({ ...isDuplicated, email: value });
+    if (!value) Alert({ icon: 'success', title: '사용가능한 Email입니다.' });
+    if (value) Alert({ icon: 'error', title: '중복된 Email입니다.' });
   };
 
   return (
@@ -83,6 +98,8 @@ const SignUp = () => {
           onChange={handleChange('userEmail')}
           error={error.userEmail}
         />
+        <button onClick={checkDuplicateEmail}>이메일 중복 확인</button>
+        {isDuplicated.email && <ErrorMessage type="duplicate" />}
         {error.userEmail && <ErrorMessage type="email" />}
         <Input
           placeholder={'이름을 입력하세요.'}
@@ -94,7 +111,7 @@ const SignUp = () => {
           error={error.userLoginId}
         />
         <button onClick={checkDuplicateId}>아이디 중복 확인</button>
-        {isDuplicated && <ErrorMessage type="duplicate" />}
+        {isDuplicated.id && <ErrorMessage type="duplicate" />}
         {error.userLoginId && <ErrorMessage type="id" />}
         <Input
           placeholder={'비밀번호를 입력하세요.'}
