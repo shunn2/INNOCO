@@ -3,7 +3,6 @@ import editApi from '@api/editApi';
 import { Select, SvgIcon } from '@components/Common';
 import Alert from '@components/Common/Alert';
 import StyleInput from '@components/Common/StyleInput';
-import { ProjectInfo } from '@components/Dashboard';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import * as Styled from './styled';
@@ -68,10 +67,7 @@ const ParticipantsSetting = () => {
       if (type === 'link') return;
     };
   const createInvitaionLink = async () => {
-    console.log(invitationPayload.authority);
-
     const data = await editApi.createInvitationLink(invitationPayload);
-    console.log(data);
     setInvitaionLink(data.value);
   };
   const changeAuthority = (e) => {
@@ -82,7 +78,7 @@ const ParticipantsSetting = () => {
     setParticipantsList(data.value);
   };
   const deleteParticipant = async (type, id) => {
-    const data = await editApi.deleteParticipant(projectId, type, id);
+    await editApi.deleteParticipant(projectId, type, id);
   };
   const sendInvitationLink = async () => {
     let data;

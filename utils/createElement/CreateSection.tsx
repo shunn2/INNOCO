@@ -3,7 +3,7 @@ import { elementInfoAtom } from '@recoil/selectedElement/atom';
 import { dragStart } from '@utils/drag';
 import { clickEffectStyle, dragEffectStyle } from '@utils/effect';
 import { PropsWithChildren } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 interface CreateSectionProps {
   sectionId: string;
@@ -26,12 +26,10 @@ const CreateSection = (props: PropsWithChildren<CreateSectionProps>) => {
     handleDragOver,
     handleDrop,
     onClick,
-    handleEditorChange,
   } = props;
-  const [main, setMain] = useRecoilState(withMainData);
+  const main = useRecoilValue(withMainData);
 
-  const [currentSelectedElement, setCurrentSelectedElement] =
-    useRecoilState(elementInfoAtom);
+  const currentSelectedElement = useRecoilValue(elementInfoAtom);
 
   return (
     <div
@@ -56,7 +54,6 @@ const CreateSection = (props: PropsWithChildren<CreateSectionProps>) => {
       }
       onDragOver={(e) => handleDragOver(e)}
       onDrop={handleDrop}
-      // onDragEnd={() => handleEditorChange()}
       onClick={(e) => onClick(e)}
     >
       {children}

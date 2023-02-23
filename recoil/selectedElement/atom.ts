@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import { atom, selector, useRecoilCallback } from 'recoil';
+import { atom } from 'recoil';
 export const elementStyleAtom = atom({
   key: 'elementStyleAtom',
   default: {},

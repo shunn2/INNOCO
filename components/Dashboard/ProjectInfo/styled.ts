@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Image from 'next/image';
 import theme from '@styles/theme';
 
 export const ProjectInfoContainer = styled.div`

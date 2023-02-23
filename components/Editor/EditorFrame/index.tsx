@@ -30,8 +30,6 @@ import { createElementProps } from '@/types/editor';
 import useDidMountEffect from '@hooks/useDidMountEffect';
 import CreateModal from '@components/Common/Modal';
 import { contentEditable } from '@hooks/contentEditable';
-import { SvgIcon } from '@components/Common';
-// import CreateGuestBook from '@utils/createElement/dataComponent/guestBook';
 
 const CONNECTION_URL = process.env.NEXT_PUBLIC_SOCKET_URL;
 const SEND_URL = process.env.NEXT_PUBLIC_SOCKET_SEND_URL;
@@ -333,6 +331,7 @@ const EditorFrame = () => {
     const data = await api.getProjectSync(projectInfo.projectId);
     await api.startEditSync(projectInfo.projectId);
     let sync = data.value.status === 'PROGRESS' ? true : data.value.sync;
+    console.log('sync', sync);
     setIsSynced(sync);
   };
 
@@ -520,14 +519,18 @@ const EditorFrame = () => {
 
   useEffect(() => {
     //편집중인 에디터가 없어 DB 저장 내역을 받아와야 할 때
+    console.log('sync', isSynced, editorExists, viewerExists);
+
     if (isSynced || viewerExists) {
       pageApi
         .getPageForEditor(projectInfo.projectId, projectInfo.pageId)
         .then((response) => {
+          console.log('res', response);
+
           setEditorMain(response.main);
           setEditorSectionOrder(response.sectionOrder);
         });
-    } else if (editorExists && isSynced !== null) {
+    } else if (editorExists && isSynced === false && isSynced !== null) {
       Alert({
         icon: 'warning',
         text: '페이지 편집 내역을 어디서 가져올까요?',
@@ -539,9 +542,12 @@ const EditorFrame = () => {
         pageApi
           .getPageForEditor(projectInfo.projectId, projectInfo.pageId)
           .then((response) => {
+            console.log('res', response);
             setEditorMain(response.main);
             setEditorSectionOrder(response.sectionOrder);
           });
+        console.log('editor', editorMain);
+        console.log('editor', editorSectionOrder);
       });
     }
   }, [editorExists, viewerExists, isSynced, projectInfo]);

@@ -1,4 +1,3 @@
-import React from 'react';
 import { DragStartProps } from './types';
 
 const dragStart = ({ e, element, idx, sectionId }: DragStartProps) => {

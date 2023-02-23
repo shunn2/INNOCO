@@ -1,16 +1,14 @@
 import * as Styled from '../styled';
-import ImageUpload from '@components/Common/ImageUpload';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { elementInfoAtom } from '@recoil/selectedElement/atom';
 import { useEffect, useState } from 'react';
-import StyleInput from '@components/Common/StyleInput';
 import styled from 'styled-components';
 import theme from '@styles/theme';
 import { withMainData } from '@recoil/editor';
 
 const HrefMenu = () => {
   const element = useRecoilValue(elementInfoAtom);
-  const [mainData, setMainData] = useRecoilState(withMainData);
+  const setMainData = useSetRecoilState(withMainData);
   const [existLink, setExistLink] = useState<string>();
   const handleLink = (e) => {
     setMainData((prev) => {

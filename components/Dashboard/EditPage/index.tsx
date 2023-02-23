@@ -26,11 +26,7 @@ const EditPage = (props: EditPageProps) => {
     if (editedMain) {
       await pageApi.changePageMain(originMain, pageId);
     }
-    const nameData = await pageApi.changePageName(
-      projectId,
-      pageId,
-      editedPageName
-    );
+    await pageApi.changePageName(projectId, pageId, editedPageName);
     handleOpen();
   };
   const deletePage = async () => {

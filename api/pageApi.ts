@@ -25,6 +25,7 @@ class PageApi {
     const { data } = await createAxiosWithToken().put(
       `/projects/${projectId}/overwrite`
     );
+    return data;
   }
   async changePageName(projectId, pageId, pageName) {
     const { data } = await createAxiosWithToken().put(
