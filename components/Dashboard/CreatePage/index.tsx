@@ -3,8 +3,10 @@ import pageApi from '@api/pageApi';
 import { Input } from '@components/Common';
 import Alert from '@components/Common/Alert';
 import useTemplates from '@hooks/useTemplates';
+import projectAtom from '@recoil/project/atom';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useRecoilState } from 'recoil';
 import * as Styled from './styled';
 
 interface CreatePageProps {
@@ -13,7 +15,8 @@ interface CreatePageProps {
 
 const CreatePage = ({ handleOpen }: CreatePageProps) => {
   const router = useRouter();
-  const projectId = useRouter().query.projectId;
+  const projectId = router.query.projectId;
+  const [projectInfo, setProjectInfo] = useRecoilState(projectAtom);
   const templates: Templates = useTemplates();
   const [pageName, setPageName] = useState<string>('');
   const [templateId, setTemplateId] = useState<string>('');
@@ -36,7 +39,7 @@ const CreatePage = ({ handleOpen }: CreatePageProps) => {
         pathname: '/editor/[projectId]/[pageId]',
         query: { projectId: projectId, pageId: data.value },
       });
-      router.reload();
+      setProjectInfo({ ...projectInfo, pageId: data.value });
       handleOpen();
     } else
       Alert({
@@ -62,18 +65,6 @@ const CreatePage = ({ handleOpen }: CreatePageProps) => {
       <div>
         <Styled.InputLabel>Page Template</Styled.InputLabel>
         <Styled.TemplateContainer>
-          <Styled.TemplateWrapper
-            selected={templateId === ''}
-            onClick={() => handleTemplateId('')}
-          >
-            <Styled.Thumbnail
-              src={null}
-              width={250}
-              height={250}
-              selected={templateId === ''}
-            />
-            <Styled.ThumbnailTitle>Blank</Styled.ThumbnailTitle>
-          </Styled.TemplateWrapper>
           {templates?.value.map((template, idx) => (
             <Styled.TemplateWrapper key={template.templateId}>
               <Styled.Thumbnail

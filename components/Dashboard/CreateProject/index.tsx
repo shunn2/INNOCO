@@ -110,15 +110,7 @@ const CreateProject = ({ isOpen, handleIsOpen }: CreateProjectProps) => {
                 <Styled.TemplateWrapper
                   selected={templateId === ''}
                   onClick={() => handleTemplateId('')}
-                >
-                  <Styled.Thumbnail
-                    src={null}
-                    width={250}
-                    height={250}
-                    selected={templateId === ''}
-                  />
-                  <Styled.ThumbnailTitle>Blank</Styled.ThumbnailTitle>
-                </Styled.TemplateWrapper>
+                ></Styled.TemplateWrapper>
                 {templates?.value.map((template, idx) => (
                   <Styled.TemplateWrapper key={template.templateId}>
                     <Styled.Thumbnail

@@ -30,9 +30,15 @@ class AuthApi {
     return data;
   }
 
-  async checkDuplicate(userLoginId: string) {
+  async checkDuplicateId(userLoginId: string) {
     const { data } = await createAxiosWithoutToken('auth').get(
-      `/check/${userLoginId}`
+      `/id-check/${userLoginId}`
+    );
+    return data;
+  }
+  async checkDuplicateEmail(userEmail: string) {
+    const { data } = await createAxiosWithoutToken('auth').get(
+      `/email-check/${userEmail}`
     );
     return data;
   }

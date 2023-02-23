@@ -7,16 +7,28 @@ import { ProjectInfo } from '@components/Dashboard';
 import queryKeys from '@react-query/queryKeys';
 import { Projects } from '@/types/project';
 import theme from '@styles/theme';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CreateProject from '@components/Dashboard/CreateProject';
+import { useRecoilValue } from 'recoil';
+import { userInfoAtom } from '@recoil/user/atom';
+import useDidMountEffect from '@hooks/useDidMountEffect';
 
 const Dashboard = () => {
+  const userInformation = useRecoilValue(userInfoAtom);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const handleCreateModalOpen = () => {
     setCreateModalOpen(!createModalOpen);
   };
 
   const projects: Projects = useProjects();
+
+  const getInvitationLink = async () => {
+    const data = await api.getInvitationList(userInformation.userLoginId);
+  };
+  useDidMountEffect(() => {
+    if (!userInformation) return;
+    if (userInformation.userLoginId.length) getInvitationLink();
+  }, [userInformation]);
 
   return (
     <Layout>

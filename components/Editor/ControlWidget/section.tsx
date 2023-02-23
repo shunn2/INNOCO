@@ -3,6 +3,7 @@ import { withMainData, withSectionOrder } from '@recoil/editor';
 import { elementInfoAtom } from '@recoil/selectedElement/atom';
 import { deleteSection, duplicateSection } from '@utils/control';
 import { IframeEditorReturn } from '@utils/iframe/iframeEditorReturn';
+import Image from 'next/image';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
 const SectionControlWidget = () => {
@@ -23,7 +24,7 @@ const SectionControlWidget = () => {
     <div
       className="absolute flex justify-between items-center"
       style={{
-        minWidth: `${component.clientWidth + 8}px`,
+        minWidth: `${component && component.clientWidth + 8}px`,
         marginTop: `-26px`,
       }}
     >
@@ -35,15 +36,10 @@ const SectionControlWidget = () => {
           }
           className="mx-1"
         >
-          <img
-            src="/iframe/duplicate.png"
-            alt=""
-            width={'24px'}
-            height={'24px'}
-          />
+          <Image src="/iframe/duplicate.png" alt="" width={24} height={24} />
         </div>
         <div onClick={(e) => handleDeleteSection(e)} className="mx-1">
-          <img src="/iframe/trash.png" alt="" width={'26px'} height={'26px'} />
+          <Image src="/iframe/trash.png" alt="" width={26} height={26} />
         </div>
       </ControlBox>
     </div>

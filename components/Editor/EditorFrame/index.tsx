@@ -30,6 +30,7 @@ import { createElementProps } from '@/types/editor';
 import useDidMountEffect from '@hooks/useDidMountEffect';
 import CreateModal from '@components/Common/Modal';
 import { contentEditable } from '@hooks/contentEditable';
+import { SvgIcon } from '@components/Common';
 // import CreateGuestBook from '@utils/createElement/dataComponent/guestBook';
 
 const CONNECTION_URL = process.env.NEXT_PUBLIC_SOCKET_URL;
@@ -37,6 +38,7 @@ const SEND_URL = process.env.NEXT_PUBLIC_SOCKET_SEND_URL;
 const EDITOR_SUBSCRIBE_URL = process.env.NEXT_PUBLIC_SOCKET_SUBSCRIBE_URL;
 
 const EditorFrame = () => {
+  const [editorSize, setEditorSize] = useState('1280px');
   const [editorData, setEditorData] = useRecoilState(editorAtom);
   const [editorMain, setEditorMain] = useState({});
   const [editorSectionOrder, setEditorSectionOrder] = useState([]);
@@ -239,6 +241,8 @@ const EditorFrame = () => {
             EDITOR_SUBSCRIBE_URL + projectInfo.pageId,
             (message) => {
               const parsedBody = JSON.parse(message.body);
+              console.log(parsedBody);
+
               let parsedContent;
               if (parsedBody.content)
                 parsedContent = JSON.parse(parsedBody.content);
@@ -327,10 +331,17 @@ const EditorFrame = () => {
 
   const getSync = async () => {
     const data = await api.getProjectSync(projectInfo.projectId);
-    setIsSynced(data.value);
+    await api.startEditSync(projectInfo.projectId);
+    let sync = data.value.status === 'PROGRESS' ? true : data.value.sync;
+    setIsSynced(sync);
   };
 
   const handlePublish = async () => {
+    Alert({
+      icon: 'info',
+      title: '해당 프로젝트를 게시하시겠습니까?',
+      showCancelButton: true,
+    });
     await api.publishProject(projectInfo.projectId);
   };
 
@@ -572,6 +583,22 @@ const EditorFrame = () => {
       ref={editorRef}
     >
       <div className="sticky flex justify-end items-center top-0 left-0 right-0 mb-10 h-10 bg-[#22262E] w-screen">
+        <div className="mr-52">
+          <select
+            className="px-2	py-1 rounded-md bg-[#373c44] text-[#fff]"
+            onChange={(e) => setEditorSize(e.target.value)}
+          >
+            <option value={'1920px'} selected={editorSize === '1920px'}>
+              💻 Desktop
+            </option>
+            <option value={'1280px'} selected={editorSize === '1280px'}>
+              🖥 Labtop
+            </option>
+            <option value={'768px'} selected={editorSize === '768px'}>
+              📱 Cellphone
+            </option>
+          </select>
+        </div>
         <div className="flex gap-x-2">
           {users.map((user, idx) => (
             <div key={user.sessionId}>
@@ -595,7 +622,7 @@ const EditorFrame = () => {
         )}
         <CandidateComponent candidates={candidates} />
       </div>
-      <div id="test" style={{ width: '1000px' }}>
+      <div id="test" style={{ width: editorSize }}>
         {sectionOrder.length &&
           sectionOrder.map((sectionId, sectionIdx) => {
             return (

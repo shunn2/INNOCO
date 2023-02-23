@@ -2,12 +2,17 @@ import theme from '@styles/theme';
 import styled from 'styled-components';
 
 export const InformationContainer = styled.div`
+  width: 100%;
   display: flex;
-  padding: 60px;
+  justify-content: space-around;
+  @media (max-width: 800px) {
+    flex-direction: column;
+  }
 `;
 
 export const ThumbnailContainer = styled.div`
   color: ${theme.color.gray.light};
+  margin-right: 50px;
 `;
 
 export const InputLabel = styled.div`
@@ -33,9 +38,7 @@ export const Thumbnail = styled.img<{
   margin-bottom: 18px;
 `;
 
-export const ProjectInfoContainer = styled.div`
-  margin-left: 250px;
-`;
+export const ProjectInfoContainer = styled.div``;
 
 export const StatusSelect = styled.select`
   background-color: ${theme.color.gray.middle};

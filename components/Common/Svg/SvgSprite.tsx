@@ -1280,6 +1280,23 @@ const SvgSprite = () => {
           />
         </svg>
       </symbol>
+      <symbol id="setting_icon">
+        <svg viewBox="0 0 5 25">
+          <g id="interface-icon-list">
+            <path
+              d="M10 7h8m-8 5h8m-8 5h8"
+              fill="#AFBED1"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            ></path>
+            <path
+              d="M5 7a1 1 0 112 0 1 1 0 01-2 0zM5 12a1 1 0 112 0 1 1 0 01-2 0zM5 17a1 1 0 112 0 1 1 0 01-2 0z"
+              stroke="none"
+              fill="#AFBED1"
+            ></path>
+          </g>
+        </svg>
+      </symbol>
     </svg>
   );
 };

@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 const ImageMenu = () => {
   const element = useRecoilValue(elementInfoAtom);
-  const [existImage, setExistImage] = useState<string>();
+  const [existImage, setExistImage] = useState<string>('');
   useEffect(() => {
     if (element.el.type !== 'section') {
       setExistImage(element.el.props.src || '');

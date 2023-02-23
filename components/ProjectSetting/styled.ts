@@ -8,6 +8,8 @@ export const TabContainer = styled.div`
 `;
 
 export const Tab = styled.div<{ selected: boolean }>`
+  min-width: 130px;
+  text-align: center;
   font-size: 20px;
   padding: 14px 18px;
   cursor: pointer;

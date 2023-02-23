@@ -44,6 +44,7 @@ export const textData = {
       fontWeight: 'bold',
       backgroundColor: 'white',
       color: 'black',
+      wordBreak: 'break-all',
     },
   },
   content: 'type your words',
@@ -181,18 +182,7 @@ export const guestBook = {
           minHeight: '50px',
         },
       },
-      children: [
-        {
-          id: 'comment_1',
-          tag: 'div',
-          nickname: '익명',
-          date: '',
-          props: {
-            style: {},
-          },
-          content: '안녕하세요',
-        },
-      ],
+      children: [],
     },
     {
       id: 'input',

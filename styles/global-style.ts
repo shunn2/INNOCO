@@ -45,6 +45,10 @@ const GlobalStyle = createGlobalStyle`
   footer, header, hgroup, menu, nav, section, main {
     display: block;
   }
+  div{
+    white-space:pre-line;
+    word-break:break-all;
+  }
 
   form {
     position: relative;

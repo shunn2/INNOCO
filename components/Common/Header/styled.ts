@@ -7,6 +7,7 @@ export const HeaderContainer = styled.header`
   align-items: center;
   justify-content: space-between;
   background-color: ${theme.color.gray.middle};
+  min-width: 700px;
 `;
 
 export const LogoImage = styled(Image)`

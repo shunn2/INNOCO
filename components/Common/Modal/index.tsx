@@ -1,5 +1,5 @@
 import theme from '@styles/theme';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 import Modal from 'react-modal';
 
 const customStyles = {
@@ -10,7 +10,6 @@ const customStyles = {
     bottom: 'auto',
     transform: 'translate(-50%, -50%)',
     padding: '36px',
-    height: '600px',
     minWidth: '800px',
     minHeight: '600px',
     backgroundColor: `${theme.color.gray.dark}`,
@@ -23,12 +22,26 @@ const customStyles = {
 
 interface ModalProps {
   isOpen: boolean;
+  width?: string;
+  height?: string;
 }
 
 const CreateModal = (props: PropsWithChildren<ModalProps>) => {
   const { children, isOpen } = props;
+  useEffect(() => {
+    if (props.width) customStyles.content.minWidth = props.width;
+    if (props.height) customStyles.content.minHeight = props.height;
+  }, []);
   return (
-    <Modal isOpen={isOpen} ariaHideApp={false} style={customStyles}>
+    <Modal
+      isOpen={isOpen}
+      ariaHideApp={false}
+      style={{
+        ...customStyles,
+        minWidth: props.width,
+        height: props.height,
+      }}
+    >
       {children}
     </Modal>
   );

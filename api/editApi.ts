@@ -45,15 +45,16 @@ class EditApi {
     );
     return data;
   }
-  async projectRollback(projectId) {
+  async projectRollback(projectId, rollbackId) {
+    const params = { archived: rollbackId };
     const { data } = await createAxiosWithToken().put(
-      `/projects/${projectId}/roll-back?archived`
+      `/projects/${projectId}/roll-back`,
+      null,
+      { params }
     );
     return data;
   }
   async sendInvitationLink(link, projectName, recipientAddress) {
-    console.log(link);
-
     const { data } = await createAxiosWithToken().post(
       `/invitations/${link}/send-mail`,
       { projectName: projectName, recipientAddress: recipientAddress }
@@ -64,6 +65,7 @@ class EditApi {
     const params = { recipient: recipient };
     const { data } = await createAxiosWithToken().post(
       `/users/send-join-mail`,
+      null,
       { params }
     );
     return data;

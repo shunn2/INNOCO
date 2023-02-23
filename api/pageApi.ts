@@ -26,6 +26,27 @@ class PageApi {
       `/projects/${projectId}/overwrite`
     );
   }
+  async changePageName(projectId, pageId, pageName) {
+    const { data } = await createAxiosWithToken().put(
+      `/projects/${projectId}/pages/${pageId}/name`,
+      null,
+      { params: { name: pageName } }
+    );
+    return data;
+  }
+  async changePageMain(before, after) {
+    const params = { before, after };
+    const { data } = await createAxiosWithToken().put(
+      `/pages/change-main`,
+      null,
+      { params: params }
+    );
+    return data;
+  }
+  async deletePage(pageId) {
+    const { data } = await createAxiosWithToken().delete(`/pages/${pageId}`);
+    return data;
+  }
 }
 
 const pageApi = new PageApi();

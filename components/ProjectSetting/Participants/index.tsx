@@ -1,5 +1,7 @@
+import { api } from '@api';
 import editApi from '@api/editApi';
 import { Select, SvgIcon } from '@components/Common';
+import Alert from '@components/Common/Alert';
 import StyleInput from '@components/Common/StyleInput';
 import { ProjectInfo } from '@components/Dashboard';
 import { useRouter } from 'next/router';
@@ -29,6 +31,9 @@ const validateEmail = (input) => {
 
 const ParticipantsSetting = () => {
   const projectId = useRouter().query.projectId;
+  const [projectInformation, setProjectInformation] = useState({
+    projectName: '',
+  });
   const [invitationPayload, setInvitationPayload] = useState<InvitationPayload>(
     {
       projectId: projectId,
@@ -46,6 +51,10 @@ const ParticipantsSetting = () => {
     editors: [],
     viewers: [],
   });
+  const getProjectInformation = async () => {
+    const data = await api.fetchSingleProject(projectId);
+    setProjectInformation(data.value);
+  };
   const handleInputChange =
     (type: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       if (type === 'email') {
@@ -59,9 +68,10 @@ const ParticipantsSetting = () => {
       if (type === 'link') return;
     };
   const createInvitaionLink = async () => {
+    console.log(invitationPayload.authority);
+
     const data = await editApi.createInvitationLink(invitationPayload);
     console.log(data);
-
     setInvitaionLink(data.value);
   };
   const changeAuthority = (e) => {
@@ -79,14 +89,18 @@ const ParticipantsSetting = () => {
     if (invitationLink.joinedUserCheck)
       data = await editApi.sendInvitationLink(
         invitationLink.invitationId,
-        'Danbi Team Project',
-        'chsida655@gmail.com'
+        projectInformation.projectName,
+        invitationPayload.userEmail
       );
-    else data = await editApi.sendJoinLink(invitationLink.invitationLink);
+    else data = await editApi.sendJoinLink(invitationPayload.userEmail);
+    if (data.code === 0)
+      Alert({ icon: 'success', title: '메일이 전송되었습니다' });
+    else Alert({ icon: 'error', title: '메일 전송에 실패하였습니다.' });
   };
   useEffect(() => {
     getParticipantsList();
-  }, []);
+    if (projectId) getProjectInformation();
+  }, [projectId]);
 
   return (
     <Styled.ProjectParticipantsContainer>
