@@ -5,12 +5,12 @@ import { SignInPayload } from '@/types/auth';
 import { validateInput } from '@utils/validation';
 import { useRouter } from 'next/router';
 import { authApi } from '@api';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { userInfoAtom } from '@recoil/user/atom';
 import userApi from '@api/userApi';
 
 const SignIn = () => {
-  const [userInformation, setUserInformation] = useRecoilState(userInfoAtom);
+  const setUserInformation = useSetRecoilState(userInfoAtom);
   const initialSignInPayload: SignInPayload = {
     userLoginId: '',
     userLoginPw: '',
@@ -50,11 +50,9 @@ const SignIn = () => {
     if (!code) {
       localStorage.setItem('access_token', JSON.stringify(value.accessToken));
       localStorage.setItem('refresh_token', JSON.stringify(value.refreshToken));
-      // const user = await userApi.getCurrentUser();
-      // console.log(user);
-
-      // setUserInformation(user.value);
-      router.replace('/dashboard');
+      const user = await userApi.getCurrentUser();
+      setUserInformation(user.value);
+      router.push('/dashboard');
     } else return;
   };
 

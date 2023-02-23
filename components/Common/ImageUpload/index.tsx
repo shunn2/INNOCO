@@ -2,7 +2,7 @@ import { api } from '@api';
 import { Image } from '@/types/image';
 import { ChangeEvent, PropsWithChildren } from 'react';
 import * as Styled from './styled';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { elementInfoAtom } from '@recoil/selectedElement/atom';
 import { withMainData } from '@recoil/editor';
 import imageChange from '@utils/style/imageChange';
@@ -16,7 +16,7 @@ const ImageUpload = (props: PropsWithChildren<ImageUploadInterface>) => {
   const { children, ...rest } = props;
 
   const element = useRecoilValue(elementInfoAtom);
-  const [mainData, setMainData] = useRecoilState(withMainData);
+  const setMainData = useSetRecoilState(withMainData);
 
   const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const image = e.target.files[0];

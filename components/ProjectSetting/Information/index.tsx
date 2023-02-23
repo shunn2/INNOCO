@@ -1,6 +1,5 @@
 import { api } from '@api';
 import editApi from '@api/editApi';
-import { Select } from '@components/Common';
 import Alert from '@components/Common/Alert';
 import ImageUpload from '@components/Common/ImageUpload';
 import StyleInput from '@components/Common/StyleInput';
@@ -35,10 +34,7 @@ const InformationSetting = () => {
     setProjectInformation(data.value);
   };
   const editProjectInfo = async () => {
-    const data = await editApi.editProjectInformation(
-      projectId,
-      projectInformation
-    );
+    await editApi.editProjectInformation(projectId, projectInformation);
     Alert({ icon: 'success', title: '수정이 완료되었습니다.' });
   };
   useEffect(() => {

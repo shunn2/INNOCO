@@ -1,4 +1,4 @@
-import { atom, selector } from 'recoil';
+import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist'; // ✔
 
 const { persistAtom } = recoilPersist();
@@ -13,13 +13,5 @@ const projectAtom = atom({
   },
   effects_UNSTABLE: [persistAtom],
 });
-
-// export const getEditorSelector = selector({
-//   key: 'editor/get',
-//   get: async ({}) => {},
-//   set: ({ set }, newValue) => {
-//     set(projectAtom, newValue);
-//   },
-// });
 
 export default projectAtom;

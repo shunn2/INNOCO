@@ -12,7 +12,7 @@ import { userInfoAtom } from '@recoil/user/atom';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import * as Styled from './styled';
 
 interface ProjectProps {
@@ -22,10 +22,10 @@ interface ProjectProps {
 const ProjectInfo = ({ project }: ProjectProps) => {
   const router = useRouter();
   const userInformation = useRecoilValue(userInfoAtom);
-  const [userId, setUserId] = useRecoilState(withUserId);
-  const [userAuthority, setUserAuthority] = useRecoilState(withAuthority);
-  const [pageId, setPageId] = useRecoilState(withPageId);
-  const [_, setProjectId] = useRecoilState(withProjectId);
+  const setUserId = useSetRecoilState(withUserId);
+  const setUserAuthority = useSetRecoilState(withAuthority);
+  const setPageId = useSetRecoilState(withPageId);
+  const setProjectId = useSetRecoilState(withProjectId);
 
   const {
     projectId,

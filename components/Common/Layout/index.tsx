@@ -9,7 +9,6 @@ const Layout = (props: { children: ReactNode }) => {
   const userInformation = useRecoilValue(userInfoAtom);
 
   useEffect(() => {
-    console.log('user', userInformation);
     if (!userInformation || !userInformation.userLoginId.length) {
       router.replace('/auth/sign-in');
     }
