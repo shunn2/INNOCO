@@ -7,6 +7,7 @@ export const ProjectParticipantsContainer = styled.div`
 `;
 
 export const InputContainer = styled.div`
+  min-width: 800px;
   margin: 16px 0 32px 0;
   display: flex;
   justify-content: center;
@@ -31,6 +32,7 @@ export const Button = styled.button<{ validate?: boolean | number }>`
 `;
 
 export const ParticipantsContainer = styled.div`
+  min-width: 800px;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -3,11 +3,18 @@ import styled from 'styled-components';
 
 export const InformationContainer = styled.div`
   display: flex;
+  justify-content: space-between;
+  width: 100%;
   padding: 60px;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+  }
 `;
 
 export const ThumbnailContainer = styled.div`
   color: ${theme.color.gray.light};
+  margin-right: 100px;
 `;
 
 export const InputLabel = styled.div`
@@ -34,7 +41,7 @@ export const Thumbnail = styled.img<{
 `;
 
 export const ProjectInfoContainer = styled.div`
-  margin-left: 250px;
+  /* margin-left: 250px; */
 `;
 
 export const StatusSelect = styled.select`

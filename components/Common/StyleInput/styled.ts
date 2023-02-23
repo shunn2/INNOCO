@@ -3,7 +3,7 @@ import theme from '@styles/theme';
 
 export const Input = styled.input<{
   size: number;
-  width?: number;
+  width?: number | string;
   height?: number;
 }>`
   width: ${(props) => (props.width ? `${props.width}px` : '100%')};
