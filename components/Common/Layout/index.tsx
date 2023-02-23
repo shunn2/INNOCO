@@ -1,28 +1,19 @@
-import { useSession } from '@lib/next-auth-react-query';
-import { GetServerSidePropsContext } from 'next';
-import { signOut } from 'next-auth/react';
+import { userInfoAtom } from '@recoil/user/atom';
 import { useRouter } from 'next/router';
 import { ReactNode, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 import Header from '../Header';
 
 const Layout = (props: { children: ReactNode }) => {
-  const [session] = useSession();
   const router = useRouter();
+  const userInformation = useRecoilValue(userInfoAtom);
 
   useEffect(() => {
-    if (session?.user.image === 'invalid') {
-      signOut({
-        callbackUrl: '/auth/sign-in',
-      });
+    console.log('user', userInformation);
+    if (!userInformation || !userInformation.userLoginId.length) {
+      router.replace('/auth/sign-in');
     }
-    if (session) {
-      localStorage.setItem('access_token', JSON.stringify(session.accessToken));
-      localStorage.setItem('refresh_token', JSON.stringify(session.user.email));
-      if (router.pathname === '/auth/sign-in')
-        router.push('/dashboard', undefined, { shallow: true });
-      return;
-    }
-  }, [session]);
+  }, [userInformation]);
   const { children } = props;
   return (
     <>
