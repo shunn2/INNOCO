@@ -1,11 +1,18 @@
 import { api } from '@api';
-import { signOut } from 'next-auth/react';
-import Link from 'next/link';
+import { userInfoAtom } from '@recoil/user/atom';
+\import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
 import * as Styled from './styled';
 
 const Header = () => {
   const router = useRouter().pathname.split('/');
+  const [userInformation, setUserInformation] = useRecoilState(userInfoAtom);
+  const handleSignOut = () => {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    setUserInformation(null);
+  };
   return (
     <Styled.HeaderContainer>
       <Link href={'/dashboard'}>
@@ -18,13 +25,7 @@ const Header = () => {
         />
       </Link>
       {router[1] !== 'auth' && (
-        <Styled.LogoutButton
-          onClick={() =>
-            signOut({
-              callbackUrl: '/auth/sign-in',
-            })
-          }
-        >
+        <Styled.LogoutButton onClick={() => handleSignOut()}>
           LOGOUT
         </Styled.LogoutButton>
       )}
