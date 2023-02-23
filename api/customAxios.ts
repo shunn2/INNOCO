@@ -14,6 +14,7 @@ const BASE_URL = process.env.BASE_URL;
 const HEADERS = {
   'Cache-Control': 'no-cache',
   'Content-Type': 'application/json; charset=utf-8',
+  'Access-Control-Allow-Origin': '*',
 };
 
 const axiosInstanceWithToken = axios.create({
