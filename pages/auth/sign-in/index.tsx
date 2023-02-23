@@ -50,8 +50,10 @@ const SignIn = () => {
     if (!code) {
       localStorage.setItem('access_token', JSON.stringify(value.accessToken));
       localStorage.setItem('refresh_token', JSON.stringify(value.refreshToken));
-      const user = await userApi.getCurrentUser();
-      setUserInformation(user.value);
+      // const user = await userApi.getCurrentUser();
+      // console.log(user);
+
+      // setUserInformation(user.value);
       router.replace('/dashboard');
     } else return;
   };
