@@ -4,15 +4,19 @@ import styled from 'styled-components';
 export const InformationContainer = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-around;
-  @media (max-width: 800px) {
+
+  justify-content: space-between;
+  width: 100%;
+  padding: 60px;
+  @media screen and (max-width: 768px) {
     flex-direction: column;
+    justify-content: center;
   }
 `;
 
 export const ThumbnailContainer = styled.div`
   color: ${theme.color.gray.light};
-  margin-right: 50px;
+  margin-right: 100px;
 `;
 
 export const InputLabel = styled.div`

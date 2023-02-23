@@ -1,20 +1,18 @@
 import { Project } from '@/types/project';
 import { api } from '@api';
 import { SvgIcon } from '@components/Common';
+import Alert from '@components/Common/Alert';
 import {
   withAuthority,
   withPageId,
   withProjectId,
   withUserId,
 } from '@recoil/project';
-import projectAtom from '@recoil/project/atom';
-import { useSession } from 'next-auth/react';
+import { userInfoAtom } from '@recoil/user/atom';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import styled from 'styled-components';
-import { uuid } from 'uuidv4';
+import { useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import * as Styled from './styled';
 
 interface ProjectProps {
@@ -22,8 +20,8 @@ interface ProjectProps {
 }
 
 const ProjectInfo = ({ project }: ProjectProps) => {
-  const { data: session, status } = useSession();
   const router = useRouter();
+  const userInformation = useRecoilValue(userInfoAtom);
   const [userId, setUserId] = useRecoilState(withUserId);
   const [userAuthority, setUserAuthority] = useRecoilState(withAuthority);
   const [pageId, setPageId] = useRecoilState(withPageId);
@@ -41,9 +39,16 @@ const ProjectInfo = ({ project }: ProjectProps) => {
   const handleSettingOpen = () => {
     setIsSettingOpen(!isSettingOpen);
   };
-  const deleteProject = async () => {
-    await api.deleteProject(projectId);
-    location.reload();
+  const deleteProject = () => {
+    Alert({
+      icon: 'warning',
+      title: '프로젝트를 삭제하시겠습니까?',
+      showCancelButton: true,
+    }).then((res) => {
+      if (res.isConfirmed) {
+        api.deleteProject(projectId).then(() => location.reload());
+      }
+    });
   };
   const handleEditClick = () => {
     router.push(`/setting/${projectId}`);
@@ -54,7 +59,7 @@ const ProjectInfo = ({ project }: ProjectProps) => {
       <Link
         href={`/editor/${projectId}/${mainPageId}`}
         onClick={() => {
-          setUserId(session.expires);
+          setUserId(userInformation.userLoginId);
           setUserAuthority(
             projectAuthority === 'OWNER' ? 'EDITOR' : projectAuthority
           );

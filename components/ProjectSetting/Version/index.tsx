@@ -1,7 +1,6 @@
 import editApi from '@api/editApi';
+import Alert from '@components/Common/Alert';
 import CreateModal from '@components/Common/Modal';
-import PagePreview from '@components/Common/PagePreview';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import * as Styled from './styled';
@@ -21,19 +20,42 @@ const defaultArchived = [
 ];
 
 const VersionSetting = () => {
-  const { data: session, status } = useSession();
   const projectId = useRouter().query.projectId;
   const [archivedList, setArchivedList] = useState<ArchivedProject[]>([]);
   const [openPreviewModal, setOpenPreviewModal] = useState<boolean>(false);
   const getArchivedProjects = async () => {
     const data = await editApi.getArchivedProject(projectId);
-    console.log(data);
-
     setArchivedList(data.value);
+  };
+  const rollbackProject = async (archived: ArchivedProject) => {
+    Alert({
+      icon: 'warning',
+      title: `프로젝트를 되돌리시겠습니까?`,
+      text: `현재 프로젝트(ver.${archivedList[0].version + 1})이 ver.${
+        archived.version
+      }으로 되돌려집니다. 상위 버전(${archived.version} ~ ${
+        archivedList[0].version
+      })은 폐기됩니다.`,
+      showCancelButton: true,
+    }).then((res) => {
+      if (res.isConfirmed) {
+        const data = editApi
+          .projectRollback(projectId, archived.archivedProjectId)
+          .then(() => getArchivedProjects());
+      }
+    });
   };
   const handlePreviewModal = async (archivedProjectId) => {
     const data = await editApi.getArchivedPages(archivedProjectId);
     setOpenPreviewModal(true);
+  };
+  const getDateFormat = (date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const hour = date.getHours() + 9;
+    const minute = date.getMinutes();
+    return `${year}년 ${month}월 ${day}일 ${hour}:${minute}`;
   };
 
   useEffect(() => {
@@ -47,13 +69,13 @@ const VersionSetting = () => {
       </Styled.VersionAlertMessage>
       <Styled.ArchivedContainer>
         {archivedList.map((archived) => (
-          <Styled.ArchivedWrapper key={archived.publishedDate}>
+          <Styled.ArchivedWrapper key={archived.archivedProjectId}>
             <div>{archived.version}</div>
-            <div>{archived.publishedDate}</div>
-            <div onClick={() => handlePreviewModal(archived.archivedProjectId)}>
+            <div>{getDateFormat(new Date(archived.publishedDate))}</div>
+            {/* <div onClick={() => handlePreviewModal(archived.archivedProjectId)}>
               미리보기
-            </div>
-            <div>CLICK</div>
+            </div> */}
+            <div onClick={() => rollbackProject(archived)}>Roll back</div>
           </Styled.ArchivedWrapper>
         ))}
       </Styled.ArchivedContainer>

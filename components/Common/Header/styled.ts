@@ -3,6 +3,7 @@ import theme from '@styles/theme';
 import Image from 'next/image';
 
 export const HeaderContainer = styled.header`
+  min-width: 890px;
   display: flex;
   align-items: center;
   justify-content: space-between;

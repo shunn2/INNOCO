@@ -46,15 +46,40 @@ class Api {
     );
     return data;
   }
+  async startEditSync(projectId) {
+    const { data } = await createAxiosWithToken().get(
+      `/projects/${projectId}/edit`
+    );
+    return data;
+  }
   async getProjectSync(projectId) {
     const { data } = await createAxiosWithToken().get(
-      `projects/${projectId}/sync-check`
+      `/projects/${projectId}/status-check`
     );
+    console.log('status', data);
     return data;
   }
   async checkProjectAuth(projectId, auth) {
     const { data } = await createAxiosWithToken().get(
-      `projects/${projectId}/auth-check=${auth}`
+      `/projects/${projectId}/auth-check=${auth}`
+    );
+    return data;
+  }
+  async getInvitationList(userId) {
+    const { data } = await createAxiosWithToken().get(
+      `/users/${userId}/invitations`
+    );
+    return data;
+  }
+  async acceptInvitation(invitationId) {
+    const { data } = await createAxiosWithToken().get(
+      `/invitations/${invitationId}/accept`
+    );
+    return data;
+  }
+  async acceptAllInvitation(userId) {
+    const { data } = await createAxiosWithToken().get(
+      `/users/${userId}/invitations/accept`
     );
     return data;
   }
