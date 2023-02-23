@@ -1,6 +1,6 @@
 import { api } from '@api';
 import { userInfoAtom } from '@recoil/user/atom';
-\import Link from 'next/link';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 import * as Styled from './styled';
