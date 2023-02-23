@@ -359,15 +359,14 @@ const EditorFrame = () => {
     const { el, elIdx } = JSON.parse(e.dataTransfer.getData('dragging'));
     if (el.id === draggingOver.el.id) return;
     if (el.type === 'section') {
-      if (elIdx !== '') dragSection({ e, draggingOver, setSectionOrder });
+      if (elIdx) dragSection({ e, draggingOver, setSectionOrder });
       else dragOuterSection({ e, draggingOver, setMain, setSectionOrder });
-    }
-    if (el.type !== 'section') {
+    } else {
       if (draggingOver.el.type === 'section') {
-        if (elIdx !== '') dragElementToSection({ e, draggingOver, setMain });
+        if (elIdx) dragElementToSection({ e, draggingOver, setMain });
         else dragOuterElementToSection({ e, draggingOver, setMain });
       } else {
-        if (elIdx !== '')
+        if (elIdx)
           dragElementToElement({ e, draggingOver, insertLocation, setMain });
         else
           dragOuterElementToElement({
@@ -453,10 +452,8 @@ const EditorFrame = () => {
       className: `box-border ${dragEffectStyle({
         insertLocation,
         draggingOverId: draggingOver?.el.id,
-
         elementId: element.id,
       })}`,
-      // className: element.parentProps.className.join(' '),
     };
     return React.createElement(
       'div',
