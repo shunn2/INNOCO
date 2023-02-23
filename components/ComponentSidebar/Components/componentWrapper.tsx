@@ -13,7 +13,7 @@ const ComponentWrapper = (props: ComponentProps) => {
   const { type, icon, data } = props;
   const handleDragStart = (e) => {
     data.id = uuidv4();
-    dragStart({ e: e, element: data, idx: '', sectionId: '' });
+    dragStart({ e: e, element: data, idx: null, sectionId: '' });
   };
   return (
     <Styled.ComponentItems draggable onDragStart={handleDragStart}>
