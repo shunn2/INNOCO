@@ -3,10 +3,14 @@ import { Input, Button, Layout } from '@components/Common';
 import { AuthContainer, ErrorMessage } from '@components/Auth';
 import { SignInPayload } from '@/types/auth';
 import { validateInput } from '@utils/validation';
-import { getSession, signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { authApi } from '@api';
+import { useRecoilState } from 'recoil';
+import { userInfoAtom } from '@recoil/user/atom';
+import userApi from '@api/userApi';
 
 const SignIn = () => {
+  const [userInformation, setUserInformation] = useRecoilState(userInfoAtom);
   const initialSignInPayload: SignInPayload = {
     userLoginId: '',
     userLoginPw: '',
@@ -16,7 +20,6 @@ const SignIn = () => {
     userLoginId: false,
     userLoginPw: false,
   };
-  const { data: session } = useSession();
   const [signInPayload, setSignInPayload] =
     useState<SignInPayload>(initialSignInPayload);
   const [error, setError] = useState(initialErrorState);
@@ -43,11 +46,14 @@ const SignIn = () => {
     };
 
   const handleSignInButtonClick = async () => {
-    await signIn('credentials', {
-      redirect: true,
-      userLoginId: signInPayload.userLoginId,
-      userLoginPw: signInPayload.userLoginPw,
-    });
+    const { code, value } = await authApi.signIn(signInPayload);
+    if (!code) {
+      localStorage.setItem('access_token', JSON.stringify(value.accessToken));
+      localStorage.setItem('refresh_token', JSON.stringify(value.refreshToken));
+      const user = await userApi.getCurrentUser();
+      setUserInformation(user.value);
+      router.replace('/dashboard');
+    } else return;
   };
 
   return (
