@@ -1,6 +1,5 @@
 import { ReactElement, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useSession } from '@lib/next-auth-react-query';
 
 const ProtectRoute = ({ children }: { children: ReactElement }) => {
   const router = useRouter();
