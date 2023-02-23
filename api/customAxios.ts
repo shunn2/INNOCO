@@ -38,25 +38,25 @@ const getToken = () => {
   return accessToken;
 };
 
-axiosInstanceWithToken.interceptors.request.use(
-  async (config) => {
-    if (!config.headers) return config;
-    const access_token = localStorage.getItem('access_token');
-    const refresh_token = JSON.parse(localStorage.getItem('refresh_token'));
-    const decodedAccess: AuthToken = jwt_decode(access_token);
-    if (decodedAccess.exp < Date.now() / 1000) {
-      const res = await authApi.regenerateToken(refresh_token);
-      const { accessToken, refreshToken } = res.value;
-      localStorage.setItem('access_token', JSON.stringify(accessToken));
-      localStorage.setItem('refresh_token', JSON.stringify(refreshToken));
-      config.headers['Authorization'] = `Bearer ${accessToken}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+// axiosInstanceWithToken.interceptors.request.use(
+//   async (config) => {
+//     if (!config.headers) return config;
+//     const access_token = localStorage.getItem('access_token');
+//     const refresh_token = JSON.parse(localStorage.getItem('refresh_token'));
+//     const decodedAccess: AuthToken = jwt_decode(access_token);
+//     if (decodedAccess.exp < Date.now() / 1000) {
+//       const res = await authApi.regenerateToken(refresh_token);
+//       const { accessToken, refreshToken } = res.value;
+//       localStorage.setItem('access_token', JSON.stringify(accessToken));
+//       localStorage.setItem('refresh_token', JSON.stringify(refreshToken));
+//       config.headers['Authorization'] = `Bearer ${accessToken}`;
+//     }
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );
 
 // axiosInstanceWithToken.interceptors.response.use(
 //   (response) => {
