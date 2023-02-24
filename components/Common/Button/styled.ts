@@ -3,13 +3,15 @@ import theme from '@styles/theme';
 
 export const Button = styled.button<{ disabled?: boolean }>`
   ${({ disabled }) => {
-    const { blue, gray } = theme.color;
+    const { blue, gray, white } = theme.color;
     return css`
-      width: 180px;
-      height: 32px;
-      background-color: ${disabled ? gray.middle : blue};
-      border: 2px;
+      min-width: 100px;
+      min-height: 32px;
+      background-color: ${disabled ? white.dark : blue.middle};
+      border-radius: 8px;
       color: ${disabled ? gray.light : '#FFFFFF'};
+      padding: 8px 12px;
+      cursor: pointer;
     `;
   }}
 `;
