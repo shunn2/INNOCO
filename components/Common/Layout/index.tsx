@@ -9,6 +9,7 @@ const Layout = (props: { children: ReactNode }) => {
   const userInformation = useRecoilValue(userInfoAtom);
 
   useEffect(() => {
+    if (router.asPath === '/auth/sign-up') return;
     if (!userInformation || !userInformation.userLoginId.length) {
       router.replace('/auth/sign-in');
     }
