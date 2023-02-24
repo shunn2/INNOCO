@@ -537,9 +537,9 @@ const EditorFrame = () => {
         showCancelButton: true,
         confirmButtonText: '게시된 프로젝트',
         cancelButtonText: '자동저장된 프로젝트',
-      }).then((res) => {
-        if (res.isConfirmed) pageApi.overWritePage(projectInfo.projectId);
-        pageApi
+      }).then(async (res) => {
+        if (res.isConfirmed) await pageApi.overWritePage(projectInfo.projectId);
+        await pageApi
           .getPageForEditor(projectInfo.projectId, projectInfo.pageId)
           .then((response) => {
             console.log('res', response);
