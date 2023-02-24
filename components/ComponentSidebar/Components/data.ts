@@ -148,7 +148,7 @@ export const imageData = {
       backgroundColor: 'white',
     },
     alt: 'image',
-    src: '',
+    src: '/image_sample.jpg',
   },
   image: null,
   children: [],
