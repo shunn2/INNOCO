@@ -1,6 +1,8 @@
 import theme from '@styles/theme';
 import { PropsWithChildren, useEffect } from 'react';
 import Modal from 'react-modal';
+import SvgIcon from '../Svg/SvgIcon';
+import * as Styled from './styled';
 
 const customStyles = {
   content: {
@@ -24,6 +26,8 @@ interface ModalProps {
   isOpen: boolean;
   width?: string;
   height?: string;
+  title?: string;
+  handleOpen?: () => void;
 }
 
 const CreateModal = (props: PropsWithChildren<ModalProps>) => {
@@ -42,6 +46,12 @@ const CreateModal = (props: PropsWithChildren<ModalProps>) => {
         height: props.height,
       }}
     >
+      <Styled.ModalTitleContainer>
+        <p>{props.title}</p>
+        <div onClick={() => props.handleOpen()}>
+          <SvgIcon type="close-icon" />
+        </div>
+      </Styled.ModalTitleContainer>
       {children}
     </Modal>
   );

@@ -7,28 +7,42 @@ import { ProjectInfo } from '@components/Dashboard';
 import queryKeys from '@react-query/queryKeys';
 import { Projects } from '@/types/project';
 import theme from '@styles/theme';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CreateProject from '@components/Dashboard/CreateProject';
 import { useRecoilValue } from 'recoil';
 import { userInfoAtom } from '@recoil/user/atom';
-import useDidMountEffect from '@hooks/useDidMountEffect';
+import { UserInvitation } from '@/types/setting';
+import CreateModal from '@components/Common/Modal';
+import Invitations from '@components/ProjectSetting/Invitation';
 
 const Dashboard = () => {
   const userInformation = useRecoilValue(userInfoAtom);
-  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [projectList, setProjectList] = useState([]);
+  const [invitationList, setInvitationList] = useState<UserInvitation[]>([]);
+  const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
+  const [inviteModalOpen, setInviteModalOpen] = useState<boolean>(true);
   const handleCreateModalOpen = () => {
     setCreateModalOpen(!createModalOpen);
   };
 
   const projects: Projects = useProjects();
 
-  const getInvitationLink = async () => {
-    await api.getInvitationList(userInformation.userLoginId);
+  const getProjectList = async () => {
+    const data = await api.fetchProjects();
+    setProjectList(data.value.projects);
   };
-  useDidMountEffect(() => {
+
+  const getInvitationLink = async () => {
+    const data = await api.getInvitationList(userInformation.userLoginId);
+    setInvitationList(data.value || []);
+  };
+  useEffect(() => {
     if (!userInformation) return;
-    if (userInformation.userLoginId.length) getInvitationLink();
-  }, [userInformation]);
+    if (userInformation.userLoginId.length) {
+      getProjectList();
+      getInvitationLink();
+    }
+  }, []);
 
   return (
     <Layout>
@@ -41,10 +55,22 @@ const Dashboard = () => {
               <span className="text-4xl">Create New Project</span>
             </CreateProjectButtonWrapper>
           </ProjectBox>
-          {projects?.value.projects.map((project) => (
+          {projectList.map((project) => (
             <ProjectInfo project={project} key={project.projectId} />
           ))}
         </DashboardGrid>
+        {invitationList.length && (
+          <CreateModal
+            title="Invitation List"
+            isOpen={inviteModalOpen}
+            handleOpen={() => setInviteModalOpen(false)}
+          >
+            <Invitations
+              invitationList={invitationList}
+              handleOpen={() => setInviteModalOpen(false)}
+            />
+          </CreateModal>
+        )}
         {createModalOpen && (
           <CreateProject
             isOpen={createModalOpen}

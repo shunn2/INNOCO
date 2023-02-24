@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from 'react';
 import * as Styled from './styled';
 
 interface ButtonProps {
-  variant: 'auth';
+  variant?: 'auth';
   type?: 'button' | 'submit';
   disabled?: boolean;
   onClick?: () => void;
