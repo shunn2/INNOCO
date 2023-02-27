@@ -44,7 +44,7 @@ const CreateProject = ({ isOpen, handleIsOpen }: CreateProjectProps) => {
     setMainPageName(e.target.value);
   };
   const handleSubmitDisabled = () => {
-    if (!projectName.length || !mainPageName.length) {
+    if (!projectName.trim().length || !mainPageName.trim().length) {
       setCreateDisabled(true);
       return;
     }
