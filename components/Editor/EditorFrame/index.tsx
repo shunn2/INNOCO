@@ -30,12 +30,14 @@ import { createElementProps } from '@/types/editor';
 import useDidMountEffect from '@hooks/useDidMountEffect';
 import CreateModal from '@components/Common/Modal';
 import { contentEditable } from '@hooks/contentEditable';
+import { userInfoAtom } from '@recoil/user/atom';
 
 const CONNECTION_URL = process.env.NEXT_PUBLIC_SOCKET_URL;
 const SEND_URL = process.env.NEXT_PUBLIC_SOCKET_SEND_URL;
 const EDITOR_SUBSCRIBE_URL = process.env.NEXT_PUBLIC_SOCKET_SUBSCRIBE_URL;
 
 const EditorFrame = () => {
+  const userInformation = useRecoilValue(userInfoAtom);
   const [editorSize, setEditorSize] = useState('1280px');
   const [editorData, setEditorData] = useRecoilState(editorAtom);
   const [editorMain, setEditorMain] = useState({});
@@ -220,6 +222,7 @@ const EditorFrame = () => {
   //에디터 진입 시 최초로 웹소켓 서버와 연결이 일어남.
   //CONNECT-SUBSCRIBE 순서로 연결됨.
   const editorConnect = () => {
+    if (!userInformation || !userInformation.userLoginId.length) return;
     stompClient.current = new StompJS.Client({
       maxWebSocketChunkSize: 10000000,
       splitLargeFrames: true,
@@ -239,8 +242,6 @@ const EditorFrame = () => {
             EDITOR_SUBSCRIBE_URL + projectInfo.pageId,
             (message) => {
               const parsedBody = JSON.parse(message.body);
-              console.log(parsedBody);
-
               let parsedContent;
               if (parsedBody.content)
                 parsedContent = JSON.parse(parsedBody.content);
@@ -281,7 +282,6 @@ const EditorFrame = () => {
                 isEditorCandidateListEvent(message) &&
                 JSON.parse(message.body).sender === projectInfo.id
               ) {
-                console.log(JSON.parse(message.body).editorCandidates);
                 setCandidates(JSON.parse(message.body).editorCandidates);
                 setRenderCandidate(true);
                 return;
@@ -331,7 +331,6 @@ const EditorFrame = () => {
     const data = await api.getProjectSync(projectInfo.projectId);
     await api.startEditSync(projectInfo.projectId);
     let sync = data.value.status === 'PROGRESS' ? true : data.value.sync;
-    console.log('sync', sync);
     setIsSynced(sync);
   };
 
@@ -516,14 +515,10 @@ const EditorFrame = () => {
 
   useEffect(() => {
     //편집중인 에디터가 없어 DB 저장 내역을 받아와야 할 때
-    console.log('sync', isSynced, editorExists, viewerExists);
-
     if (isSynced || viewerExists) {
       pageApi
         .getPageForEditor(projectInfo.projectId, projectInfo.pageId)
         .then((response) => {
-          console.log('res', response);
-
           setEditorMain(response.main);
           setEditorSectionOrder(response.sectionOrder);
         });
@@ -535,17 +530,15 @@ const EditorFrame = () => {
         confirmButtonText: '게시된 프로젝트',
         cancelButtonText: '자동저장된 프로젝트',
         allowOutsideClick: false,
+        allowEscapeKey: false,
       }).then(async (res) => {
         if (res.isConfirmed) await pageApi.overWritePage(projectInfo.projectId);
         await pageApi
           .getPageForEditor(projectInfo.projectId, projectInfo.pageId)
           .then((response) => {
-            console.log('res', response);
             setEditorMain(response.main);
             setEditorSectionOrder(response.sectionOrder);
           });
-        console.log('editor', editorMain);
-        console.log('editor', editorSectionOrder);
       });
     }
   }, [editorExists, viewerExists, isSynced, projectInfo]);

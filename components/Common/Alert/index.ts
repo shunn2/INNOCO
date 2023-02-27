@@ -10,6 +10,7 @@ interface AlertProps {
   confirmButtonColor?: string;
   cancelButtonColor?: string;
   allowOutsideClick?: boolean;
+  allowEscapeKey?: boolean;
 }
 
 const Alert = async (props: AlertProps) => {
