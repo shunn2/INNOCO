@@ -47,8 +47,8 @@ const PageList = () => {
   };
 
   useEffect(() => {
-    getPageList();
-  }, [projectInfo]);
+    if (!pageEditOpen && !pageCreateOpen) getPageList();
+  }, [projectInfo, pageEditOpen, pageCreateOpen]);
 
   return (
     <div>
@@ -64,7 +64,6 @@ const PageList = () => {
             key={page.pageId}
             selected={pageId === page.pageId}
             onMouseOver={() => setPageMouseOver(page)}
-            // onMouseOut={() => setPageMouseOver(defaultPageProps)}
           >
             <div
               className="flex justify-center items-center"
