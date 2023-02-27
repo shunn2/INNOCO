@@ -102,7 +102,10 @@ const SignUp = () => {
           error={error.userEmail}
           value={signUpPayload.userEmail}
         />
-        <Button onClick={checkDuplicateEmail} disabled={error.userEmail}>
+        <Button
+          onClick={checkDuplicateEmail}
+          disabled={!signUpPayload.userEmail.length || error.userEmail}
+        >
           이메일 중복 확인
         </Button>
         {isDuplicated.email && <ErrorMessage type="duplicate" />}
@@ -116,7 +119,10 @@ const SignUp = () => {
           onChange={handleChange('userLoginId')}
           error={error.userLoginId}
         />
-        <Button onClick={checkDuplicateId} disabled={error.userLoginId}>
+        <Button
+          onClick={checkDuplicateId}
+          disabled={!signUpPayload.userLoginPw.length || error.userLoginId}
+        >
           아이디 중복 확인
         </Button>
         {isDuplicated.id && <ErrorMessage type="duplicate" />}
