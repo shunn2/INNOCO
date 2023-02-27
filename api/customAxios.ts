@@ -59,30 +59,30 @@ const getToken = () => {
 //   }
 // );
 
-// axiosInstanceWithToken.interceptors.response.use(
-//   (response) => {
-//     return response;
-//   },
-//   async (error) => {
-//     const {
-//       config,
-//       response: { status },
-//     } = error;
-//     if (status === 401) {
-//       const originalRequest = config;
-//       const refresh_token = await localStorage.getItem('refresh_token');
-//       const res = await authApi.regenerateToken(refresh_token);
-//       console.log('res', res);
-//       const { accessToken, refreshToken } = res.value;
-//       await localStorage.multiSet([
-//         ['access_token', accessToken],
-//         ['refresh_token', refreshToken],
-//       ]);
-//       originalRequest.headers.authorization = `Bearer ${accessToken}`;
-//       return axios(originalRequest);
-//     }
-//     return Promise.reject(error);
-//   }
-// );
+axiosInstanceWithToken.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const {
+      config,
+      response: { status },
+    } = error;
+    if (status === 401) {
+      const originalRequest = config;
+      const refresh_token = await localStorage.getItem('refresh_token');
+      const res = await authApi.regenerateToken(refresh_token);
+      console.log('res', res);
+      const { accessToken, refreshToken } = res.value;
+      await localStorage.multiSet([
+        ['access_token', accessToken],
+        ['refresh_token', refreshToken],
+      ]);
+      originalRequest.headers.authorization = `Bearer ${accessToken}`;
+      return axios(originalRequest);
+    }
+    return Promise.reject(error);
+  }
+);
 
 export { createAxiosWithToken, setAuthorizationHeader };
