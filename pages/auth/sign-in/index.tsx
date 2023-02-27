@@ -37,7 +37,6 @@ const SignIn = () => {
     (type: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       const input = e.target.value;
       setSignInPayload({ ...signInPayload, [type]: '' });
-
       if (!validateInput(type, input)) {
         setError({ ...error, [type]: true });
         return;
@@ -68,7 +67,7 @@ const SignIn = () => {
           placeholder={'아이디를 입력하세요.'}
           onChange={handleChange('userLoginId')}
           error={error.userLoginId}
-          value={signInPayload.userLoginId}
+          // value={signInPayload.userLoginId}
         />
         {error.userLoginId && <ErrorMessage type="id" />}
         <Input
@@ -76,7 +75,7 @@ const SignIn = () => {
           type="password"
           onChange={handleChange('userLoginPw')}
           error={error.userLoginPw}
-          value={signInPayload.userLoginPw}
+          // value={signInPayload.userLoginPw}
         />
         {error.userLoginPw && <ErrorMessage type="password" />}
         <Button
