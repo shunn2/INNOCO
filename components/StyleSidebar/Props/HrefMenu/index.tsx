@@ -26,7 +26,7 @@ const HrefMenu = () => {
     <Styled.PropsBox>
       <Styled.PropsContainer>
         <Styled.Title>Href</Styled.Title>
-        <Input placeholder={existLink} size={100} />
+        <Input placeholder={existLink} size={100} onChange={handleLink} />
       </Styled.PropsContainer>
     </Styled.PropsBox>
   );
