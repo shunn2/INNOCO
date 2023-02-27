@@ -340,7 +340,10 @@ const EditorFrame = () => {
       title: '해당 프로젝트를 게시하시겠습니까?',
       showCancelButton: true,
     });
-    await api.publishProject(projectInfo.projectId);
+    const data = await api.publishProject(projectInfo.projectId);
+    if (!data.code)
+      Alert({ icon: 'success', title: '프로젝트 게시에 성공하였습니다.' });
+    else Alert({ icon: 'error', title: '프로젝트 게시에 실패하였습니다.' });
   };
 
   const handleElementClick = (e, sectionId, idx, element) => {
