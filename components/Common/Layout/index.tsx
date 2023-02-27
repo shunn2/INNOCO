@@ -14,6 +14,7 @@ const Layout = (props: { children: ReactNode }) => {
       router.replace('/auth/sign-in');
     }
   }, [userInformation]);
+
   const { children } = props;
   return (
     <>
