@@ -16,7 +16,7 @@ interface ProjectInfo {
 const statusOption = [
   { title: '공개', value: 'PUBLIC' },
   { title: '비공개', value: 'PRIVATE' },
-  // { title: '진행중', value: '진행중' },
+  { title: '진행중', value: 'PROGRESS' },
 ];
 
 const InformationSetting = () => {
@@ -77,12 +77,17 @@ const InformationSetting = () => {
           </Styled.InputLabel>
           <Styled.StatusSelect
             defaultValue={projectInformation.projectStatus}
+            disabled={projectInformation.projectStatus === 'PROGRESS'}
             onChange={(e) =>
               handleProjectInformation('projectStatus', e.target.value)
             }
           >
             {statusOption.map((option) => (
-              <Styled.StatusOption key={option.value} value={option.value}>
+              <Styled.StatusOption
+                key={option.value}
+                value={option.value}
+                selected={projectInformation.projectStatus === option.value}
+              >
                 {option.title}
               </Styled.StatusOption>
             ))}

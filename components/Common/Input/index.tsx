@@ -11,7 +11,7 @@ export interface InputProps {
 }
 
 const Input = (props: PropsWithChildren<InputProps>) => {
-  const { placeholder, ...rest } = props;
+  const { placeholder, value, ...rest } = props;
 
   return <Styled.Input placeholder={placeholder} {...rest} />;
 };

@@ -1,5 +1,4 @@
 import { api } from '@api';
-import { createAxiosWithToken } from '@api/customAxios';
 import { Input } from '@components/Common';
 import ImageUpload from '@components/Common/ImageUpload';
 import CreateModal from '@components/Common/Modal';
@@ -7,7 +6,7 @@ import useTemplates from '@hooks/useTemplates';
 import queryKeys from '@react-query/queryKeys';
 import { Templates } from '@/types/template';
 import { useEffect, useState } from 'react';
-import { dehydrate, QueryClient, useQuery } from 'react-query';
+import { dehydrate, QueryClient } from 'react-query';
 import * as Styled from './styled';
 import pageApi from '@api/pageApi';
 interface CreateProjectProps {
@@ -44,7 +43,7 @@ const CreateProject = ({ isOpen, handleIsOpen }: CreateProjectProps) => {
     setMainPageName(e.target.value);
   };
   const handleSubmitDisabled = () => {
-    if (!projectName.length || !mainPageName.length) {
+    if (!projectName.trim().length || !mainPageName.trim().length) {
       setCreateDisabled(true);
       return;
     }
