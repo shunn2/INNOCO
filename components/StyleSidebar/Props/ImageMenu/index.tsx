@@ -19,7 +19,7 @@ const ImageMenu = () => {
       </Styled.PropsContainer>
       <Styled.PropsContainer>
         <Styled.ImageContainer imageUrl={existImage} />
-        <Styled.ImageInput placeholder={existImage} />
+        <Styled.ImageInput placeholder={existImage} disabled={true} />
       </Styled.PropsContainer>
       <Styled.PropsContainer>
         <ImageUpload />
