@@ -31,7 +31,7 @@ const ImageUpload = (props: PropsWithChildren<ImageUploadInterface>) => {
       </Styled.ImageUploadLabel>
       <Styled.ImageUploadInput
         type={'file'}
-        accept={'image/*'}
+        accept={'.jpg, .png, .jpeg'}
         onChange={(e) => handleImageUpload(e)}
         id="image-upload"
       />
