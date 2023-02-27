@@ -9,6 +9,7 @@ interface AlertProps {
   showCancelButton?: boolean;
   confirmButtonColor?: string;
   cancelButtonColor?: string;
+  allowOutsideClick?: boolean;
 }
 
 const Alert = async (props: AlertProps) => {
