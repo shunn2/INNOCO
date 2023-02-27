@@ -1,7 +1,7 @@
 import theme from '@styles/theme';
 
 const SvgSprite = () => {
-  const { blue, gray } = theme.color;
+  const { blue, gray, white } = theme.color;
   return (
     <svg xmlns="http://www.w3.org/2000/svg" display="none" width={0} height={0}>
       <symbol id="box-icon">
@@ -19,6 +19,15 @@ const SvgSprite = () => {
           stroke="none"
           fill={blue.middle}
         ></path>
+      </symbol>
+      <symbol id="close-icon">
+        <g id="interface-icon-eye-close">
+          <path
+            d="M6.46967 17.0893C6.17678 17.3821 6.17678 17.857 6.46967 18.1499C6.76256 18.4428 7.23744 18.4428 7.53033 18.1499L12 13.6802L16.4697 18.1499C16.7626 18.4428 17.2374 18.4428 17.5303 18.1499C17.8232 17.857 17.8232 17.3822 17.5303 17.0893L13.0607 12.6196L17.5303 8.14991C17.8232 7.85702 17.8232 7.38215 17.5303 7.08925C17.2374 6.79636 16.7626 6.79636 16.4697 7.08925L12 11.5589L7.53034 7.08926C7.23745 6.79637 6.76257 6.79637 6.46968 7.08926C6.17679 7.38215 6.17679 7.85703 6.46968 8.14992L10.9393 12.6196L6.46967 17.0893Z"
+            stroke="none"
+            fill={white.light}
+          ></path>
+        </g>
       </symbol>
       <symbol id="copy-icon">
         <svg xmlns="http://www.w3.org/2000/svg">
