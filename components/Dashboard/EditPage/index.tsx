@@ -23,11 +23,25 @@ const EditPage = (props: EditPageProps) => {
   const [editedPageName, setEditedPageName] = useState<string>(pageName);
   const [editedMain, setEditedMain] = useState<boolean>(main);
   const editPageInformation = async () => {
+    let mainResponse = { code: 0 };
+    let nameResponse;
     if (editedMain) {
-      await pageApi.changePageMain(originMain, pageId);
+      mainResponse = await pageApi.changePageMain(originMain, pageId);
+      if (mainResponse.code === 3200) {
+        Alert({ icon: 'error', title: '존재하지 않는 페이지입니다' });
+      }
     }
-    await pageApi.changePageName(projectId, pageId, editedPageName);
-    handleOpen();
+    nameResponse = await pageApi.changePageName(
+      projectId,
+      pageId,
+      editedPageName
+    );
+    if (nameResponse.code === 3202)
+      Alert({ icon: 'error', title: '이미 존재하는 페이지 이름입니다' });
+    if (!nameResponse.code && !mainResponse.code) {
+      Alert({ icon: 'success', title: '페이지 정보를 변경하였습니다' });
+      handleOpen();
+    }
   };
   const deletePage = async () => {
     Alert({
@@ -73,12 +87,12 @@ const EditPage = (props: EditPageProps) => {
         />
       </Styled.InputWrapper>
       <Styled.ButtonWrapper style={{ justifyContent: 'flex-end' }}>
-        <Styled.DeleteButton onClick={() => deletePage()}>
+        <Styled.DeleteButton onClick={() => deletePage()} disabled={main}>
           Delete
         </Styled.DeleteButton>
         <Styled.SubmitButton
-          disabled={false}
           onClick={() => editPageInformation()}
+          disabled={!editedPageName.trim().length}
         >
           EDIT
         </Styled.SubmitButton>
