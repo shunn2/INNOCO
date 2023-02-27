@@ -47,8 +47,9 @@ export const SubmitButton = styled.button<{ disabled: boolean }>`
   }
 `;
 
-export const DeleteButton = styled.button`
-  background-color: red;
+export const DeleteButton = styled.button<{ disabled: boolean }>`
+  background-color: ${(props) =>
+    props.disabled ? theme.color.gray.middle : 'red'};
   padding: 6px 10px;
   border-radius: 4px;
   cursor: pointer;
