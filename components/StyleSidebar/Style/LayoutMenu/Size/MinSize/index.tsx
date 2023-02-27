@@ -24,7 +24,7 @@ const MinSizeMenu = () => {
       minHeight:
         getCurrentStyle({ element, type: 'minHeight', mainData }) || 'none',
     });
-  }, [element, mainData]);
+  }, [element]);
 
   return (
     <Styled.StyleBox className="flex">

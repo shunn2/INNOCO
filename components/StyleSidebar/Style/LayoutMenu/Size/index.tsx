@@ -24,7 +24,7 @@ const SizeMenu = () => {
       width: getCurrentStyle({ element, type: 'width', mainData }) || 'none',
       height: getCurrentStyle({ element, type: 'height', mainData }) || 'none',
     });
-  }, [element, mainData]);
+  }, [element]);
 
   return (
     <>
