@@ -100,8 +100,11 @@ const SignUp = () => {
           placeholder={'이메일을 입력하세요.'}
           onChange={handleChange('userEmail')}
           error={error.userEmail}
+          value={signUpPayload.userEmail}
         />
-        <button onClick={checkDuplicateEmail}>이메일 중복 확인</button>
+        <Button onClick={checkDuplicateEmail} disabled={error.userEmail}>
+          이메일 중복 확인
+        </Button>
         {isDuplicated.email && <ErrorMessage type="duplicate" />}
         {error.userEmail && <ErrorMessage type="email" />}
         <Input
@@ -113,7 +116,9 @@ const SignUp = () => {
           onChange={handleChange('userLoginId')}
           error={error.userLoginId}
         />
-        <button onClick={checkDuplicateId}>아이디 중복 확인</button>
+        <Button onClick={checkDuplicateId} disabled={error.userLoginId}>
+          아이디 중복 확인
+        </Button>
         {isDuplicated.id && <ErrorMessage type="duplicate" />}
         {error.userLoginId && <ErrorMessage type="id" />}
         <Input
