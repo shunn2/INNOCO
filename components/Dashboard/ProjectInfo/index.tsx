@@ -78,9 +78,11 @@ const ProjectInfo = ({ project }: ProjectProps) => {
             <SvgIcon type="setting-icon" />
             {isSettingOpen && (
               <Styled.SettingModal>
-                <Styled.SettingList onClick={handleEditClick}>
-                  Edit
-                </Styled.SettingList>
+                {projectAuthority === 'OWNER' && (
+                  <Styled.SettingList onClick={handleEditClick}>
+                    Edit
+                  </Styled.SettingList>
+                )}
                 <Styled.SettingList onClick={deleteProject}>
                   Delete
                 </Styled.SettingList>
