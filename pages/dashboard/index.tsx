@@ -59,7 +59,7 @@ const Dashboard = () => {
             <ProjectInfo project={project} key={project.projectId} />
           ))}
         </DashboardGrid>
-        {invitationList.length && (
+        {invitationList.length > 0 && (
           <CreateModal
             title="Invitation List"
             isOpen={inviteModalOpen}
