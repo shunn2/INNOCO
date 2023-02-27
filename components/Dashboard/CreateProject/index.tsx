@@ -148,7 +148,7 @@ const CreateProject = ({ isOpen, handleIsOpen }: CreateProjectProps) => {
             </Styled.SubmitButton>
           ) : (
             <Styled.SubmitButton
-              disabled={false}
+              disabled={!Boolean(projectName.trim().length)}
               onClick={() => handleContentsOrder()}
             >
               next
