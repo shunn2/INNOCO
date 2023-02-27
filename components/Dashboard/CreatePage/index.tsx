@@ -19,7 +19,9 @@ const CreatePage = ({ handleOpen }: CreatePageProps) => {
   const [projectInfo, setProjectInfo] = useRecoilState(projectAtom);
   const templates: Templates = useTemplates();
   const [pageName, setPageName] = useState<string>('');
-  const [templateId, setTemplateId] = useState<string>('');
+  const [templateId, setTemplateId] = useState<string>(
+    '63f4a2c717e25a640f5c1dc1'
+  );
 
   const handlePageName = (e) => {
     setPageName(e.target.value);

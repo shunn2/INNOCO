@@ -18,7 +18,9 @@ const CreateProject = ({ isOpen, handleIsOpen }: CreateProjectProps) => {
   const [projectName, setProjectName] = useState<string>('');
   const [projectThumbnail, setProjectThumbnail] = useState<string>('/logo.png');
   const [mainPageName, setMainPageName] = useState<string>('');
-  const [templateId, setTemplateId] = useState<string>();
+  const [templateId, setTemplateId] = useState<string>(
+    '63f4a2c717e25a640f5c1dc1'
+  );
   const [createDisabled, setCreateDisabled] = useState<boolean>(true);
 
   const [contentsOrder, setContentsOrder] = useState(0);

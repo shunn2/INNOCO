@@ -69,7 +69,12 @@ const ParticipantsSetting = () => {
   const createInvitaionLink = async () => {
     const data = await editApi.createInvitationLink(invitationPayload);
     if (data.code === 3108)
-      Alert({ icon: 'error', title: '이미 프로젝트에 참여한 사용자입니다.' });
+      Alert({ icon: 'error', title: '이미 프로젝트에 참여한 사용자입니다' });
+    if (data.code === 2228)
+      Alert({
+        icon: 'error',
+        title: '프로젝트의 OWNER 이메일은 초대할 수  없습니다',
+      });
     else setInvitaionLink(data.value);
   };
   const changeAuthority = (e) => {
