@@ -82,6 +82,25 @@ const FontMenu = () => {
     setFont({ ...font, [type]: value });
     styleChange({ element, type, value, setMainData });
   };
+  useEffect(() => {
+    setFont({
+      fontFamily:
+        getCurrentStyle({ element, type: 'fontFamily', mainData }) || 'inherit',
+      fontSize:
+        getCurrentStyle({ element, type: 'fontSize', mainData }) || '16px',
+      fontWeight:
+        getCurrentStyle({ element, type: 'fontWeight', mainData }) || 'bold',
+      fontStyle:
+        getCurrentStyle({ element, type: 'fontStyle', mainData }) || 'normal',
+      textAlign:
+        getCurrentStyle({ element, type: 'textAlign', mainData }) || 'left',
+      textTransform:
+        getCurrentStyle({ element, type: 'textTransform', mainData }) || 'none',
+      textDecoration:
+        getCurrentStyle({ element, type: 'textDecoration', mainData }) ||
+        'none',
+    });
+  }, [element]);
 
   return (
     <Styled.StyleBox>

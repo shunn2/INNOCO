@@ -24,7 +24,7 @@ const MaxSizeMenu = () => {
       maxHeight:
         getCurrentStyle({ element, type: 'maxHeight', mainData }) || 'none',
     });
-  }, [element, mainData]);
+  }, [element]);
 
   return (
     <Styled.StyleBox className="flex">
