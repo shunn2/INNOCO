@@ -55,7 +55,8 @@ const SignIn = () => {
       router.push('/dashboard');
     } else {
       Alert({ icon: 'error', title: '잘못된 ID or PW를 입력하였습니다' });
-      setSignInPayload(initialSignInPayload);
+      setDisabled(false);
+      // setSignInPayload(initialSignInPayload);
     }
   };
 

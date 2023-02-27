@@ -1,5 +1,6 @@
 import { Project } from '@/types/project';
 import { api } from '@api';
+import editApi from '@api/editApi';
 import { SvgIcon } from '@components/Common';
 import Alert from '@components/Common/Alert';
 import {
@@ -50,6 +51,23 @@ const ProjectInfo = ({ project }: ProjectProps) => {
       }
     });
   };
+  const exitProject = () => {
+    Alert({
+      icon: 'warning',
+      title: '프로젝트에서 나가시겠습니까?',
+      showCancelButton: true,
+    }).then((res) => {
+      if (res.isConfirmed) {
+        editApi
+          .deleteParticipant(
+            projectId,
+            projectAuthority,
+            userInformation.userLoginId
+          )
+          .then(() => location.reload());
+      }
+    });
+  };
   const handleEditClick = () => {
     router.push(`/setting/${projectId}`);
   };
@@ -83,8 +101,12 @@ const ProjectInfo = ({ project }: ProjectProps) => {
                     Edit
                   </Styled.SettingList>
                 )}
-                <Styled.SettingList onClick={deleteProject}>
-                  Delete
+                <Styled.SettingList
+                  onClick={
+                    projectAuthority === 'OWNER' ? deleteProject : exitProject
+                  }
+                >
+                  {projectAuthority === 'OWNER' ? 'Delete' : 'Exit'}
                 </Styled.SettingList>
               </Styled.SettingModal>
             )}
