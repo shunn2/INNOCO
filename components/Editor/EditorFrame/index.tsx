@@ -355,17 +355,18 @@ const EditorFrame = () => {
   };
 
   const handleDrop = (e) => {
+    if (userAuthority === 'VIEWER') return;
     const { el, elIdx } = JSON.parse(e.dataTransfer.getData('dragging'));
     if (el.id === draggingOver.el.id) return;
     if (el.type === 'section') {
-      if (elIdx) dragSection({ e, draggingOver, setSectionOrder });
+      if (elIdx !== null) dragSection({ e, draggingOver, setSectionOrder });
       else dragOuterSection({ e, draggingOver, setMain, setSectionOrder });
     } else {
       if (draggingOver.el.type === 'section') {
-        if (elIdx) dragElementToSection({ e, draggingOver, setMain });
+        if (elIdx !== null) dragElementToSection({ e, draggingOver, setMain });
         else dragOuterElementToSection({ e, draggingOver, setMain });
       } else {
-        if (elIdx)
+        if (elIdx !== null)
           dragElementToElement({ e, draggingOver, insertLocation, setMain });
         else
           dragOuterElementToElement({
@@ -566,6 +567,31 @@ const EditorFrame = () => {
       block: 'center',
       inline: 'center',
     });
+  }, []);
+
+  function blockEvents(event) {
+    if (userAuthority === 'VIEWER') {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
+  useEffect(() => {
+    console.log(userAuthority);
+
+    // Block click and drag events on the entire website
+    document.addEventListener('click', blockEvents, true);
+    document.addEventListener('mousedown', blockEvents, true);
+    document.addEventListener('mousemove', blockEvents, true);
+    document.addEventListener('mouseup', blockEvents, true);
+
+    return () => {
+      // Remove event listeners when component unmounts
+      document.removeEventListener('click', blockEvents, true);
+      document.removeEventListener('mousedown', blockEvents, true);
+      document.removeEventListener('mousemove', blockEvents, true);
+      document.removeEventListener('mouseup', blockEvents, true);
+    };
   }, []);
 
   return (
