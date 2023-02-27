@@ -33,6 +33,7 @@ const SizeMenu = () => {
           <Styled.Title>Width</Styled.Title>
           <StyleInput
             placeholder={size.width}
+            value={size.width}
             size={50}
             onChange={(e) => handleSizeChange({ e, type: 'width' })}
           />
@@ -41,6 +42,7 @@ const SizeMenu = () => {
           <Styled.Title>Height</Styled.Title>
           <StyleInput
             placeholder={size.height}
+            value={size.height}
             size={50}
             onChange={(e) => handleSizeChange({ e, type: 'height' })}
           />
