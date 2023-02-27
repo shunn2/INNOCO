@@ -27,21 +27,24 @@ const SignUp = () => {
     useState<SignUpPayload>(initialSignUpPayload);
   const [error, setError] = useState(initialErrorState);
   const [disabled, setDisabled] = useState(true);
-  const [checkDuplicate, setCheckDuplicate] = useState(false);
+  const [checkDuplicate, setCheckDuplicate] = useState({
+    id: false,
+    email: false,
+  });
   const [isDuplicated, setIsDuplicated] = useState({ email: false, id: false });
   const signUp = useSignUp();
 
   useEffect(() => {
     const { userEmail, userLoginId, userLoginPw, userName, userProfileUrl } =
       signUpPayload;
-
     setDisabled(
       !!(
         !userEmail ||
         !userLoginId ||
         !userLoginPw ||
         !userName ||
-        !checkDuplicate ||
+        !checkDuplicate.email ||
+        !checkDuplicate.id ||
         isDuplicated.email ||
         isDuplicated.id
       )
@@ -51,7 +54,7 @@ const SignUp = () => {
   const handleChange =
     (type: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       if (type === 'userLoginId' || type === 'userEmail')
-        setCheckDuplicate(false);
+        setCheckDuplicate({ ...checkDuplicate, [type]: false });
       const input = e.target.value;
       setSignUpPayload({ ...signUpPayload, [type]: '' });
 
@@ -71,7 +74,7 @@ const SignUp = () => {
     const userLoginId = signUpPayload.userLoginId;
     const { value } = await authApi.checkDuplicateId(userLoginId);
     if (!value) {
-      setCheckDuplicate(true);
+      setCheckDuplicate({ ...checkDuplicate, id: true });
     }
     setIsDuplicated({ ...isDuplicated, id: value });
     if (!value) Alert({ icon: 'success', title: '사용가능한 ID입니다.' });
@@ -81,7 +84,7 @@ const SignUp = () => {
     const userEmail = signUpPayload.userEmail;
     const { value } = await authApi.checkDuplicateEmail(userEmail);
     if (!value) {
-      setCheckDuplicate(true);
+      setCheckDuplicate({ ...checkDuplicate, email: true });
     }
     setIsDuplicated({ ...isDuplicated, email: value });
     if (!value) Alert({ icon: 'success', title: '사용가능한 Email입니다.' });
