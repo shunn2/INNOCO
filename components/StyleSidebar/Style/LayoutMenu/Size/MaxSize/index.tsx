@@ -32,6 +32,7 @@ const MaxSizeMenu = () => {
         <Styled.Title>Max-Width</Styled.Title>
         <StyleInput
           placeholder={maxSize.maxWidth}
+          value={maxSize.maxWidth}
           size={50}
           onChange={(e) => handleSizeChange({ e, type: 'maxWidth' })}
         />
@@ -40,6 +41,7 @@ const MaxSizeMenu = () => {
         <Styled.Title>Max-Height</Styled.Title>
         <StyleInput
           placeholder={maxSize.maxHeight}
+          value={maxSize.maxHeight}
           size={50}
           onChange={(e) => handleSizeChange({ e, type: 'maxHeight' })}
         />

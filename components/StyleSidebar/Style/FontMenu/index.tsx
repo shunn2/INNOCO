@@ -129,6 +129,7 @@ const FontMenu = () => {
           <Styled.Title>Font-Size</Styled.Title>
           <StyleInput
             placeholder={font.fontSize}
+            value={font.fontSize}
             size={50}
             onChange={(e) =>
               handleFont({ type: 'fontSize', value: e.target.value })
@@ -139,6 +140,7 @@ const FontMenu = () => {
           <Styled.Title>Font-Weight</Styled.Title>
           <StyleInput
             placeholder={font.fontWeight}
+            value={font.fontWeight}
             size={50}
             onChange={(e) =>
               handleFont({ type: 'fontWeight', value: e.target.value })

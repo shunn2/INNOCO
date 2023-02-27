@@ -32,6 +32,7 @@ const MinSizeMenu = () => {
         <Styled.Title>Min-Width</Styled.Title>
         <StyleInput
           placeholder={minSize.minWidth}
+          value={minSize.minWidth}
           size={50}
           onChange={(e) => handleSizeChange({ e, type: 'minWidth' })}
         />
@@ -40,6 +41,7 @@ const MinSizeMenu = () => {
         <Styled.Title>Min-Height</Styled.Title>
         <StyleInput
           placeholder={minSize.minHeight}
+          value={minSize.minHeight}
           size={50}
           onChange={(e) => handleSizeChange({ e, type: 'minHeight' })}
         />
