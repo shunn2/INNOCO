@@ -68,7 +68,9 @@ const ParticipantsSetting = () => {
     };
   const createInvitaionLink = async () => {
     const data = await editApi.createInvitationLink(invitationPayload);
-    setInvitaionLink(data.value);
+    if (data.code === 3108)
+      Alert({ icon: 'error', title: '이미 프로젝트에 참여한 사용자입니다.' });
+    else setInvitaionLink(data.value);
   };
   const changeAuthority = (e) => {
     setInvitationPayload({ ...invitationPayload, authority: e.target.value });
