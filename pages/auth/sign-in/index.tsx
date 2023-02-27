@@ -8,6 +8,7 @@ import { authApi } from '@api';
 import { useSetRecoilState } from 'recoil';
 import { userInfoAtom } from '@recoil/user/atom';
 import userApi from '@api/userApi';
+import Alert from '@components/Common/Alert';
 
 const SignIn = () => {
   const setUserInformation = useSetRecoilState(userInfoAtom);
@@ -53,7 +54,10 @@ const SignIn = () => {
       const user = await userApi.getCurrentUser();
       setUserInformation(user.value);
       router.push('/dashboard');
-    } else return;
+    } else {
+      Alert({ icon: 'error', title: '잘못된 ID or PW를 입력하였습니다' });
+      setSignInPayload(initialSignInPayload);
+    }
   };
 
   return (
@@ -64,6 +68,7 @@ const SignIn = () => {
           placeholder={'아이디를 입력하세요.'}
           onChange={handleChange('userLoginId')}
           error={error.userLoginId}
+          value={signInPayload.userLoginId}
         />
         {error.userLoginId && <ErrorMessage type="id" />}
         <Input
@@ -71,6 +76,7 @@ const SignIn = () => {
           type="password"
           onChange={handleChange('userLoginPw')}
           error={error.userLoginPw}
+          value={signInPayload.userLoginPw}
         />
         {error.userLoginPw && <ErrorMessage type="password" />}
         <Button
