@@ -342,7 +342,11 @@ const EditorFrame = () => {
     });
     const data = await api.publishProject(projectInfo.projectId);
     if (!data.code)
-      Alert({ icon: 'success', title: '프로젝트 게시에 성공하였습니다.' });
+      Alert({
+        icon: 'success',
+        title: '프로젝트 게시에 성공하였습니다.',
+        text: `http://${userInformation.userLoginId}.innoco-page.onstove.com/${projectInfo.projectId}/`,
+      });
     else Alert({ icon: 'error', title: '프로젝트 게시에 실패하였습니다.' });
   };
 
