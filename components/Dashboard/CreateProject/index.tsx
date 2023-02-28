@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { dehydrate, QueryClient } from 'react-query';
 import * as Styled from './styled';
 import pageApi from '@api/pageApi';
+import Alert from '@components/Common/Alert';
 interface CreateProjectProps {
   isOpen: boolean;
   handleIsOpen: () => void;
@@ -28,11 +29,14 @@ const CreateProject = ({ isOpen, handleIsOpen }: CreateProjectProps) => {
   const templates: Templates = useTemplates();
 
   const createProject = async () => {
-    await api
-      .createProject(projectName, projectThumbnail)
-      .then((data) => pageApi.createPage(data.value, mainPageName, templateId));
-    handleIsOpen();
-    location.reload();
+    const data = await api.createProject(projectName, projectThumbnail);
+    if (data.code) {
+      Alert({ icon: 'error', title: '이미 존재하는 프로젝트 이름입니다.' });
+    } else {
+      pageApi.createPage(data.value, mainPageName, templateId);
+      handleIsOpen();
+      location.reload();
+    }
   };
 
   const handleTemplateId = (id) => {
@@ -61,13 +65,12 @@ const CreateProject = ({ isOpen, handleIsOpen }: CreateProjectProps) => {
   }, [projectName, mainPageName]);
 
   return (
-    <CreateModal isOpen={isOpen}>
+    <CreateModal
+      isOpen={isOpen}
+      title="Make Your Project"
+      handleOpen={() => handleIsOpen()}
+    >
       <Styled.ProjectModalContainer>
-        <Styled.ButtonWrapper>
-          <p />
-          <Styled.CloseButton onClick={handleIsOpen}>x</Styled.CloseButton>
-        </Styled.ButtonWrapper>
-        <Styled.Title>Make your Project</Styled.Title>
         {contentsOrder === 0 && (
           <>
             <Styled.InputWrapper>
@@ -162,7 +165,7 @@ const CreateProject = ({ isOpen, handleIsOpen }: CreateProjectProps) => {
   );
 };
 
-export const getServerSideProp = async (context) => {
+export const getServerSideProps = async (context) => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(queryKeys.templates, () =>
