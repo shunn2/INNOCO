@@ -51,10 +51,6 @@ const CreatePage = ({ handleOpen }: CreatePageProps) => {
   };
   return (
     <>
-      <Styled.ButtonWrapper>
-        <Styled.CloseButton onClick={handleOpen}>x</Styled.CloseButton>
-      </Styled.ButtonWrapper>
-      <Styled.Title>Make your Project</Styled.Title>
       <Styled.InputWrapper>
         <Styled.InputLabel>Page Name</Styled.InputLabel>
         <Input
