@@ -636,19 +636,22 @@ const EditorFrame = () => {
             </div>
           ))}
         </div>
-        <button
-          className="py-1	px-3 ml-8	text-white bg-[#33ADFF] hover:bg-[#238DE0] rounded-md"
-          onClick={() => handlePublish()}
-        >
-          Publish
-        </button>
+
         {userAuthority === 'EDITOR' && (
-          <button
-            onClick={findEditorCandidateList}
-            className="py-1	px-3 ml-2	text-white bg-[#33ADFF] hover:bg-[#238DE0] rounded-md"
-          >
-            Reassign
-          </button>
+          <>
+            <button
+              className="py-1	px-3 ml-8	text-white bg-[#33ADFF] hover:bg-[#238DE0] rounded-md"
+              onClick={() => handlePublish()}
+            >
+              Publish
+            </button>
+            <button
+              onClick={findEditorCandidateList}
+              className="py-1	px-3 ml-2	text-white bg-[#33ADFF] hover:bg-[#238DE0] rounded-md"
+            >
+              Reassign
+            </button>
+          </>
         )}
         <CandidateComponent candidates={candidates} />
       </div>
