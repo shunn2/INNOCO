@@ -15,8 +15,9 @@ const SizeMenu = () => {
   const element = useRecoilValue(elementInfoAtom);
   const [mainData, setMainData] = useRecoilState(withMainData);
 
-  const handleSizeChange = ({ e, type }: SizeChangeProps) => {
-    styleChange({ element, type, value: e.target.value, setMainData });
+  const handleSizeChange = ({ value, type }: SizeChangeProps) => {
+    styleChange({ element, type, value, setMainData });
+    setSize({ ...size, [type]: value });
   };
 
   useEffect(() => {
@@ -35,7 +36,9 @@ const SizeMenu = () => {
             placeholder={size.width}
             value={size.width}
             size={50}
-            onChange={(e) => handleSizeChange({ e, type: 'width' })}
+            onChange={(e) =>
+              handleSizeChange({ value: e.target.value, type: 'width' })
+            }
           />
         </Styled.InputContainer>
         <Styled.InputContainer>
@@ -44,7 +47,9 @@ const SizeMenu = () => {
             placeholder={size.height}
             value={size.height}
             size={50}
-            onChange={(e) => handleSizeChange({ e, type: 'height' })}
+            onChange={(e) =>
+              handleSizeChange({ value: e.target.value, type: 'height' })
+            }
           />
         </Styled.InputContainer>
       </Styled.StyleBox>
@@ -55,7 +60,7 @@ const SizeMenu = () => {
 };
 
 interface SizeChangeProps {
-  e: React.ChangeEvent<HTMLInputElement>;
+  value: string;
   type: string;
 }
 
