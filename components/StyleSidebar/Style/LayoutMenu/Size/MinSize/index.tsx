@@ -13,8 +13,9 @@ const MinSizeMenu = () => {
   const element = useRecoilValue(elementInfoAtom);
   const [mainData, setMainData] = useRecoilState(withMainData);
 
-  const handleSizeChange = ({ e, type }: SizeChangeProps) => {
-    styleChange({ element, type, value: e.target.value, setMainData });
+  const handleSizeChange = ({ value, type }: SizeChangeProps) => {
+    styleChange({ element, type, value, setMainData });
+    setMinSize({ ...minSize, [type]: value });
   };
 
   useEffect(() => {
@@ -34,7 +35,9 @@ const MinSizeMenu = () => {
           placeholder={minSize.minWidth}
           value={minSize.minWidth}
           size={50}
-          onChange={(e) => handleSizeChange({ e, type: 'minWidth' })}
+          onChange={(e) =>
+            handleSizeChange({ value: e.target.value, type: 'minWidth' })
+          }
         />
       </Styled.InputContainer>
       <Styled.InputContainer>
@@ -43,7 +46,9 @@ const MinSizeMenu = () => {
           placeholder={minSize.minHeight}
           value={minSize.minHeight}
           size={50}
-          onChange={(e) => handleSizeChange({ e, type: 'minHeight' })}
+          onChange={(e) =>
+            handleSizeChange({ value: e.target.value, type: 'minHeight' })
+          }
         />
       </Styled.InputContainer>
     </Styled.StyleBox>
@@ -51,7 +56,7 @@ const MinSizeMenu = () => {
 };
 
 interface SizeChangeProps {
-  e: React.ChangeEvent<HTMLInputElement>;
+  value: string;
   type: string;
 }
 

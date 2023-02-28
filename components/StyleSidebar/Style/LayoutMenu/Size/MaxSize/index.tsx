@@ -13,8 +13,9 @@ const MaxSizeMenu = () => {
   const element = useRecoilValue(elementInfoAtom);
   const [mainData, setMainData] = useRecoilState(withMainData);
 
-  const handleSizeChange = ({ e, type }: SizeChangeProps) => {
-    styleChange({ element, type, value: e.target.value, setMainData });
+  const handleSizeChange = ({ value, type }: SizeChangeProps) => {
+    styleChange({ element, type, value, setMainData });
+    setMaxSize({ ...maxSize, [type]: value });
   };
 
   useEffect(() => {
@@ -34,7 +35,9 @@ const MaxSizeMenu = () => {
           placeholder={maxSize.maxWidth}
           value={maxSize.maxWidth}
           size={50}
-          onChange={(e) => handleSizeChange({ e, type: 'maxWidth' })}
+          onChange={(e) =>
+            handleSizeChange({ value: e.target.value, type: 'maxWidth' })
+          }
         />
       </Styled.InputContainer>
       <Styled.InputContainer>
@@ -43,7 +46,9 @@ const MaxSizeMenu = () => {
           placeholder={maxSize.maxHeight}
           value={maxSize.maxHeight}
           size={50}
-          onChange={(e) => handleSizeChange({ e, type: 'maxHeight' })}
+          onChange={(e) =>
+            handleSizeChange({ value: e.target.value, type: 'maxHeight' })
+          }
         />
       </Styled.InputContainer>
     </Styled.StyleBox>
@@ -51,7 +56,7 @@ const MaxSizeMenu = () => {
 };
 
 interface SizeChangeProps {
-  e: React.ChangeEvent<HTMLInputElement>;
+  value: string;
   type: string;
 }
 
