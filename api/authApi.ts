@@ -43,15 +43,10 @@ class AuthApi {
     return data;
   }
 
-  async regenerateToken(refreshToken: string) {
-    const { data } = await axios.get(
-      `${process.env.BASE_URL}/auth/regenerate`,
-      {
-        headers: {
-          Authorization: `Bearer ${refreshToken}`,
-        },
-      }
-    );
+  async regenerateToken(refreshToken) {
+    const { data } = await createAxiosWithoutToken('auth').post('/regenerate', {
+      refreshToken,
+    });
     return data;
   }
 }
