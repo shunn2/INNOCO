@@ -10,7 +10,11 @@ const Layout = (props: { children: ReactNode }) => {
 
   useEffect(() => {
     if (router.asPath === '/auth/sign-up') return;
-    if (!userInformation || !userInformation.userLoginId.length) {
+    if (
+      !userInformation ||
+      !userInformation.userLoginId.length ||
+      !localStorage.getItem('access_token')
+    ) {
       router.replace('/auth/sign-in');
     }
   }, [userInformation]);

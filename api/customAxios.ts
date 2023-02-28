@@ -1,8 +1,4 @@
-import { userInfoAtom } from '@recoil/user/atom';
 import axios, { AxiosInstance } from 'axios';
-import jwt_decode from 'jwt-decode';
-import { useRouter } from 'next/router';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
 import authApi from './authApi';
 
 interface AuthToken {
