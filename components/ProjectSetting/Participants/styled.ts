@@ -18,17 +18,17 @@ export const InputLabel = styled.div`
   color: ${theme.color.gray.light};
 `;
 
-export const Button = styled.button<{ validate?: boolean | number }>`
+export const Button = styled.button<{
+  validate?: boolean | number;
+  disabled?: boolean;
+}>`
   font-size: 14px;
   border-radius: 6px;
   min-width: 100px;
   margin: 0 32px;
   background-color: ${(props) =>
-    props.validate ? `${theme.color.blue.middle}` : '#aaa'};
+    props.validate && !props.disabled ? `${theme.color.blue.middle}` : '#aaa'};
   cursor: pointer;
-  &:hover {
-    background-color: #238de0;
-  }
 `;
 
 export const ParticipantsContainer = styled.div`

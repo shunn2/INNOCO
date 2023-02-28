@@ -50,6 +50,7 @@ const ParticipantsSetting = () => {
     editors: [],
     viewers: [],
   });
+  const [sendMailDisabled, setSendMailDisabled] = useState<boolean>(false);
   const getProjectInformation = async () => {
     const data = await api.fetchSingleProject(projectId);
     setProjectInformation(data.value);
@@ -89,6 +90,7 @@ const ParticipantsSetting = () => {
   };
   const sendInvitationLink = async () => {
     let data;
+    setSendMailDisabled(true);
     if (invitationLink.joinedUserCheck)
       data = await editApi.sendInvitationLink(
         invitationLink.invitationId,
@@ -98,7 +100,10 @@ const ParticipantsSetting = () => {
     else data = await editApi.sendJoinLink(invitationPayload.userEmail);
     if (data.code === 0)
       Alert({ icon: 'success', title: '메일이 전송되었습니다' });
-    else Alert({ icon: 'error', title: '메일 전송에 실패하였습니다.' });
+    else {
+      Alert({ icon: 'error', title: '메일 전송에 실패하였습니다.' });
+      setSendMailDisabled(false);
+    }
   };
   useEffect(() => {
     getParticipantsList();
@@ -142,12 +147,13 @@ const ParticipantsSetting = () => {
         <Styled.Button
           validate={invitationLink.invitationId.length}
           onClick={() => sendInvitationLink()}
+          disabled={sendMailDisabled}
         >
           메일 전송
         </Styled.Button>
       </Styled.InputContainer>
       <Styled.ParticipantsContainer>
-        {participantsList.editors.map((editor, editorIdx) => (
+        {participantsList.editors.map((editor) => (
           <Styled.ParticipantsWrapper key={editor}>
             <SvgIcon type="participant_icon" />
             <Styled.ParticipantId>{editor}</Styled.ParticipantId>
@@ -159,7 +165,7 @@ const ParticipantsSetting = () => {
             </Styled.ParticipantRemove>
           </Styled.ParticipantsWrapper>
         ))}
-        {participantsList.viewers.map((viewer, viewerIdx) => (
+        {participantsList.viewers.map((viewer) => (
           <Styled.ParticipantsWrapper key={viewer}>
             <SvgIcon type="participant_icon" />
             <Styled.ParticipantId>{viewer}</Styled.ParticipantId>
