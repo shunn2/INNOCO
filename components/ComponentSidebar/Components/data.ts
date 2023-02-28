@@ -45,6 +45,7 @@ export const textData = {
       backgroundColor: 'white',
       color: 'black',
       wordBreak: 'break-all',
+      whiteSpace: 'pre-wrap',
     },
   },
   content: 'type your words',

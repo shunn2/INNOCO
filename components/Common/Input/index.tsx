@@ -13,7 +13,7 @@ export interface InputProps {
 const Input = (props: PropsWithChildren<InputProps>) => {
   const { placeholder, value, ...rest } = props;
 
-  return <Styled.Input placeholder={placeholder} {...rest} />;
+  return <Styled.Input placeholder={placeholder} value={value} {...rest} />;
 };
 
 export default Input;
