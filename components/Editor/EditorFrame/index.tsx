@@ -170,6 +170,7 @@ const EditorFrame = () => {
       eventType: 'CONTENT_CHANGE',
       content: data,
       sender: userInformation.userLoginId,
+      receiver: null,
     });
 
     const compressedMsg = deflate(jsonBody);
