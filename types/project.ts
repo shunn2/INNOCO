@@ -1,12 +1,13 @@
 export interface Project {
-  projectId: number;
+  projectId: string;
   projectName: string;
   projectStatus: string;
   projectAuthority: string;
   projectThumbnailUrl: string;
-  mainPageId: string;
-  createdDate: string;
-  modifiedDate: string;
+  projectOwnerLoginId: string;
+  projectVersion: number | null;
+  publishedDate: string | null;
+  synced: boolean;
 }
 
 export interface Projects {
