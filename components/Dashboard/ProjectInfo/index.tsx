@@ -1,8 +1,10 @@
 import { Project } from '@/types/project';
 import { api } from '@api';
 import editApi from '@api/editApi';
+import pageApi from '@api/pageApi';
 import { SvgIcon } from '@components/Common';
 import Alert from '@components/Common/Alert';
+import useDidMountEffect from '@hooks/useDidMountEffect';
 import {
   withAuthority,
   withPageId,
@@ -12,8 +14,8 @@ import {
 import { userInfoAtom } from '@recoil/user/atom';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import * as Styled from './styled';
 
 interface ProjectProps {
@@ -23,9 +25,10 @@ interface ProjectProps {
 const ProjectInfo = ({ project }: ProjectProps) => {
   const router = useRouter();
   const userInformation = useRecoilValue(userInfoAtom);
+  const [mainPageId, setMainPageId] = useState<string>('');
   const setUserId = useSetRecoilState(withUserId);
   const setUserAuthority = useSetRecoilState(withAuthority);
-  const setPageId = useSetRecoilState(withPageId);
+  const [pageId, setPageId] = useRecoilState(withPageId);
   const setProjectId = useSetRecoilState(withProjectId);
 
   const {
@@ -34,7 +37,7 @@ const ProjectInfo = ({ project }: ProjectProps) => {
     projectStatus,
     projectThumbnailUrl,
     projectAuthority,
-    mainPageId,
+    synced,
   } = project;
   const [isSettingOpen, setIsSettingOpen] = useState<boolean>(false);
   const handleSettingOpen = () => {
@@ -68,27 +71,73 @@ const ProjectInfo = ({ project }: ProjectProps) => {
       }
     });
   };
+  const handleVersionChoice = async ({
+    synced,
+    projectAuthority,
+  }: {
+    synced: boolean;
+    projectAuthority: string;
+  }) => {
+    if (projectAuthority === 'VIEWER') {
+      await Alert({
+        icon: 'info',
+        title: '자동 저장된 버전에서 가져옵니다.',
+      });
+    } else if (projectAuthority === 'PROGRESS') {
+      await Alert({
+        icon: 'info',
+        title: 'PUBLISH 이력이 없습니다.',
+        text: '자동 저장 버전에서 가져옵니다.',
+      });
+    } else if (synced) {
+      await Alert({
+        icon: 'info',
+        title: '수정 이력이 없습니다.',
+        text: 'PUBLISH 버전에서 가져옵니다.',
+      });
+    } else if (!synced) {
+      await Alert({
+        icon: 'info',
+        title: 'PUBLISH되지 않은 수정 이력이 있습니다.',
+        text: '어디서 가져오시겠습니까?',
+        showCancelButton: true,
+        confirmButtonText: '게시된 프로젝트',
+        cancelButtonText: '자동저장된 프로젝트',
+        cancelButtonColor: '#DD6B55',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      }).then(async (res) => {
+        if (res.isConfirmed) {
+          await api.overWritePage(projectId);
+        }
+      });
+    }
+    const mainPage = await pageApi.getMainPageId(projectId);
+    setPageId(mainPage.value);
+    router.push(`/editor/${projectId}/${mainPage.value}`);
+  };
+  const handleEnterEditor = () => {
+    setUserId(userInformation.userLoginId);
+    setUserAuthority(
+      projectAuthority === 'OWNER' ? 'EDITOR' : projectAuthority
+    );
+    setProjectId(projectId);
+  };
+
   const handleEditClick = () => {
     router.push(`/setting/${projectId}`);
   };
 
   return (
     <Styled.ProjectInfoContainer>
-      <Link
-        href={`/editor/${projectId}/${mainPageId}`}
+      <Styled.ProjectThumbnailWrapper
         onClick={() => {
-          setUserId(userInformation.userLoginId);
-          setUserAuthority(
-            projectAuthority === 'OWNER' ? 'EDITOR' : projectAuthority
-          );
-          setProjectId(projectId);
-          setPageId(mainPageId);
+          handleEnterEditor();
+          handleVersionChoice({ synced, projectAuthority });
         }}
       >
-        <Styled.ProjectThumbnailWrapeer>
-          <Styled.ProjectThumbnail src={projectThumbnailUrl} />
-        </Styled.ProjectThumbnailWrapeer>
-      </Link>
+        <Styled.ProjectThumbnail src={projectThumbnailUrl} />
+      </Styled.ProjectThumbnailWrapper>
       <Styled.ProjectContentWrapper>
         <Styled.ProjectInfoRow>
           <div>{projectName}</div>

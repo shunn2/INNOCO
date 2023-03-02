@@ -31,10 +31,14 @@ import useDidMountEffect from '@hooks/useDidMountEffect';
 import CreateModal from '@components/Common/Modal';
 import { contentEditable } from '@hooks/contentEditable';
 import { userInfoAtom } from '@recoil/user/atom';
+import FileDownload from '@utils/FileDownload';
+import { deflate } from 'pako';
 
 const CONNECTION_URL = process.env.NEXT_PUBLIC_SOCKET_URL;
-const SEND_URL = process.env.NEXT_PUBLIC_SOCKET_SEND_URL;
-const EDITOR_SUBSCRIBE_URL = process.env.NEXT_PUBLIC_SOCKET_SUBSCRIBE_URL;
+const SEND_DOCUMENT_URL = process.env.NEXT_PUBLIC_SEND_DOCUMENT_URL;
+const SEND_USER_URL = process.env.NEXT_PUBLIC_SEND_USER_URL;
+const EDITOR_SUBSCRIBE_URL = process.env.NEXT_PUBLIC_EDITOR_SUBSCRIBE_URL;
+const USER_SUBSCRIBE_URL = process.env.NEXT_PUBLIC_USER_SUBSCRIBE_URL;
 
 const EditorFrame = () => {
   const userInformation = useRecoilValue(userInfoAtom);
@@ -58,7 +62,6 @@ const EditorFrame = () => {
   const [viewerExists, setViewerExists] = useState<boolean>(false);
   const [newUserName, setNewUserName] = useState<string>('');
   const [userAuthority, setUserAuthority] = useState<string>('');
-  const [isSynced, setIsSynced] = useState<boolean>(null);
   const [users, setUsers] = useState([]);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [isNewUserJoin, setIsNewUserJoin] = useState<boolean>(false);
@@ -66,6 +69,8 @@ const EditorFrame = () => {
   const [renderCandidate, setRenderCandidate] = useState(false);
   const [candidateChecked, setCandidateChecked] = useState('');
   const [candidates, setCandidates] = useState([]);
+
+  const [downloadOpen, setDownLoadOpen] = useState<boolean>(false);
 
   const CandidateComponent = ({ candidates }) => {
     const clickCandidate = (candidate) => {
@@ -75,7 +80,7 @@ const EditorFrame = () => {
     const sendNewCandidate = (e, candidate) => {
       e.preventDefault();
       stompClient.current.publish({
-        destination: SEND_URL,
+        destination: SEND_USER_URL,
         body: JSON.stringify({
           pageId: projectInfo.pageId,
           messageType: 'AUTHORITY',
@@ -157,28 +162,39 @@ const EditorFrame = () => {
 
   //에디터에 텍스트를 입력하는 이벤트가 발생했을 때 서버로 메세지를 보냄
   function handleEditorChange(data) {
+    console.log('data', data);
+
+    const jsonBody = JSON.stringify({
+      pageId: projectInfo.pageId,
+      messageType: 'EDIT',
+      eventType: 'CONTENT_CHANGE',
+      content: data,
+      sender: userInformation.userLoginId,
+      receiver: null,
+    });
+
+    const compressedMsg = deflate(jsonBody);
+    // const encoded = btoa(String.fromCharCode(...new Uint8Array(compressedMsg)));
+    const encoded = btoa(
+      String.fromCharCode.apply(null, new Uint8Array(compressedMsg))
+    );
+
     stompClient.current.publish({
-      destination: SEND_URL,
-      body: JSON.stringify({
-        pageId: projectInfo.pageId,
-        messageType: 'EDIT',
-        eventType: 'CONTENT_CHANGE',
-        content: JSON.stringify(data),
-        sender: projectInfo.id,
-      }),
+      destination: SEND_DOCUMENT_URL,
+      body: encoded,
     });
   }
 
   //새로운 유저가 입장했을 때 자신의 정보를 다른 유저들에게 메세지로 전달함
   function userJoin() {
     stompClient.current.publish({
-      destination: SEND_URL,
+      destination: SEND_USER_URL,
       body: JSON.stringify({
         pageId: projectInfo.pageId,
         messageType: 'SUBSCRIBE',
         eventType: 'USER_JOIN_EVENT',
         authority: projectInfo.authority,
-        sender: projectInfo.id,
+        sender: userInformation.userLoginId,
         subscribers: users,
       }),
     });
@@ -187,13 +203,13 @@ const EditorFrame = () => {
   //본인이 단독 에디터라면 새로운 유저에게 본인의 컨텐츠를 전송함
   function sendCurrentEditorContent(newUser, content) {
     stompClient.current.publish({
-      destination: SEND_URL,
+      destination: SEND_DOCUMENT_URL,
       body: JSON.stringify({
         pageId: projectInfo.pageId,
         messageType: 'EDIT',
         eventType: 'SET_INITIAL_CONTENT',
         content: JSON.stringify(content),
-        sender: projectInfo.id,
+        sender: userInformation.userLoginId,
         receiver: newUser, //타겟이 되는 새로운 유저에게 메세지를 받을 수 있도록 세팅
       }),
     });
@@ -202,12 +218,12 @@ const EditorFrame = () => {
   //위임 기능에서 사용
   function findEditorCandidateList() {
     stompClient.current.publish({
-      destination: SEND_URL,
+      destination: SEND_USER_URL,
       body: JSON.stringify({
         pageId: projectInfo.pageId,
         messageType: 'AUTHORITY',
         eventType: 'FIND_EDITOR_CANDIDATE_LIST',
-        sender: projectInfo.id,
+        sender: userInformation.userLoginId,
       }),
     });
   }
@@ -224,8 +240,6 @@ const EditorFrame = () => {
   const editorConnect = () => {
     if (!userInformation || !userInformation.userLoginId.length) return;
     stompClient.current = new StompJS.Client({
-      maxWebSocketChunkSize: 10000000,
-      splitLargeFrames: true,
       brokerURL: CONNECTION_URL,
       debug: function (str) {
         console.log(str);
@@ -236,17 +250,36 @@ const EditorFrame = () => {
       },
       onConnect: () => {
         setIsConnected(true);
-        if (projectInfo.pageId !== undefined && userAuthority !== undefined)
+        if (projectInfo.pageId !== undefined && userAuthority !== undefined) {
+          stompClient.current.subscribe(
+            //FIXME -구독 경로 변경 - 아래 채널에 있던 content_change 부분을 따로 뺌
+            EDITOR_SUBSCRIBE_URL + projectInfo.pageId,
+            (message) => {
+              console.log('message', message);
+
+              const parsedBody = JSON.parse(message.body);
+              const parsedContent = parsedBody.content;
+              if (parsedBody.eventType === 'CONTENT_CHANGE') {
+                setEditorMain(parsedContent.main);
+                setEditorSectionOrder(parsedContent.sectionOrder);
+              }
+            }
+          );
           stompClient.current.subscribe(
             //특정 채널 구독 시작
-            EDITOR_SUBSCRIBE_URL + projectInfo.pageId,
+            USER_SUBSCRIBE_URL + projectInfo.pageId,
             (message) => {
               const parsedBody = JSON.parse(message.body);
               let parsedContent;
               if (parsedBody.content)
                 parsedContent = JSON.parse(parsedBody.content);
+
+              console.log('parsedBody', parsedBody);
+
               if (isUserJoinEvent(message)) {
                 //새로운 유저가 입장하는 이벤트 발생
+                console.log('user', parsedBody.currentChannelSubscribers);
+
                 setUsers(parsedBody.currentChannelSubscribers);
                 if (projectInfo.id === parsedBody.currentEditorId) {
                   //서버에 거쳐서 확인한 본인의 권한이 에디터라면 세팅
@@ -309,12 +342,9 @@ const EditorFrame = () => {
                 return;
               }
               //USER 입장/퇴장 이벤트를 제외하고 텍스트를 편집하는 이벤트의 경우에는 에디터에 콘텐츠 세팅
-              if (parsedBody.eventType === 'CONTENT_CHANGE') {
-                setEditorMain(parsedContent.main);
-                setEditorSectionOrder(parsedContent.sectionOrder);
-              }
             }
           );
+        }
         userJoin();
       },
       onDisconnect: () => {
@@ -325,13 +355,6 @@ const EditorFrame = () => {
       },
     });
     stompClient.current.activate();
-  };
-
-  const getSync = async () => {
-    const data = await api.getProjectSync(projectInfo.projectId);
-    await api.startEditSync(projectInfo.projectId);
-    let sync = data.value.status === 'PROGRESS' ? true : data.value.sync;
-    setIsSynced(sync);
   };
 
   const handlePublish = async () => {
@@ -523,33 +546,13 @@ const EditorFrame = () => {
 
   useEffect(() => {
     //편집중인 에디터가 없어 DB 저장 내역을 받아와야 할 때
-    if (isSynced || viewerExists) {
-      pageApi
-        .getPageForEditor(projectInfo.projectId, projectInfo.pageId)
-        .then((response) => {
-          setEditorMain(response.main);
-          setEditorSectionOrder(response.sectionOrder);
-        });
-    } else if (editorExists && isSynced === false && isSynced !== null) {
-      Alert({
-        icon: 'warning',
-        text: '페이지 편집 내역을 어디서 가져올까요?',
-        showCancelButton: true,
-        confirmButtonText: '게시된 프로젝트',
-        cancelButtonText: '자동저장된 프로젝트',
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-      }).then(async (res) => {
-        if (res.isConfirmed) await pageApi.overWritePage(projectInfo.projectId);
-        await pageApi
-          .getPageForEditor(projectInfo.projectId, projectInfo.pageId)
-          .then((response) => {
-            setEditorMain(response.main);
-            setEditorSectionOrder(response.sectionOrder);
-          });
+    pageApi
+      .getPageForEditor(projectInfo.projectId, projectInfo.pageId)
+      .then((response) => {
+        setEditorMain(response.main);
+        setEditorSectionOrder(response.sectionOrder);
       });
-    }
-  }, [editorExists, viewerExists, isSynced, projectInfo]);
+  }, [editorExists, viewerExists, projectInfo]);
 
   useEffect(() => {
     //만약 새로운 유저가 들어왔다면, 현재 작성중인 에디터의 컨텐츠를 전송함.
@@ -560,7 +563,6 @@ const EditorFrame = () => {
 
   useEffect(() => {
     setUserAuthority(projectInfo.authority);
-    getSync();
     editorConnect();
   }, [projectInfo]);
 
@@ -576,31 +578,6 @@ const EditorFrame = () => {
     });
   }, []);
 
-  function blockEvents(event) {
-    if (userAuthority === 'VIEWER') {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-  }
-
-  useEffect(() => {
-    console.log(userAuthority);
-
-    // Block click and drag events on the entire website
-    document.addEventListener('click', blockEvents, true);
-    document.addEventListener('mousedown', blockEvents, true);
-    document.addEventListener('mousemove', blockEvents, true);
-    document.addEventListener('mouseup', blockEvents, true);
-
-    return () => {
-      // Remove event listeners when component unmounts
-      document.removeEventListener('click', blockEvents, true);
-      document.removeEventListener('mousedown', blockEvents, true);
-      document.removeEventListener('mousemove', blockEvents, true);
-      document.removeEventListener('mouseup', blockEvents, true);
-    };
-  }, []);
-
   return (
     <div
       style={{
@@ -613,7 +590,14 @@ const EditorFrame = () => {
       ref={editorRef}
     >
       <div className="sticky flex justify-end items-center top-0 left-0 right-0 mb-10 h-10 bg-[#22262E] w-screen">
-        <div className="mr-52">
+        <div className="flex gap-x-2">
+          {users.map((user, idx) => (
+            <div key={user.sessionId}>
+              <UserAvatar user={user} idx={idx} />
+            </div>
+          ))}
+        </div>
+        <div>
           <select
             className="px-2	py-1 rounded-md bg-[#373c44] text-[#fff]"
             onChange={(e) => setEditorSize(e.target.value)}
@@ -629,18 +613,19 @@ const EditorFrame = () => {
             </option>
           </select>
         </div>
-        <div className="flex gap-x-2">
-          {users.map((user, idx) => (
-            <div key={user.sessionId}>
-              <UserAvatar user={user} idx={idx} />
-            </div>
-          ))}
+        <div className="ml-8 flex flex-col items-center">
+          <button
+            className="py-1	px-3 text-white bg-[#33ADFF] hover:bg-[#238DE0] rounded-md"
+            onClick={() => setDownLoadOpen((prev) => !prev)}
+          >
+            Download
+          </button>
+          {downloadOpen && <FileDownload />}
         </div>
-
         {userAuthority === 'EDITOR' && (
           <>
             <button
-              className="py-1	px-3 ml-8	text-white bg-[#33ADFF] hover:bg-[#238DE0] rounded-md"
+              className="py-1	px-3 ml-2 text-white bg-[#33ADFF] hover:bg-[#238DE0] rounded-md"
               onClick={() => handlePublish()}
             >
               Publish
@@ -655,7 +640,7 @@ const EditorFrame = () => {
         )}
         <CandidateComponent candidates={candidates} />
       </div>
-      <div id="test" style={{ width: editorSize }}>
+      <div id="editor" style={{ width: editorSize }}>
         {sectionOrder.length &&
           sectionOrder.map((sectionId, sectionIdx) => {
             return (

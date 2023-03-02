@@ -5,19 +5,35 @@ import { dehydrate, QueryClient } from 'react-query';
 import useProjects from '@hooks/useProjects';
 import { ProjectInfo } from '@components/Dashboard';
 import queryKeys from '@react-query/queryKeys';
-import { Projects } from '@/types/project';
+import { Project } from '@/types/project';
 import theme from '@styles/theme';
 import { useEffect, useState } from 'react';
 import CreateProject from '@components/Dashboard/CreateProject';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { userInfoAtom } from '@recoil/user/atom';
 import { UserInvitation } from '@/types/setting';
 import CreateModal from '@components/Common/Modal';
 import Invitations from '@components/ProjectSetting/Invitation';
+import { elementInfoAtom } from '@recoil/selectedElement/atom';
+
+const initalProjectInformation = [
+  {
+    projectAuthority: '',
+    projectId: '',
+    projectName: '',
+    projectOwnerLoginId: '',
+    projectStatus: '',
+    projectThumbnailUrl: '',
+    projectVersion: 1,
+    publishedDate: '',
+    synced: false,
+  },
+];
 
 const Dashboard = () => {
   const userInformation = useRecoilValue(userInfoAtom);
-  const [projectList, setProjectList] = useState([]);
+  const [clickedElement, setClickedElement] = useRecoilState(elementInfoAtom);
+  const [projectList, setProjectList] = useState<Project[]>([]);
   const [invitationList, setInvitationList] = useState<UserInvitation[]>([]);
   const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
   const [inviteModalOpen, setInviteModalOpen] = useState<boolean>(true);
@@ -25,7 +41,7 @@ const Dashboard = () => {
     setCreateModalOpen(!createModalOpen);
   };
 
-  const projects: Projects = useProjects();
+  // const projects: Projects = useProjects();
 
   const getProjectList = async () => {
     const data = await api.fetchProjects();
@@ -37,12 +53,17 @@ const Dashboard = () => {
     setInvitationList(data.value || []);
   };
   useEffect(() => {
+    setClickedElement({ ...clickedElement, id: null });
     if (!userInformation) return;
     if (userInformation.userLoginId.length) {
       getProjectList();
       getInvitationLink();
     }
   }, []);
+
+  useEffect(() => {
+    console.log(projectList);
+  }, [projectList]);
 
   return (
     <Layout>

@@ -3,8 +3,10 @@ import * as Styled from './styled';
 import { useRecoilValue } from 'recoil';
 import { elementInfoAtom } from '@recoil/selectedElement/atom';
 import { PropsTab, StyleTab } from './TabMenu';
+import { withAuthority } from '@recoil/project';
 
 const StyleSidebar = () => {
+  const userAuthority = useRecoilValue(withAuthority);
   const clickedComponent = useRecoilValue(elementInfoAtom);
   const [tab, setTab] = useState(1);
   const handleTab = (value: number) => {
@@ -12,7 +14,7 @@ const StyleSidebar = () => {
   };
   return (
     <Styled.StyleSidebar>
-      {clickedComponent.id ? (
+      {userAuthority !== 'VIEWER' && clickedComponent.id ? (
         <>
           <Styled.TabWrapper>
             <Styled.Tab selected={tab === 1} onClick={() => handleTab(1)}>
@@ -36,7 +38,7 @@ const StyleSidebar = () => {
             fontSize: '24px',
           }}
         >
-          Click Component!
+          {'Click Component!'}
         </div>
       )}
     </Styled.StyleSidebar>

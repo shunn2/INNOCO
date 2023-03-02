@@ -56,7 +56,6 @@ class Api {
     const { data } = await createAxiosWithToken().get(
       `/projects/${projectId}/status-check`
     );
-    console.log('status', data);
     return data;
   }
   async checkProjectAuth(projectId, auth) {
@@ -80,6 +79,12 @@ class Api {
   async acceptAllInvitation(userId) {
     const { data } = await createAxiosWithToken().get(
       `/users/${userId}/invitations/accept`
+    );
+    return data;
+  }
+  async overWritePage(projectId) {
+    const { data } = await createAxiosWithToken().put(
+      `/projects/${projectId}/overwrite`
     );
     return data;
   }
