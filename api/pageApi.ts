@@ -21,12 +21,6 @@ class PageApi {
     );
     return JSON.parse(data.value.pageJson);
   }
-  async overWritePage(projectId) {
-    const { data } = await createAxiosWithToken().put(
-      `/projects/${projectId}/overwrite`
-    );
-    return data;
-  }
   async changePageName(projectId, pageId, pageName) {
     const { data } = await createAxiosWithToken().put(
       `/projects/${projectId}/pages/${pageId}/name`,
@@ -46,6 +40,12 @@ class PageApi {
   }
   async deletePage(pageId) {
     const { data } = await createAxiosWithToken().delete(`/pages/${pageId}`);
+    return data;
+  }
+  async getMainPageId(projectId) {
+    const { data } = await createAxiosWithToken().get(
+      `/projects/${projectId}/pages/main/id`
+    );
     return data;
   }
 }
