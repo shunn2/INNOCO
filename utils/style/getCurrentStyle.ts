@@ -5,9 +5,12 @@ interface CurrentStyleProps {
 }
 
 const getCurrentStyle = ({ element, type, mainData }: CurrentStyleProps) => {
+  if (!element) return;
   if (element.el.type === 'section')
     return mainData[element.id].sectionProps.style[type];
-  return mainData[element.sectionId].children[element.index]?.props.style[type];
+  return mainData[element.sectionId]?.children[element.index]?.props.style[
+    type
+  ];
 };
 
 export default getCurrentStyle;
