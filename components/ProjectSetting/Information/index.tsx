@@ -34,8 +34,13 @@ const InformationSetting = () => {
     setProjectInformation(data.value);
   };
   const editProjectInfo = async () => {
-    await editApi.editProjectInformation(projectId, projectInformation);
-    Alert({ icon: 'success', title: '수정이 완료되었습니다.' });
+    const data = await editApi.editProjectInformation(
+      projectId,
+      projectInformation
+    );
+    if (data.code)
+      Alert({ icon: 'error', title: '이미 존재하는 프로젝트 이름입니다.' });
+    else Alert({ icon: 'success', title: '수정이 완료되었습니다.' });
   };
   useEffect(() => {
     if (projectId) getProjectInfo();
