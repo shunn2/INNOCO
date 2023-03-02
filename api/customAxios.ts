@@ -38,39 +38,6 @@ const getToken = () => {
   return accessToken;
 };
 
-// axiosInstanceWithToken.interceptors.request.use(
-//   async (config) => {
-//     if (!config.headers) return config;
-//     const access_token = localStorage.getItem('access_token');
-//     const refresh_token = JSON.parse(localStorage.getItem('refresh_token'));
-//     const decodedAccess: AuthToken = jwt_decode(access_token);
-//     const decodedRefresh: AuthToken = jwt_decode(refresh_token);
-//     console.log('decodedrefresh', decodedRefresh);
-
-//     if (decodedRefresh.exp < Date.now() / 1000) {
-//       console.log(11111);
-
-//       localStorage.removeItem('access_token');
-//       location.replace('/auth/sign-in');
-//       return;
-//     }
-//     if (decodedAccess.exp < Date.now() / 1000) {
-//       console.log(111);
-
-//       const res = await authApi.regenerateToken(refresh_token);
-//       console.log('regenerate', res);
-
-//       const { accessToken, refreshToken } = res.value;
-//       localStorage.setItem('access_token', JSON.stringify(accessToken));
-//       localStorage.setItem('refresh_token', JSON.stringify(refreshToken));
-//       config.headers['Authorization'] = `Bearer ${accessToken}`;
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
 let isAlreadyFetchingAccessToken = false;
 let pendingRequest = [];
 
