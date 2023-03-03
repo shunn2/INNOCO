@@ -21,7 +21,6 @@ export default function App({ Component, pageProps }: AppProps) {
           </Hydrate>
           <SvgSprite />
         </ThemeProvider>
-        <ReactQueryDevtools position="bottom-right" />
       </QueryClientProvider>
     </RecoilRoot>
   );
