@@ -42,7 +42,7 @@ const USER_SUBSCRIBE_URL = process.env.NEXT_PUBLIC_USER_SUBSCRIBE_URL;
 
 const EditorFrame = () => {
   const userInformation = useRecoilValue(userInfoAtom);
-  const [editorSize, setEditorSize] = useState('1280px');
+  const [editorSize, setEditorSize] = useState('1024px');
   const [editorData, setEditorData] = useRecoilState(editorAtom);
   const [editorMain, setEditorMain] = useState({});
   const [editorSectionOrder, setEditorSectionOrder] = useState([]);
@@ -637,13 +637,13 @@ const EditorFrame = () => {
             className="px-2	py-1 rounded-md bg-[#373c44] text-[#fff]"
             onChange={(e) => setEditorSize(e.target.value)}
           >
-            <option value={'1500px'} selected={editorSize === '1920px'}>
+            <option value={'1480px'} selected={editorSize === '1480px'}>
               💻 Desktop
             </option>
-            <option value={'1024px'} selected={editorSize === '1280px'}>
+            <option value={'1024px'} selected={editorSize === '1024px'}>
               🖥 Laptop
             </option>
-            <option value={'600px'} selected={editorSize === '768px'}>
+            <option value={'600px'} selected={editorSize === '600px'}>
               📱 Cellphone
             </option>
           </select>
