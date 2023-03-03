@@ -121,7 +121,7 @@ const SignUp = () => {
         />
         <Button
           onClick={checkDuplicateId}
-          disabled={!signUpPayload.userLoginPw.length || error.userLoginId}
+          disabled={!signUpPayload.userLoginId.length || error.userLoginId}
         >
           아이디 중복 확인
         </Button>
