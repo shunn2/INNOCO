@@ -140,7 +140,14 @@ const ProjectInfo = ({ project }: ProjectProps) => {
       </Styled.ProjectThumbnailWrapper>
       <Styled.ProjectContentWrapper>
         <Styled.ProjectInfoRow>
-          <div>{projectName}</div>
+          <div className="flex items-center">
+            {projectName}
+            <Link
+              href={`http://${userInformation.userLoginId}.innoco-page.onstove.com/${projectName}/`}
+            >
+              <SvgIcon type="url_link_icon" />
+            </Link>
+          </div>
           <Styled.SettingWrapper onClick={handleSettingOpen}>
             <SvgIcon type="setting-icon" />
             {isSettingOpen && (
