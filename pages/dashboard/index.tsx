@@ -15,6 +15,7 @@ import { UserInvitation } from '@/types/setting';
 import CreateModal from '@components/Common/Modal';
 import Invitations from '@components/ProjectSetting/Invitation';
 import { elementInfoAtom } from '@recoil/selectedElement/atom';
+import useDidMountEffect from '@hooks/useDidMountEffect';
 
 const initalProjectInformation = [
   {
@@ -59,6 +60,10 @@ const Dashboard = () => {
       getProjectList();
       getInvitationLink();
     }
+  }, []);
+
+  useDidMountEffect(() => {
+    location.reload();
   }, []);
 
   useEffect(() => {

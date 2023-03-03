@@ -72,6 +72,9 @@ const EditorFrame = () => {
 
   const [downloadOpen, setDownLoadOpen] = useState<boolean>(false);
 
+  const [userSubscription, setUserSubscription] = useState(null);
+  const [editorSubscription, setEditorSubscription] = useState(null);
+
   const CandidateComponent = ({ candidates }) => {
     const clickCandidate = (candidate) => {
       setCandidateChecked(candidate);
@@ -258,6 +261,8 @@ const EditorFrame = () => {
   //에디터 진입 시 최초로 웹소켓 서버와 연결이 일어남.
   //CONNECT-SUBSCRIBE 순서로 연결됨.
   const editorConnect = () => {
+    console.log('afdsf');
+
     if (!userInformation || !userInformation.userLoginId.length) return;
     stompClient.current = new StompJS.Client({
       brokerURL: CONNECTION_URL,
@@ -271,7 +276,7 @@ const EditorFrame = () => {
       onConnect: () => {
         setIsConnected(true);
         if (projectInfo.pageId !== undefined && userAuthority !== undefined) {
-          stompClient.current.subscribe(
+          const editorSubscribe = stompClient.current.subscribe(
             //FIXME -구독 경로 변경 - 아래 채널에 있던 content_change 부분을 따로 뺌
             EDITOR_SUBSCRIBE_URL + projectInfo.pageId,
             (message) => {
@@ -286,7 +291,7 @@ const EditorFrame = () => {
               }
             }
           );
-          stompClient.current.subscribe(
+          const userSubscribe = stompClient.current.subscribe(
             //특정 채널 구독 시작
             USER_SUBSCRIBE_URL + projectInfo.pageId,
             (message) => {
@@ -366,13 +371,17 @@ const EditorFrame = () => {
               //USER 입장/퇴장 이벤트를 제외하고 텍스트를 편집하는 이벤트의 경우에는 에디터에 콘텐츠 세팅
               if (isDataFlush(message)) {
                 handlePublish();
+                return;
               }
             }
           );
+          setEditorSubscription(editorSubscribe);
+          setUserSubscription(userSubscribe);
         }
         userJoin();
       },
       onDisconnect: () => {
+        setIsConnected(false);
         //웹소켓 연결 끊어질 때에는 서버에 자동으로 전송되어 처리할 필요는 없음
       },
       onStompError: (frame) => {
@@ -390,11 +399,12 @@ const EditorFrame = () => {
     }).then(async (res) => {
       if (res.isConfirmed) {
         const data = await api.publishProject(projectInfo.projectId);
+        const url = await api.getProjectUrl(projectInfo.projectId);
         if (!data.code)
           Alert({
             icon: 'success',
             title: '프로젝트 게시에 성공하였습니다.',
-            text: `http://${userInformation.userLoginId}.innoco-page.onstove.com/${projectInfo.projectId}/`,
+            text: url.value,
           });
         else Alert({ icon: 'error', title: '프로젝트 게시에 실패하였습니다.' });
       }
@@ -592,12 +602,21 @@ const EditorFrame = () => {
   }, [isNewUserJoin, newUserName]);
 
   useEffect(() => {
+    console.log('stomp', stompClient.current);
+    console.log('user', userSubscription);
+    console.log('editor', editorSubscription);
+
+    if (editorSubscription) editorSubscription.unsubscribe();
+    if (userSubscription) userSubscription.unsubscribe();
+    if (stompClient.current) {
+      stompClient.current.unsubscribe();
+    }
     setUserAuthority(projectInfo.authority);
-    editorConnect();
+    if (!isConnected) editorConnect();
   }, [projectInfo]);
 
   useDidMountEffect(() => {
-    if (isConnected) handleEditorChange(editorData);
+    if (isConnected && stompClient.current) handleEditorChange(editorData);
   }, [editorData]);
 
   useEffect(() => {
