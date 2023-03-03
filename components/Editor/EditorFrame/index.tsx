@@ -397,6 +397,7 @@ const EditorFrame = () => {
   };
 
   useEffect(() => {
+    setUserAuthority(projectInfo.authority);
     if (projectInfo) {
       editorConnect();
     }
