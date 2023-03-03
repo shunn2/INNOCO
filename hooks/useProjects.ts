@@ -4,8 +4,6 @@ import { useQuery } from 'react-query';
 
 const useProjects = () => {
   const { data } = useQuery(queryKeys.projects, () => api.fetchProjects());
-  console.log(data);
-
   return data;
 };
 

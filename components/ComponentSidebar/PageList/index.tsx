@@ -35,7 +35,6 @@ const PageList = () => {
   const getPageList = async () => {
     const data = await pageApi.getPageList(projectInfo.projectId);
     setPageList(data.value);
-    console.log('pageList', data);
   };
   const handlePageCreateOpen = () => {
     setPageCreateOpen((prev) => !prev);

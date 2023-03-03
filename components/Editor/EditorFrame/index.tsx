@@ -278,14 +278,10 @@ const EditorFrame = () => {
         //특정 채널 구독 시작
         USER_SUBSCRIBE_URL + projectInfo.pageId,
         (message) => {
-          console.log('zzz', message);
-
           const parsedBody = JSON.parse(message.body);
           let parsedContent;
           if (parsedBody.content)
             parsedContent = JSON.parse(parsedBody.content);
-          console.log('parsedBody', parsedBody);
-
           if (isUserJoinEvent(message)) {
             //새로운 유저가 입장하는 이벤트 발생
             setUsers(parsedBody.currentChannelSubscribers);

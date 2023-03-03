@@ -2,8 +2,6 @@ import { IframeEditorReturn } from '@utils/iframe/iframeEditorReturn';
 import { useState } from 'react';
 
 function download(filename, text) {
-  console.log('text', text);
-
   var element = document.createElement('a');
   element.setAttribute(
     'href',
