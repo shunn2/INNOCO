@@ -80,7 +80,7 @@ const VersionSetting = () => {
         ))}
       </Styled.ArchivedContainer>
       {openPreviewModal && (
-        <CreateModal isOpen={openPreviewModal}>
+        <CreateModal isOpen={openPreviewModal} title="Page Preview">
           <Styled.ModalClose onClick={() => setOpenPreviewModal(false)}>
             x
           </Styled.ModalClose>
