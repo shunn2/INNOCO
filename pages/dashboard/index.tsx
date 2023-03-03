@@ -42,7 +42,7 @@ const Dashboard = () => {
     setCreateModalOpen(!createModalOpen);
   };
 
-  const projects: Projects = useProjects();
+  // const projects: Projects = useProjects();
 
   const getProjectList = async () => {
     const data = await api.fetchProjects();
@@ -57,7 +57,7 @@ const Dashboard = () => {
     setClickedElement({ ...clickedElement, id: null });
     if (!userInformation) return;
     if (userInformation.userLoginId.length) {
-      // getProjectList();
+      getProjectList();
       getInvitationLink();
     }
   }, []);
@@ -77,7 +77,7 @@ const Dashboard = () => {
               <span className="text-4xl">Create New Project</span>
             </CreateProjectButtonWrapper>
           </ProjectBox>
-          {projects?.value.projects.map((project) => (
+          {projectList.map((project) => (
             <ProjectInfo project={project} key={project.projectId} />
           ))}
         </DashboardGrid>
