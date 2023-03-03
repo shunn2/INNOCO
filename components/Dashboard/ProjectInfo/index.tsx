@@ -78,7 +78,7 @@ const ProjectInfo = ({ project }: ProjectProps) => {
     synced: boolean;
     projectAuthority: string;
   }) => {
-    if (projectAuthority === 'VIEWER') {
+    if (projectAuthority === 'VIEWER' || projectStatus === 'PROGRESS') {
       await Alert({
         icon: 'info',
         title: '자동 저장된 버전에서 가져옵니다.',
