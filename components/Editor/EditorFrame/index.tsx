@@ -637,13 +637,13 @@ const EditorFrame = () => {
             className="px-2	py-1 rounded-md bg-[#373c44] text-[#fff]"
             onChange={(e) => setEditorSize(e.target.value)}
           >
-            <option value={'1920px'} selected={editorSize === '1920px'}>
+            <option value={'1500px'} selected={editorSize === '1920px'}>
               💻 Desktop
             </option>
-            <option value={'1280px'} selected={editorSize === '1280px'}>
-              🖥 Labtop
+            <option value={'1024px'} selected={editorSize === '1280px'}>
+              🖥 Laptop
             </option>
-            <option value={'768px'} selected={editorSize === '768px'}>
+            <option value={'600px'} selected={editorSize === '768px'}>
               📱 Cellphone
             </option>
           </select>
