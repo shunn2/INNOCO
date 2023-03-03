@@ -83,7 +83,7 @@ const PageList = () => {
                 </div>
               )}
             </div>
-            {page.pageId === pageMouseOver.pageId && !isViewer() ? (
+            {page.pageId === pageMouseOver.pageId && isViewer() ? (
               <div onClick={() => setPageEditOpen(true)}>
                 <SvgIcon type="setting_icon" />
               </div>
