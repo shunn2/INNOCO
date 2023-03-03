@@ -66,10 +66,6 @@ const Dashboard = () => {
     location.reload();
   }, []);
 
-  useEffect(() => {
-    console.log(projects);
-  }, [projects]);
-
   return (
     <Layout>
       <DashboardContainer>
