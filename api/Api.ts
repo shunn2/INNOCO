@@ -88,6 +88,14 @@ class Api {
     );
     return data;
   }
+  async getProjectUrl(projectId) {
+    const { data } = await createAxiosWithToken().get(
+      `/projects/${projectId}/url`
+    );
+    console.log(data);
+
+    return data;
+  }
 }
 
 const api = new Api();
