@@ -142,10 +142,6 @@ const ProjectInfo = ({ project }: ProjectProps) => {
     getProjectUrl();
   }, []);
 
-  useEffect(() => {
-    console.log(deployedUrl);
-  }, [deployedUrl]);
-
   return (
     <Styled.ProjectInfoContainer>
       <Styled.ProjectThumbnailWrapper
