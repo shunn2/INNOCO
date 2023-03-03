@@ -100,7 +100,7 @@ const SignUp = () => {
           placeholder={'이메일을 입력하세요.'}
           onChange={handleChange('userEmail')}
           error={error.userEmail}
-          value={signUpPayload.userEmail}
+          // value={signUpPayload.userEmail}
         />
         <Button
           onClick={checkDuplicateEmail}

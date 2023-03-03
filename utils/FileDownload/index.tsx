@@ -2,6 +2,8 @@ import { IframeEditorReturn } from '@utils/iframe/iframeEditorReturn';
 import { useState } from 'react';
 
 function download(filename, text) {
+  console.log('text', text);
+
   var element = document.createElement('a');
   element.setAttribute(
     'href',
@@ -18,27 +20,19 @@ function download(filename, text) {
 }
 
 const FileDownload = () => {
-  const [editorString, setEditorString] = useState<string>();
-
-  const [component, setComponent] = useState([
-    'const Index = () =>{return (',
-    ');};',
-  ]);
-
   const handleParsing = (type) => {
-    const editor =
-      IframeEditorReturn().contentWindow.document.getElementById('editor');
-    if (editor !== null) {
-      setEditorString(new XMLSerializer().serializeToString(editor!));
+    const editor = IframeEditorReturn().contentWindow;
+
+    const HtmlString = editor.document.getElementById('editor').outerHTML;
+
+    if (type === 'react') {
+      download(
+        'index.jsx',
+        ['const Index = () =>{return (', HtmlString, ');};'].join('')
+      );
+    } else {
+      download('index.html', HtmlString);
     }
-    if (type === 'react')
-      setComponent((prev) => {
-        let cur = [...prev];
-        cur.splice(1, 0, editorString);
-        return cur;
-      });
-    if (type === 'react') download('index.jsx', component.join(''));
-    else download('index.html', editorString);
   };
 
   return (
