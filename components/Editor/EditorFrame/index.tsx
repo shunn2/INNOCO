@@ -481,7 +481,8 @@ const EditorFrame = () => {
           idx: elementIdx,
           sectionId: sectionId,
         }),
-      contentEditable: dblClickElement === element.id,
+      contentEditable:
+        userAuthority !== 'VIEWER' && dblClickElement === element.id,
       suppressContentEditableWarning: dblClickElement === element.id,
       onDragEnd: () => handleDragEnd(),
       onDoubleClick: () => handleElementDblClick(element.id),
