@@ -104,20 +104,15 @@ const EditorFrame = () => {
     return (
       renderCandidate &&
       userAuthority === 'EDITOR' && (
-        <CreateModal isOpen={renderCandidate}>
+        <CreateModal
+          isOpen={renderCandidate}
+          title="Editor Candidate List"
+          handleOpen={() => setRenderCandidate(false)}
+        >
           <form
             onSubmit={(e) => sendNewCandidate(e, candidateChecked)}
             className="flex flex-col justify-between h-full text-slate-50"
           >
-            <div className="flex w-full justify-between items-end text-5xl mb-10">
-              <span>Editor Candidate List</span>
-              <div
-                className="cursor-pointer"
-                onClick={() => setRenderCandidate(false)}
-              >
-                x
-              </div>
-            </div>
             <div className="checkbox-group min-h-[350px]">
               {candidates?.map((candidate) => (
                 <div key={candidate.sessionId} className="text-4xl">
