@@ -162,23 +162,27 @@ const EditorFrame = () => {
 
   //에디터에 텍스트를 입력하는 이벤트가 발생했을 때 서버로 메세지를 보냄
   function handleEditorChange(data) {
-    console.log('data', data);
+    const jsonStr = JSON.stringify(data);
 
     const jsonBody = JSON.stringify({
       pageId: projectInfo.pageId,
       messageType: 'EDIT',
       eventType: 'CONTENT_CHANGE',
-      content: data,
+      content: jsonStr,
       sender: userInformation.userLoginId,
-      receiver: null,
     });
 
     const compressedMsg = deflate(jsonBody);
-    // const encoded = btoa(String.fromCharCode(...new Uint8Array(compressedMsg)));
-    const encoded = btoa(
-      String.fromCharCode.apply(null, new Uint8Array(compressedMsg))
-    );
-
+    const encoded = btoa(String.fromCharCode(...new Uint8Array(compressedMsg)));
+    // const encoded = btoa(
+    //   String.fromCharCode.apply(null, new Uint8Array(compressedMsg))
+    // );
+    // const encoded = Buffer.from(
+    //   String.fromCharCode.apply(null, new Uint8Array(compressedMsg))
+    // ).toString('base64');
+    // const encoded = Buffer.from(
+    //   String.fromCharCode(...new Uint8Array(compressedMsg))
+    // ).toString('base64');
     stompClient.current.publish({
       destination: SEND_DOCUMENT_URL,
       body: encoded,
@@ -228,6 +232,22 @@ const EditorFrame = () => {
     });
   }
 
+  function sendDataFlush() {
+    stompClient.current.publish({
+      destination: SEND_USER_URL,
+      body: JSON.stringify({
+        pageId: projectInfo.pageId,
+        messageType: 'EDIT',
+        eventType: 'DATA_FLUSH',
+        sender: null,
+      }),
+    });
+  }
+
+  function isDataFlush(message) {
+    return JSON.parse(message.body).eventType === 'DATA_FLUSH';
+  }
+
   function isNewUserNeedsToSetInitialContent(message) {
     //본인이 방금 들어와 에디터의 내용이 비어있는 새로운 유저인지 확인
     let evt = JSON.parse(message.body).eventType;
@@ -255,10 +275,11 @@ const EditorFrame = () => {
             //FIXME -구독 경로 변경 - 아래 채널에 있던 content_change 부분을 따로 뺌
             EDITOR_SUBSCRIBE_URL + projectInfo.pageId,
             (message) => {
-              console.log('message', message);
-
               const parsedBody = JSON.parse(message.body);
-              const parsedContent = parsedBody.content;
+              console.log('zzz', parsedBody);
+
+              const parsedContent = JSON.parse(parsedBody.content);
+
               if (parsedBody.eventType === 'CONTENT_CHANGE') {
                 setEditorMain(parsedContent.main);
                 setEditorSectionOrder(parsedContent.sectionOrder);
@@ -269,11 +290,12 @@ const EditorFrame = () => {
             //특정 채널 구독 시작
             USER_SUBSCRIBE_URL + projectInfo.pageId,
             (message) => {
+              console.log(message);
+
               const parsedBody = JSON.parse(message.body);
               let parsedContent;
               if (parsedBody.content)
                 parsedContent = JSON.parse(parsedBody.content);
-
               console.log('parsedBody', parsedBody);
 
               if (isUserJoinEvent(message)) {
@@ -342,6 +364,9 @@ const EditorFrame = () => {
                 return;
               }
               //USER 입장/퇴장 이벤트를 제외하고 텍스트를 편집하는 이벤트의 경우에는 에디터에 콘텐츠 세팅
+              if (isDataFlush(message)) {
+                api.publishProject(projectInfo.projectId);
+              }
             }
           );
         }
@@ -590,7 +615,7 @@ const EditorFrame = () => {
       ref={editorRef}
     >
       <div className="sticky flex justify-end items-center top-0 left-0 right-0 mb-10 h-10 bg-[#22262E] w-screen">
-        <div className="flex gap-x-2">
+        <div className="flex gap-x-2 mr-8">
           {users.map((user, idx) => (
             <div key={user.sessionId}>
               <UserAvatar user={user} idx={idx} />
@@ -626,7 +651,7 @@ const EditorFrame = () => {
           <>
             <button
               className="py-1	px-3 ml-2 text-white bg-[#33ADFF] hover:bg-[#238DE0] rounded-md"
-              onClick={() => handlePublish()}
+              onClick={() => sendDataFlush()}
             >
               Publish
             </button>
