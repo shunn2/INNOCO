@@ -30,6 +30,7 @@ const ProjectInfo = ({ project }: ProjectProps) => {
   const setUserAuthority = useSetRecoilState(withAuthority);
   const [pageId, setPageId] = useRecoilState(withPageId);
   const setProjectId = useSetRecoilState(withProjectId);
+  const [deployedUrl, setDeployedUrl] = useState<string>('');
 
   const {
     projectId,
@@ -128,6 +129,23 @@ const ProjectInfo = ({ project }: ProjectProps) => {
     router.push(`/setting/${projectId}`);
   };
 
+  const getProjectUrl = async () => {
+    const data = await api.getProjectUrl(projectId);
+    setDeployedUrl(data.value);
+  };
+
+  const routeToPublished = () => {
+    router.push(deployedUrl);
+  };
+
+  useEffect(() => {
+    getProjectUrl();
+  }, []);
+
+  useEffect(() => {
+    console.log(deployedUrl);
+  }, [deployedUrl]);
+
   return (
     <Styled.ProjectInfoContainer>
       <Styled.ProjectThumbnailWrapper
@@ -145,11 +163,11 @@ const ProjectInfo = ({ project }: ProjectProps) => {
         <Styled.ProjectInfoRow>
           <div className="flex items-center">
             {projectName}
-            <Link
-              href={`http://${userInformation.userLoginId}.innoco-page.onstove.com/${projectName}/`}
-            >
-              <SvgIcon type="url_link_icon" />
-            </Link>
+            {deployedUrl.length > 0 && projectStatus === 'PUBLIC' && (
+              <div onClick={() => routeToPublished()}>
+                <SvgIcon type="url_link_icon" />
+              </div>
+            )}
           </div>
           <Styled.SettingWrapper onClick={handleSettingOpen}>
             <SvgIcon type="setting-icon" />
