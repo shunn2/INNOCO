@@ -365,7 +365,7 @@ const EditorFrame = () => {
               }
               //USER 입장/퇴장 이벤트를 제외하고 텍스트를 편집하는 이벤트의 경우에는 에디터에 콘텐츠 세팅
               if (isDataFlush(message)) {
-                api.publishProject(projectInfo.projectId);
+                handlePublish();
               }
             }
           );
@@ -387,15 +387,18 @@ const EditorFrame = () => {
       icon: 'info',
       title: '해당 프로젝트를 게시하시겠습니까?',
       showCancelButton: true,
+    }).then(async (res) => {
+      if (res.isConfirmed) {
+        const data = await api.publishProject(projectInfo.projectId);
+        if (!data.code)
+          Alert({
+            icon: 'success',
+            title: '프로젝트 게시에 성공하였습니다.',
+            text: `http://${userInformation.userLoginId}.innoco-page.onstove.com/${projectInfo.projectId}/`,
+          });
+        else Alert({ icon: 'error', title: '프로젝트 게시에 실패하였습니다.' });
+      }
     });
-    const data = await api.publishProject(projectInfo.projectId);
-    if (!data.code)
-      Alert({
-        icon: 'success',
-        title: '프로젝트 게시에 성공하였습니다.',
-        text: `http://${userInformation.userLoginId}.innoco-page.onstove.com/${projectInfo.projectId}/`,
-      });
-    else Alert({ icon: 'error', title: '프로젝트 게시에 실패하였습니다.' });
   };
 
   const handleElementClick = (e, sectionId, idx, element) => {
