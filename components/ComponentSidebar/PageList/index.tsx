@@ -3,10 +3,11 @@ import { SvgIcon } from '@components/Common';
 import CreateModal from '@components/Common/Modal';
 import CreatePage from '@components/Dashboard/CreatePage';
 import EditPage from '@components/Dashboard/EditPage';
+import { withAuthority } from '@recoil/project';
 import projectAtom from '@recoil/project/atom';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import * as Styled from './styled';
 
 interface PagePros {
@@ -24,6 +25,7 @@ const defaultPageProps = {
 const PageList = () => {
   const router = useRouter();
   const { projectId, pageId } = router.query;
+  const userAuthority = useRecoilValue(withAuthority);
   const [projectInfo, setProjectInfo] = useRecoilState(projectAtom);
   const [pageList, setPageList] = useState<PagePros[]>([]);
   const [pageMouseOver, setPageMouseOver] =
@@ -45,6 +47,9 @@ const PageList = () => {
     });
     setProjectInfo({ ...projectInfo, pageId: routePageId });
   };
+  const isViewer = () => {
+    return userAuthority === 'VIEWER';
+  };
 
   useEffect(() => {
     if (!pageEditOpen && !pageCreateOpen) getPageList();
@@ -54,9 +59,11 @@ const PageList = () => {
     <div>
       <Styled.CategoryTitle>
         PAGE LIST
-        <span className="add_page" onClick={() => handlePageCreateOpen()}>
-          +
-        </span>
+        {isViewer() && (
+          <span className="add_page" onClick={() => handlePageCreateOpen()}>
+            +
+          </span>
+        )}
       </Styled.CategoryTitle>
       {pageList &&
         pageList.map((page) => (
@@ -76,7 +83,7 @@ const PageList = () => {
                 </div>
               )}
             </div>
-            {page.pageId === pageMouseOver.pageId ? (
+            {page.pageId === pageMouseOver.pageId && isViewer() ? (
               <div onClick={() => setPageEditOpen(true)}>
                 <SvgIcon type="setting_icon" />
               </div>
@@ -86,12 +93,22 @@ const PageList = () => {
           </Styled.PageListContainer>
         ))}
       {pageCreateOpen && (
-        <CreateModal isOpen={pageCreateOpen}>
+        <CreateModal
+          isOpen={pageCreateOpen}
+          title="Make Page"
+          handleOpen={handlePageCreateOpen}
+        >
           <CreatePage handleOpen={handlePageCreateOpen} />
         </CreateModal>
       )}
       {pageEditOpen && (
-        <CreateModal isOpen={pageEditOpen} width="500px" height="200px">
+        <CreateModal
+          isOpen={pageEditOpen}
+          width="500px"
+          height="200px"
+          title="Edit Page"
+          handleOpen={() => setPageEditOpen(false)}
+        >
           <EditPage
             {...pageMouseOver}
             originMain={pageList[0].pageId}
