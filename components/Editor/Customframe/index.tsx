@@ -31,7 +31,7 @@ const CustomIframe = ({
   return (
     <Styled.IframeBox>
       <Styled.Iframe {...props} ref={setContentRef}>
-        {mountNode && createPortal(children, mountNode)}
+        {mountNode && document && createPortal(children, mountNode)}
       </Styled.Iframe>
     </Styled.IframeBox>
   );
