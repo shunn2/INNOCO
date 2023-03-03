@@ -136,7 +136,10 @@ const ProjectInfo = ({ project }: ProjectProps) => {
           handleVersionChoice({ synced, projectAuthority });
         }}
       >
-        <Styled.ProjectThumbnail src={projectThumbnailUrl} />
+        <Styled.ProjectThumbnail
+          src={projectThumbnailUrl}
+          alt="project Thumbnail"
+        />
       </Styled.ProjectThumbnailWrapper>
       <Styled.ProjectContentWrapper>
         <Styled.ProjectInfoRow>

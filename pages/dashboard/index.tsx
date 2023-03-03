@@ -5,7 +5,7 @@ import { dehydrate, QueryClient } from 'react-query';
 import useProjects from '@hooks/useProjects';
 import { ProjectInfo } from '@components/Dashboard';
 import queryKeys from '@react-query/queryKeys';
-import { Project } from '@/types/project';
+import { Project, Projects } from '@/types/project';
 import theme from '@styles/theme';
 import { useEffect, useState } from 'react';
 import CreateProject from '@components/Dashboard/CreateProject';
@@ -42,7 +42,7 @@ const Dashboard = () => {
     setCreateModalOpen(!createModalOpen);
   };
 
-  // const projects: Projects = useProjects();
+  const projects: Projects = useProjects();
 
   const getProjectList = async () => {
     const data = await api.fetchProjects();
@@ -57,7 +57,7 @@ const Dashboard = () => {
     setClickedElement({ ...clickedElement, id: null });
     if (!userInformation) return;
     if (userInformation.userLoginId.length) {
-      getProjectList();
+      // getProjectList();
       getInvitationLink();
     }
   }, []);
@@ -67,8 +67,8 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    console.log(projectList);
-  }, [projectList]);
+    console.log(projects);
+  }, [projects]);
 
   return (
     <Layout>
@@ -81,7 +81,7 @@ const Dashboard = () => {
               <span className="text-4xl">Create New Project</span>
             </CreateProjectButtonWrapper>
           </ProjectBox>
-          {projectList.map((project) => (
+          {projects?.value.projects.map((project) => (
             <ProjectInfo project={project} key={project.projectId} />
           ))}
         </DashboardGrid>
