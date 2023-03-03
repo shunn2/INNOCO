@@ -85,8 +85,16 @@ const ParticipantsSetting = () => {
     const data = await editApi.getProjectParticipants(projectId);
     setParticipantsList(data.value);
   };
-  const deleteParticipant = async (type, id) => {
-    await editApi.deleteParticipant(projectId, type, id);
+  const deleteParticipant = (type, id) => {
+    Alert({ icon: 'warning', title: '정말 삭제하시겠습니까?' }).then(
+      async (res) => {
+        if (res.isConfirmed) {
+          await editApi.deleteParticipant(projectId, type, id);
+          const data = await editApi.getProjectParticipants(projectId);
+          setParticipantsList(data.value);
+        }
+      }
+    );
   };
   const sendInvitationLink = async () => {
     let data;
