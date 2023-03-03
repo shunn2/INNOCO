@@ -577,6 +577,8 @@ const EditorFrame = () => {
     pageApi
       .getPageForEditor(projectInfo.projectId, projectInfo.pageId)
       .then((response) => {
+        console.log('res', response);
+
         setEditorMain(response.main);
         setEditorSectionOrder(response.sectionOrder);
       });
